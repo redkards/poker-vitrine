@@ -12,6 +12,11 @@ security:
                 class: App\Entity\User
                 property: email
 
+    # Acteurs du dossier de conception : Membre < Moderateur < Administrateur
+    role_hierarchy:
+        ROLE_MODERATOR: ROLE_USER
+        ROLE_ADMIN: ROLE_MODERATOR
+
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
@@ -46,11 +51,22 @@ security:
             refresh_jwt:
                 check_path: /api/token/refresh
 
-        # Back-office EasyAdmin (session + formulaire), configure au Sprint 2
+        # Back-office EasyAdmin : session + formulaire (/admin/login)
         main:
             lazy: true
             provider: app_user_provider
             user_checker: App\Security\UserChecker
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                enable_csrf: true
+                default_target_path: admin
+            login_throttling:
+                max_attempts: 5
+                interval: '1 minute'
+            logout:
+                path: admin_logout
+                target: admin_login
 
     # Note: Only the *first* matching rule is applied
     access_control:
@@ -61,6 +77,7 @@ security:
         - { path: ^/api/stripe/webhook, roles: PUBLIC_ACCESS }
         - { path: ^/api/me, roles: ROLE_USER }
         - { path: ^/api/gdpr, roles: ROLE_USER }
+        - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         # Les lectures publiques (articles, videos, forum, catalogue) restent ouvertes ;
         # les ecritures sont protegees au niveau des controleurs (#[IsGranted]).

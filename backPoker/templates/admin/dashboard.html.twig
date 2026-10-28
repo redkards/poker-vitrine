@@ -1,0 +1,22 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Tableau de bord{% endblock %}
+
+{% block main %}
+    <div class="row g-3">
+        {% for label, value in stats %}
+            <div class="col-sm-6 col-xl-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="text-muted small">{{ label }}</div>
+                        <div class="fs-2 fw-bold">{{ value }}</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <p class="mt-4 text-muted">
+        Un article sans date de publication reste un brouillon ; une date future programme sa mise en ligne.
+    </p>
+{% endblock %}
