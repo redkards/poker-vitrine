@@ -78,7 +78,8 @@ security:
         - { path: ^/api/me, roles: ROLE_USER }
         - { path: ^/api/gdpr, roles: ROLE_USER }
         - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        # Moderateurs : forum uniquement (les autres ecrans exigent ROLE_ADMIN dans leurs controleurs)
+        - { path: ^/admin, roles: ROLE_MODERATOR }
         # Les lectures publiques (articles, videos, forum, catalogue) restent ouvertes ;
         # les ecritures sont protegees au niveau des controleurs (#[IsGranted]).
 

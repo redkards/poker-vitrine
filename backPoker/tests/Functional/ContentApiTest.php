@@ -5,6 +5,7 @@ namespace App\Tests\Functional;
 use App\Entity\Article;
 use App\Entity\User;
 use App\Entity\Video;
+use App\Enum\ArticleScope;
 use App\Enum\VideoLevel;
 
 /**
@@ -142,7 +143,25 @@ class ContentApiTest extends ApiTestCase
         $this->em->flush();
 
         $data = $this->jsonRequest('GET', '/api/stats');
-        self::assertSame(['articles' => 1, 'videos' => 1, 'members' => 0], $data);
+        self::assertSame(['articles' => 1, 'videos' => 1, 'members' => 0, 'forumPosts' => 0], $data);
+    }
+
+    public function testArticlesFilteredByScope(): void
+    {
+        $this->article('Tournoi à Paris', '-2 hours');
+        $this->article('Festival à Las Vegas', '-1 hour')->setScope(ArticleScope::International);
+        $this->em->flush();
+
+        $france = $this->jsonRequest('GET', '/api/articles?scope=france');
+        self::assertSame(['Tournoi à Paris'], array_column($france['items'], 'title'));
+        self::assertSame('france', $france['items'][0]['scopeValue']);
+
+        $world = $this->jsonRequest('GET', '/api/articles?scope=international');
+        self::assertSame(['Festival à Las Vegas'], array_column($world['items'], 'title'));
+        self::assertSame('Actu internationale', $world['items'][0]['scopeLabel']);
+
+        $this->jsonRequest('GET', '/api/articles?scope=lune');
+        self::assertResponseStatusCodeSame(400);
     }
 
     public function testAdminRequiresAdminRole(): void

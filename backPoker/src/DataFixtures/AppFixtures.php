@@ -3,8 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\ForumCategory;
+use App\Entity\ForumPost;
+use App\Entity\ForumSubscription;
+use App\Entity\ForumTopic;
 use App\Entity\User;
 use App\Entity\Video;
+use App\Enum\ArticleScope;
 use App\Enum\VideoLevel;
 use App\Service\GdprService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -45,17 +50,24 @@ class AppFixtures extends Fixture
             $users[$pseudo] = $user;
         }
 
-        foreach (self::ARTICLES as $i => [$category, $title, $excerpt, $paragraphs]) {
+        $articles = [
+            ...array_map(static fn (array $a) => [...$a, ArticleScope::France], self::ARTICLES),
+            ...array_map(static fn (array $a) => [...$a, ArticleScope::International], self::INTERNATIONAL_ARTICLES),
+        ];
+        foreach ($articles as $i => [$category, $title, $excerpt, $paragraphs, $scope]) {
             $content = implode('', array_map(static fn (string $p) => '<p>'.$p.'</p>', $paragraphs));
             $article = (new Article())
                 ->setTitle($title)
                 ->setCategory($category)
+                ->setScope($scope)
                 ->setExcerpt($excerpt)
                 ->setContent($content)
                 ->setAuthor($users['admin'])
-                ->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 2 + $i * 4)));
+                ->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 2 + $i * 3)));
             $manager->persist($article);
         }
+
+        $this->loadForum($manager, $users);
 
         // Brouillon : n'apparaît pas dans l'API publique
         $manager->persist((new Article())
@@ -77,6 +89,96 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
+
+    /**
+     * @param array<string, User> $users
+     */
+    private function loadForum(ObjectManager $manager, array $users): void
+    {
+        $categories = [];
+        foreach (self::FORUM_CATEGORIES as $position => [$slug, $name, $description]) {
+            $categories[$slug] = (new ForumCategory())
+                ->setSlug($slug)
+                ->setName($name)
+                ->setDescription($description)
+                ->setPosition($position);
+            $manager->persist($categories[$slug]);
+        }
+
+        foreach (self::FORUM_TOPICS as $i => [$slug, $title, $pinned, $messages]) {
+            $start = new \DateTimeImmutable(sprintf('-%d days', 1 + $i * 2));
+            $topic = (new ForumTopic())
+                ->setCategory($categories[$slug])
+                ->setAuthor($users[$messages[0][0]])
+                ->setTitle($title)
+                ->setIsPinned($pinned)
+                ->setCreatedAt($start);
+
+            foreach ($messages as $j => [$pseudo, $content]) {
+                $topic->addPost((new ForumPost())
+                    ->setAuthor($users[$pseudo])
+                    ->setContent($content)
+                    ->setCreatedAt($start->modify(sprintf('+%d hours', $j * 3))));
+            }
+
+            $manager->persist($topic);
+            $manager->persist(new ForumSubscription($users[$messages[0][0]], $topic));
+        }
+    }
+
+    /**
+     * @var list<array{string, string, string}>
+     */
+    private const FORUM_CATEGORIES = [
+        ['debutants', 'Débutants', 'Règles, vocabulaire, premières questions : aucune question n’est bête.'],
+        ['analyses-de-mains', 'Analyses de mains', 'Postez une main jouée et demandez l’avis de la communauté.'],
+        ['tournois', 'Tournois', 'MTT, Sit & Go, tournois live : stratégie et retours d’expérience.'],
+        ['cash-game', 'Cash game', 'Parties à blindes fixes, en ligne ou en club.'],
+        ['mental-bankroll', 'Mental & bankroll', 'Tilt, gestion du capital, organisation des sessions.'],
+        ['vie-du-site', 'Vie de la communauté', 'Présentations, suggestions et annonces.'],
+    ];
+
+    /**
+     * [catégorie, titre, épinglé, [[pseudo, message], …]]
+     *
+     * @var list<array{string, string, bool, list<array{string, string}>}>
+     */
+    private const FORUM_TOPICS = [
+        ['vie-du-site', 'Bienvenue sur le forum : à lire avant de poster', true, [
+            ['admin', "Bienvenue à toutes et à tous !\n\nQuelques règles simples : on reste courtois, on ne partage pas de contenu illégal ni de liens vers des sites de jeu non agréés, et on évite les doublons.\n\nLa modération peut masquer un message qui ne respecte pas ces règles. Bon jeu !"],
+        ]],
+        ['debutants', 'Quelle est la différence entre une blinde et un ante ?', false, [
+            ['demo', 'Je débute et je confonds encore blindes et antes. Quelqu’un peut m’expliquer simplement ?'],
+            ['admin', "Les blindes (petite et grosse) sont des mises obligatoires payées par les deux joueurs à gauche du bouton.\nL’ante est une petite mise payée par tout le monde (ou par la grosse blinde seule en « big blind ante ») pour enrichir le pot."],
+        ]],
+        ['analyses-de-mains', 'AK en 3-bet hors de position, flop raté : continuer ?', false, [
+            ['demo', "Tournoi, 40 grosses blindes. Je 3-bet AK depuis la grosse blinde, le bouton paie. Flop 7-7-2 arc-en-ciel.\nJe continue en c-bet petit ou je check ?"],
+        ]],
+        ['mental-bankroll', 'Combien de caves prévoir pour jouer sereinement ?', false, [
+            ['demo', 'Vous gardez combien de caves d’avance pour votre limite habituelle ?'],
+            ['admin', 'La vidéo de zChance44 sur le bankroll management dans la rubrique Vidéos répond très bien à cette question, je vous la conseille.'],
+        ]],
+    ];
+
+    /**
+     * Actualités internationales de démonstration
+     *
+     * @var list<array{string, string, string, list<string>}>
+     */
+    private const INTERNATIONAL_ARTICLES = [
+        ['Tournois', 'Les grandes séries internationales : comment s’y préparer', 'Structures longues, field immense, fatigue : nos conseils avant de s’inscrire à un festival à l’étranger.', [
+            'Les festivals internationaux proposent des structures plus lentes et des fields très larges. La préparation physique et l’organisation comptent autant que la technique.',
+            'Prévoyez votre budget (inscriptions, voyage, hébergement), un planning de repos et des objectifs réalistes.',
+        ]],
+        ['Actualité', 'Jouer à l’étranger : ce qui change d’un pays à l’autre', 'Règles de maison, langue de table, pourboires : les différences à connaître avant de s’asseoir.', [
+            'Chaque casino applique ses propres règles de maison : annonce des mises, gestion des all-in, temps de réflexion.',
+            'Renseignez-vous aussi sur la législation locale et la fiscalité des gains avant de partir.',
+        ]],
+        ['Stratégie', 'Ce que les meilleurs joueurs du monde font différemment', 'Préparation, révision, gestion des émotions : des habitudes accessibles à tous.', [
+            'Les joueurs les plus réguliers partagent des routines : échauffement avant session, révision des mains clés, pauses programmées.',
+            'Rien de magique : c’est la constance de ces habitudes qui fait la différence sur le long terme.',
+        ]],
+    ];
 
     /**
      * Contenu éditorial de démonstration

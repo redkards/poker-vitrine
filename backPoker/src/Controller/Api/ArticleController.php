@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Enum\ArticleScope;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,16 +20,25 @@ class ArticleController extends AbstractController
     {
     }
 
+    /**
+     * Filtres : ?category=…&scope=france|international
+     */
     #[Route('', name: 'api_articles', methods: ['GET'])]
     public function list(
         #[MapQueryParameter] int $page = 1,
         #[MapQueryParameter] int $limit = 9,
         #[MapQueryParameter] ?string $category = null,
+        #[MapQueryParameter] ?string $scope = null,
     ): JsonResponse {
         $page = Paginated::clampPage($page);
         $limit = Paginated::clampLimit($limit);
+        $scopeEnum = $scope ? ArticleScope::tryFrom($scope) : null;
 
-        $result = $this->articles->findPublishedPage($page, $limit, $category);
+        if ($scope && !$scopeEnum) {
+            return $this->json(['message' => 'Portée inconnue (france ou international).'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $result = $this->articles->findPublishedPage($page, $limit, $category, $scopeEnum);
 
         return $this->json(Paginated::from($result, $page, $limit), context: ['groups' => ['article:list']]);
     }

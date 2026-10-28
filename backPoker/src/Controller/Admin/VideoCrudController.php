@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Video;
 use App\Enum\VideoLevel;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -19,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 /**
  * UC11 — Gérer les vidéos
  */
+#[IsGranted('ROLE_ADMIN')]
 class VideoCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

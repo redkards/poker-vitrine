@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Repository\ArticleRepository;
+use App\Repository\ForumPostRepository;
 use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
@@ -19,6 +20,7 @@ class DashboardController extends AbstractDashboardController
         private readonly ArticleRepository $articles,
         private readonly VideoRepository $videos,
         private readonly UserRepository $users,
+        private readonly ForumPostRepository $posts,
         #[Autowire(env: 'FRONTEND_URL')]
         private readonly string $frontendUrl,
     ) {
@@ -29,9 +31,9 @@ class DashboardController extends AbstractDashboardController
         return $this->render('admin/dashboard.html.twig', [
             'stats' => [
                 'Articles publiés' => $this->articles->countPublished(),
-                'Articles au total' => $this->articles->count(),
                 'Vidéos publiées' => $this->videos->countPublished(),
                 'Membres vérifiés' => $this->users->count(['isVerified' => true]),
+                'Messages masqués' => $this->posts->count(['isModerated' => true]),
             ],
         ]);
     }
@@ -48,12 +50,17 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-gauge');
 
-        yield MenuItem::section('Contenu');
-        yield MenuItem::linkTo(ArticleCrudController::class, 'Articles', 'fa fa-newspaper');
-        yield MenuItem::linkTo(VideoCrudController::class, 'Vidéos', 'fa fa-circle-play');
+        yield MenuItem::section('Contenu')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(ArticleCrudController::class, 'Articles', 'fa fa-newspaper')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(VideoCrudController::class, 'Vidéos', 'fa fa-circle-play')->setPermission('ROLE_ADMIN');
 
-        yield MenuItem::section('Communauté');
-        yield MenuItem::linkTo(UserCrudController::class, 'Utilisateurs', 'fa fa-users');
+        yield MenuItem::section('Forum');
+        yield MenuItem::linkTo(ForumTopicCrudController::class, 'Sujets', 'fa fa-comments');
+        yield MenuItem::linkTo(ForumPostCrudController::class, 'Messages', 'fa fa-message');
+        yield MenuItem::linkTo(ForumCategoryCrudController::class, 'Catégories', 'fa fa-folder')->setPermission('ROLE_ADMIN');
+
+        yield MenuItem::section('Communauté')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(UserCrudController::class, 'Utilisateurs', 'fa fa-users')->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section();
         yield MenuItem::linkToUrl('Voir le site', 'fa fa-arrow-up-right-from-square', $this->frontendUrl);

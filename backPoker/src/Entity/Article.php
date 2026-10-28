@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ArticleScope;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,6 +46,13 @@ class Article
     #[Assert\Length(max: 50)]
     #[Groups(['article:list', 'article:read'])]
     private ?string $category = null;
+
+    /**
+     * France ou International : deux colonnes « actualités » sur l'accueil
+     */
+    #[ORM\Column(length: 20, enumType: ArticleScope::class, options: ['default' => 'france'])]
+    #[Assert\NotNull]
+    private ArticleScope $scope = ArticleScope::France;
 
     #[ORM\Column(length: 400)]
     #[Assert\NotBlank]
@@ -112,6 +120,30 @@ class Article
         $this->category = $category;
 
         return $this;
+    }
+
+    public function getScope(): ArticleScope
+    {
+        return $this->scope;
+    }
+
+    public function setScope(ArticleScope $scope): static
+    {
+        $this->scope = $scope;
+
+        return $this;
+    }
+
+    #[Groups(['article:list', 'article:read'])]
+    public function getScopeValue(): string
+    {
+        return $this->scope->value;
+    }
+
+    #[Groups(['article:list', 'article:read'])]
+    public function getScopeLabel(): string
+    {
+        return $this->scope->label();
     }
 
     public function getExcerpt(): ?string

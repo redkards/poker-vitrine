@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Article;
 use App\Entity\User;
+use App\Enum\ArticleScope;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -20,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
 /**
  * UC10 — Gérer les articles
  */
+#[IsGranted('ROLE_ADMIN')]
 class ArticleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -62,6 +66,10 @@ class ArticleCrudController extends AbstractCrudController
             ->setRequired(false)
             ->setHelp("Adresse de l'article. Laissez vide pour le générer depuis le titre.")
             ->hideOnIndex();
+        yield ChoiceField::new('scope', 'Portée')
+            ->setChoices(['Actu France' => ArticleScope::France, 'Actu internationale' => ArticleScope::International])
+            ->renderAsBadges()
+            ->setHelp("Colonne de l'accueil dans laquelle l'article apparaît.");
         yield TextField::new('category', 'Catégorie')->setHelp('Ex. Stratégie, Tournois, Débutant…');
         yield TextareaField::new('excerpt', 'Chapô')->setHelp('Résumé affiché sur les cartes (400 caractères max).')->hideOnIndex();
         yield TextEditorField::new('content', 'Contenu')->hideOnIndex();

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Enum\ArticleScope;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -21,7 +22,7 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * @return Paginator<Article>
      */
-    public function findPublishedPage(int $page, int $limit, ?string $category = null): Paginator
+    public function findPublishedPage(int $page, int $limit, ?string $category = null, ?ArticleScope $scope = null): Paginator
     {
         $qb = $this->published()
             ->leftJoin('a.author', 'u')->addSelect('u')
@@ -32,6 +33,9 @@ class ArticleRepository extends ServiceEntityRepository
 
         if ($category) {
             $qb->andWhere('a.category = :category')->setParameter('category', $category);
+        }
+        if ($scope) {
+            $qb->andWhere('a.scope = :scope')->setParameter('scope', $scope);
         }
 
         return new Paginator($qb);

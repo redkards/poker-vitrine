@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\ForumPost;
+use App\Entity\ForumTopic;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -38,6 +40,32 @@ class MailService
                 'pseudo' => $user->getPseudo(),
                 'link' => $link,
                 'expiresAt' => $expiresAt,
+            ]);
+
+        $this->mailer->send($email);
+    }
+
+    /**
+     * Nouvelle réponse sur un sujet suivi (sans recopier le message : il peut encore être modéré).
+     *
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
+    public function sendForumReplyNotification(User $subscriber, ForumTopic $topic, ForumPost $post): void
+    {
+        $link = sprintf('%s/forum/sujet/%d', rtrim($this->frontendUrl, '/'), $topic->getId());
+
+        $email = (new TemplatedEmail())
+            ->from(new Address($this->from, 'PokerVitrine'))
+            ->to(new Address((string) $subscriber->getEmail(), (string) $subscriber->getPseudo()))
+            ->subject(sprintf('Nouvelle réponse : %s', $topic->getTitle()))
+            ->htmlTemplate('emails/forum_reply.html.twig')
+            ->textTemplate('emails/forum_reply.txt.twig')
+            ->context([
+                'pseudo' => $subscriber->getPseudo(),
+                'topicTitle' => $topic->getTitle(),
+                'replyAuthor' => $post->getAuthor()?->getPseudo() ?? 'Un membre',
+                'link' => $link,
+                'settingsLink' => $link,
             ]);
 
         $this->mailer->send($email);
