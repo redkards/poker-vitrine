@@ -1,0 +1,9 @@
+# Secrets : ne jamais versionner
+.env.local
+.env.*.local
+*.pem
+
+# Editeurs / OS
+.idea/
+Thumbs.db
+.DS_Store
