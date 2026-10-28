@@ -1,0 +1,161 @@
+.forum {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}
+
+.cats {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cat {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem 1.25rem;
+  align-items: center;
+  padding: 1.4rem 1.5rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-card);
+  box-shadow: var(--pv-shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  @media (min-width: 720px) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pv-shadow);
+  }
+
+  &:focus-within {
+    box-shadow: var(--pv-focus);
+  }
+
+  &--skeleton {
+    min-height: 110px;
+    background: linear-gradient(100deg, var(--pv-card) 30%, var(--pv-surface) 50%, var(--pv-card) 70%) 0 0 / 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+}
+
+.cat__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(90% 120% at 50% 0%, #4a080c 0%, var(--pv-dark) 75%);
+  color: rgb(255 70 80 / 0.85);
+  font-size: 1.5rem;
+}
+
+.cat__body {
+  display: grid;
+  gap: 0.35rem;
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h3 a {
+    color: var(--pv-ink);
+    text-decoration: none;
+
+    // toute la carte est cliquable
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    &:focus-visible {
+      box-shadow: none;
+    }
+  }
+
+  p {
+    margin: 0;
+    color: var(--pv-muted);
+    font-size: 0.93rem;
+  }
+}
+
+.cat__stats {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+
+  @media (min-width: 720px) {
+    grid-column: auto;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  dt {
+    color: var(--pv-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 700;
+  }
+}
+
+.cat__last dd {
+  font-weight: 500;
+  color: var(--pv-ink-soft);
+  font-size: 0.9rem;
+}
+
+.rules {
+  padding: 1.6rem 1.5rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-dark);
+  color: #e7e7ea;
+
+  h2 {
+    margin-bottom: 0.9rem;
+    color: #fff;
+    font-size: 1.3rem;
+  }
+
+  ul {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+  }
+
+  li::marker {
+    color: #ff5a63;
+  }
+}
+
+.empty {
+  padding: 3rem 1rem;
+  color: var(--pv-muted);
+  text-align: center;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}

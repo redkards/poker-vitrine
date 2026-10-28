@@ -1,0 +1,163 @@
+<div class="pv-container">
+  <p class="pv-sr-only" aria-live="polite" role="status">{{ announcement() }}</p>
+
+  @if (notFound()) {
+    <a routerLink="/forum" class="back-link">← Forum</a>
+    <section class="state">
+      <h1>Sujet introuvable</h1>
+      <p>Ce sujet n'existe pas ou a été supprimé.</p>
+      <a routerLink="/forum" class="pv-btn pv-btn--primary">Retour au forum <span class="pv-arrow" aria-hidden="true">→</span></a>
+    </section>
+  } @else {
+    @if (topic(); as t) {
+      <nav class="crumbs" aria-label="Fil d'Ariane">
+        <ol>
+          <li><a routerLink="/forum">Forum</a></li>
+          <li><a [routerLink]="['/forum', t.category.slug]">{{ t.category.name }}</a></li>
+          <li><span aria-current="page">{{ t.title }}</span></li>
+        </ol>
+      </nav>
+
+      <header class="head">
+        <div class="head__text">
+          @if (t.isPinned || t.isLocked) {
+            <div class="head__badges">
+              @if (t.isPinned) {
+                <span class="topic-badge topic-badge--pinned">Épinglé</span>
+              }
+              @if (t.isLocked) {
+                <span class="topic-badge topic-badge--locked"><span aria-hidden="true" class="lock"></span>Verrouillé</span>
+              }
+            </div>
+          }
+          <h1>{{ t.title }}</h1>
+          <p class="head__meta">
+            Ouvert par <strong>{{ t.author.pseudo }}</strong> le
+            <time [attr.datetime]="t.createdAt">{{ t.createdAt | date: "d MMMM y 'à' HH:mm" }}</time>
+            · {{ total() }} message{{ total() > 1 ? 's' : '' }}
+          </p>
+        </div>
+        @if (auth.isLoggedIn()) {
+          <div class="head__follow">
+            <button
+              type="button"
+              class="pv-btn"
+              [class.pv-btn--outline]="!t.isSubscribed"
+              [class.pv-btn--ghost]="t.isSubscribed"
+              [attr.aria-pressed]="t.isSubscribed"
+              [disabled]="subscribing()"
+              (click)="toggleSubscription()"
+            >
+              {{ t.isSubscribed ? 'Ne plus suivre' : 'Suivre le sujet' }}
+            </button>
+            <p class="pv-hint">{{ t.isSubscribed ? 'Vous êtes notifié des nouvelles réponses.' : 'Recevez un email à chaque réponse.' }}</p>
+            @if (subscriptionError(); as message) {
+              <p class="pv-error" role="alert">{{ message }}</p>
+            }
+          </div>
+        }
+      </header>
+
+      @if (error(); as message) {
+        <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+      }
+
+      <section aria-labelledby="posts-title" [attr.aria-busy]="loading()">
+        <h2 id="posts-title" class="pv-sr-only">Messages</h2>
+        <ol class="posts" [class.is-loading]="loading()">
+          @for (post of posts(); track post.id; let i = $index) {
+            <li>
+              <article class="post" [class.post--opening]="isOpening(i)" [class.post--moderated]="post.isModerated" [id]="'post-' + post.id" tabindex="-1">
+                <header class="post__head">
+                  <span class="post__avatar" aria-hidden="true">{{ post.author.pseudo.charAt(0).toUpperCase() }}</span>
+                  <div class="post__who">
+                    <strong>{{ post.author.pseudo }}</strong>
+                    @if (post.author.role; as role) {
+                      <span class="role-badge" [attr.data-role]="role">{{ role }}</span>
+                    }
+                    @if (isOpening(i)) {
+                      <span class="post__tag">Auteur du sujet</span>
+                    }
+                  </div>
+                  <time [attr.datetime]="post.createdAt">{{ post.createdAt | date: "d MMM y 'à' HH:mm" }}</time>
+                </header>
+                @if (post.isModerated || post.content === null) {
+                  <p class="post__moderated">Message masqué par la modération.</p>
+                } @else {
+                  <!-- Texte brut : interpolation uniquement, jamais innerHTML -->
+                  <p class="post__content">{{ post.content }}</p>
+                }
+              </article>
+            </li>
+          }
+        </ol>
+        <app-pagination [page]="currentPage()" [pages]="pages()" (change)="goToPage($event)" />
+      </section>
+
+      <section class="reply" aria-labelledby="reply-title">
+        @if (!auth.isLoggedIn()) {
+          <div class="join">
+            <h2 id="reply-title">Connectez-vous pour participer</h2>
+            <p>La lecture est libre ; pour répondre, il faut un compte membre vérifié.</p>
+            <div class="join__actions">
+              <a class="pv-btn pv-btn--primary" routerLink="/connexion" [queryParams]="{ returnUrl: returnUrl }">Se connecter</a>
+              <a class="pv-btn pv-btn--ghost" routerLink="/inscription">Créer un compte</a>
+            </div>
+          </div>
+        } @else if (t.isLocked) {
+          <div class="locked">
+            <h2 id="reply-title">Sujet verrouillé</h2>
+            <p>Ce sujet a été verrouillé par la modération : il n'accepte plus de nouvelles réponses.</p>
+            @if (replyError(); as message) {
+              <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+            }
+          </div>
+        } @else {
+          <div class="compose">
+            <h2 id="reply-title">Répondre</h2>
+            @if (replyError(); as message) {
+              <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+            }
+            <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+              <div class="pv-field">
+                <div class="compose__meta">
+                  <label for="reply-content">Votre message</label>
+                  <p class="compose__count" id="reply-count" [class.is-over]="form.controls.content.value.length > limits.contentMax">
+                    {{ form.controls.content.value.length }} / {{ limits.contentMax }}
+                  </p>
+                </div>
+                <textarea
+                  id="reply-content"
+                  class="pv-input"
+                  formControlName="content"
+                  rows="6"
+                  [attr.maxlength]="limits.contentMax"
+                  [attr.aria-invalid]="contentFieldError() ? 'true' : null"
+                  [attr.aria-describedby]="contentFieldError() ? 'reply-hint reply-count reply-error' : 'reply-hint reply-count'"
+                  (input)="contentError.set(null)"
+                ></textarea>
+                <p class="pv-hint" id="reply-hint">Texte simple, les retours à la ligne sont conservés. Restez courtois.</p>
+                @if (contentFieldError(); as message) {
+                  <p class="pv-error" id="reply-error">{{ message }}</p>
+                }
+              </div>
+              <div class="compose__actions">
+                <button type="submit" class="pv-btn pv-btn--primary" [disabled]="submitting()">
+                  {{ submitting() ? 'Envoi…' : 'Publier la réponse' }}
+                  @if (!submitting()) {
+                    <span class="pv-arrow" aria-hidden="true">→</span>
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        }
+      </section>
+    } @else if (error()) {
+      <a routerLink="/forum" class="back-link">← Forum</a>
+      <div class="pv-alert pv-alert--error alert-top" role="alert">{{ error() }}</div>
+    } @else {
+      <p class="state__loading" role="status">Chargement du sujet…</p>
+    }
+  }
+</div>

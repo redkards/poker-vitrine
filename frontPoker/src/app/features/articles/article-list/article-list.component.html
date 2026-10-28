@@ -2,6 +2,19 @@
   <span class="pv-eyebrow">Le fil du poker</span>
   <h1>Actualités</h1>
   <p>Stratégie, tournois, mental : nos articles pour progresser et suivre l'actualité du poker.</p>
+  <div class="tabs" role="group" aria-label="Filtrer par portée">
+    @for (s of scopes; track s.label) {
+      <button
+        type="button"
+        class="tab"
+        [class.is-active]="scope() === s.value"
+        [attr.aria-pressed]="scope() === s.value"
+        (click)="setScope(s.value)"
+      >
+        {{ s.label }}
+      </button>
+    }
+  </div>
   @if (category(); as cat) {
     <p class="filter">
       Catégorie : <strong>{{ cat }}</strong>

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { Article, ArticleSummary, Paginated, SiteStats, Video, VideoLevel, VideoPage } from './content.models';
+import { Article, ArticleScope, ArticleSummary, Paginated, SiteStats, Video, VideoLevel, VideoPage } from './content.models';
 
 export interface VideoQuery {
   page?: number;
@@ -17,8 +17,8 @@ export interface VideoQuery {
 export class ContentService {
   private readonly api = inject(ApiService);
 
-  getArticles(page = 1, limit = 9, category?: string | null): Observable<Paginated<ArticleSummary>> {
-    return this.api.get<Paginated<ArticleSummary>>('articles', compact({ page, limit, category }));
+  getArticles(page = 1, limit = 9, category?: string | null, scope?: ArticleScope | null): Observable<Paginated<ArticleSummary>> {
+    return this.api.get<Paginated<ArticleSummary>>('articles', compact({ page, limit, category, scope }));
   }
 
   getArticle(slug: string): Observable<Article> {

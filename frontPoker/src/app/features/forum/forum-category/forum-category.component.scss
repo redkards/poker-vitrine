@@ -1,0 +1,160 @@
+@use '../forum';
+
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.head {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  margin-top: 1.5rem;
+
+  @media (min-width: 720px) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.head__text {
+  display: grid;
+  gap: 0.6rem;
+
+  p {
+    max-width: 60ch;
+    margin: 0;
+    color: var(--pv-muted);
+  }
+}
+
+.new-topic {
+  margin-bottom: 2rem;
+}
+
+.count {
+  margin: 0 0 0.8rem;
+  color: var(--pv-muted);
+  font-size: 0.88rem;
+}
+
+.topics {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topic {
+  position: relative;
+  display: grid;
+  gap: 0.9rem 1.5rem;
+  padding: 1.15rem 1.4rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-card);
+  box-shadow: var(--pv-shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  @media (min-width: 720px) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pv-shadow);
+  }
+
+  &:focus-within {
+    box-shadow: var(--pv-focus);
+  }
+
+  &.is-pinned {
+    border-left: 4px solid var(--pv-red);
+  }
+
+  &--skeleton {
+    min-height: 92px;
+    background: linear-gradient(100deg, var(--pv-card) 30%, var(--pv-surface) 50%, var(--pv-card) 70%) 0 0 / 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+}
+
+.topic__main {
+  display: grid;
+  gap: 0.35rem;
+
+  h3 {
+    font-size: 1.15rem;
+  }
+
+  h3 a {
+    color: var(--pv-ink);
+    text-decoration: none;
+
+    // toute la ligne est cliquable
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    &:focus-visible {
+      box-shadow: none;
+    }
+  }
+}
+
+.topic__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.topic__by {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  color: var(--pv-muted);
+  font-size: 0.85rem;
+
+  strong {
+    color: var(--pv-ink-soft);
+  }
+}
+
+.topic__stats {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+
+  @media (min-width: 720px) {
+    text-align: right;
+  }
+
+  dt {
+    color: var(--pv-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--pv-ink-soft);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+
+.join--bottom {
+  margin-top: 2.5rem;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}

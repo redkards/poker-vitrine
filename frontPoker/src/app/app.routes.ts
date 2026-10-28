@@ -48,10 +48,25 @@ export const routes: Routes = [
     path: 'videos/:id',
     loadComponent: () => import('./features/videos/video-detail/video-detail.component').then((m) => m.VideoDetailComponent),
   },
+  {
+    path: 'forum',
+    loadComponent: () => import('./features/forum/forum-home/forum-home.component').then((m) => m.ForumHomeComponent),
+    title: 'Forum — PokerVitrine',
+  },
+  // Avant forum/:slug : « sujet » ne doit pas être pris pour une catégorie
+  {
+    path: 'forum/sujet/:id',
+    loadComponent: () => import('./features/forum/forum-topic/forum-topic.component').then((m) => m.ForumTopicComponent),
+    title: 'Sujet — Forum — PokerVitrine',
+  },
+  {
+    path: 'forum/:slug',
+    loadComponent: () => import('./features/forum/forum-category/forum-category.component').then((m) => m.ForumCategoryComponent),
+    title: 'Forum — PokerVitrine',
+  },
   // Contenus livrés aux sprints suivants
   ...(
     [
-      ['forum', 'Forum', 'Sprint 3'],
       ['cgu', "Conditions générales d'utilisation", 'Sprint 4'],
       ['confidentialite', 'Politique de confidentialité', 'Sprint 4'],
       ['mentions-legales', 'Mentions légales', 'Sprint 4'],

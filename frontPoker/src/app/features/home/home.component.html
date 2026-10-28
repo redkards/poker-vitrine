@@ -20,15 +20,6 @@
         Rejoindre la communauté <span class="pv-arrow" aria-hidden="true">→</span>
       </a>
     }
-
-    <dl class="hero__stats">
-      @for (stat of stats(); track stat.label) {
-        <div>
-          <dt>{{ stat.label }}</dt>
-          <dd>{{ stat.value }}</dd>
-        </div>
-      }
-    </dl>
   </div>
 
   <!-- Centre : visuel + article à la une (carrousel) -->
@@ -132,21 +123,40 @@
     </a>
   </div>
 
-  <div class="news__grid">
-    @for (item of news(); track item.id) {
-      <article class="news-card">
-        <div class="news-card__top">
-          <span class="news-card__cat">{{ item.category }}</span>
-          <time [attr.datetime]="item.publishedAt">{{ item.publishedAt | date: 'd MMMM y' }}</time>
+  <div class="news__columns">
+    @for (col of [
+      { id: 'france', title: 'Actu France', flag: 'FR', items: newsFrance() },
+      { id: 'international', title: 'Actu internationale', flag: '🌍', items: newsWorld() }
+    ]; track col.id) {
+      <section class="news__col" [attr.aria-labelledby]="'news-' + col.id">
+        <div class="news__col-head">
+          <h3 [id]="'news-' + col.id"><span class="news__flag" aria-hidden="true">{{ col.flag }}</span>{{ col.title }}</h3>
+          <a [routerLink]="'/actualites'" [queryParams]="{ portee: col.id }" class="news__col-link">
+            Tout voir <span aria-hidden="true">→</span>
+          </a>
         </div>
-        <h3><a [routerLink]="['/actualites', item.slug]">{{ item.title }}</a></h3>
-        <p>{{ item.excerpt }}</p>
-        <span class="news-card__more" aria-hidden="true">Lire l'article →</span>
-      </article>
-    } @empty {
-      @if (loaded()) {
-        <p class="news__empty">Les premières actualités arrivent très bientôt.</p>
-      }
+        <div class="news__grid">
+          @for (item of col.items; track item.id) {
+            <ng-container *ngTemplateOutlet="newsCard; context: { $implicit: item }" />
+          } @empty {
+            @if (loaded()) {
+              <p class="news__empty">Pas encore d'actualité dans cette rubrique.</p>
+            }
+          }
+        </div>
+      </section>
     }
   </div>
 </section>
+
+<ng-template #newsCard let-item>
+  <article class="news-card">
+    <div class="news-card__top">
+      <span class="news-card__cat">{{ item.category }}</span>
+      <time [attr.datetime]="item.publishedAt">{{ item.publishedAt | date: 'd MMMM y' }}</time>
+    </div>
+    <h4><a [routerLink]="['/actualites', item.slug]">{{ item.title }}</a></h4>
+    <p>{{ item.excerpt }}</p>
+    <span class="news-card__more" aria-hidden="true">Lire l'article →</span>
+  </article>
+</ng-template>

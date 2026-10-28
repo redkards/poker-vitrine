@@ -25,6 +25,10 @@ export class ApiService {
     return this.http.post<T>(this.url(path), body);
   }
 
+  delete<T>(path: string): Observable<T> {
+    return this.http.delete<T>(this.url(path));
+  }
+
   isApiUrl(url: string): boolean {
     return url.startsWith(this.baseUrl);
   }

@@ -130,3 +130,31 @@
     background-position: -200% 0;
   }
 }
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tab {
+  min-height: 42px;
+  padding: 0 1.2rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: 999px;
+  background: var(--pv-card);
+  color: var(--pv-ink-soft);
+  font: 600 0.9rem var(--pv-font-body);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--pv-ink);
+  }
+
+  &.is-active {
+    border-color: var(--pv-red);
+    background: var(--pv-red);
+    color: #fff;
+  }
+}

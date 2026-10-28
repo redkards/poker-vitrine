@@ -1,0 +1,65 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Entraide</span>
+  <h1>Forum</h1>
+  <p>Posez vos questions, partagez vos mains et échangez avec la communauté. La lecture est ouverte à tous, la participation aux membres.</p>
+</section>
+
+<section class="pv-container forum">
+  <div class="forum__main">
+    <h2 class="pv-sr-only">Catégories</h2>
+    @if (error(); as message) {
+      <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+    } @else if (loading()) {
+      <ul class="cats" aria-busy="true" aria-label="Chargement des catégories">
+        @for (i of [1, 2, 3]; track i) {
+          <li class="cat cat--skeleton"></li>
+        }
+      </ul>
+    } @else if (categories().length === 0) {
+      <p class="empty">Aucune catégorie n'est ouverte pour le moment.</p>
+    } @else {
+      <ul class="cats">
+        @for (cat of categories(); track cat.id) {
+          <li class="cat">
+            <span class="cat__icon" aria-hidden="true">♠</span>
+            <div class="cat__body">
+              <h3><a [routerLink]="['/forum', cat.slug]">{{ cat.name }}</a></h3>
+              @if (cat.description) {
+                <p>{{ cat.description }}</p>
+              }
+            </div>
+            <dl class="cat__stats">
+              <div>
+                <dt>Sujets</dt>
+                <dd>{{ cat.topicCount }}</dd>
+              </div>
+              <div>
+                <dt>Messages</dt>
+                <dd>{{ cat.postCount }}</dd>
+              </div>
+              <div class="cat__last">
+                <dt>Dernière activité</dt>
+                <dd>
+                  @if (cat.lastPostAt) {
+                    <time [attr.datetime]="cat.lastPostAt">{{ cat.lastPostAt | forumDate }}</time>
+                  } @else {
+                    Aucun message
+                  }
+                </dd>
+              </div>
+            </dl>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <aside class="rules" aria-labelledby="rules-title">
+    <h2 id="rules-title">Bonne conduite</h2>
+    <ul>
+      <li>Restez courtois et respectueux envers chaque membre.</li>
+      <li>Aucun contenu illégal, haineux, publicitaire ou incitant au jeu d'argent excessif.</li>
+      <li>La modération peut masquer un message qui ne respecte pas ces règles.</li>
+    </ul>
+  </aside>
+</section>

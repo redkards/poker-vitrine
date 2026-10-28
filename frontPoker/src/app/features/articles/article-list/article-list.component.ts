@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { apiErrorMessage } from '../../../core/api/api.service';
-import { ArticleSummary } from '../../../core/api/content.models';
+import { ArticleScope, ArticleSummary } from '../../../core/api/content.models';
 import { ContentService } from '../../../core/api/content.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
@@ -28,19 +28,28 @@ export class ArticleListComponent implements OnInit {
   protected readonly pages = signal(1);
   protected readonly total = signal(0);
   protected readonly category = signal<string | null>(null);
+  protected readonly scope = signal<ArticleScope | null>(null);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+
+  protected readonly scopes: { value: ArticleScope | null; label: string }[] = [
+    { value: null, label: 'Toutes' },
+    { value: 'france', label: 'Actu France' },
+    { value: 'international', label: 'Actu internationale' },
+  ];
 
   ngOnInit(): void {
     this.route.queryParamMap
       .pipe(
         tap((params) => {
+          const scope = params.get('portee');
           this.page.set(Math.max(1, Number(params.get('page')) || 1));
           this.category.set(params.get('categorie'));
+          this.scope.set(scope === 'france' || scope === 'international' ? scope : null);
           this.loading.set(true);
           this.error.set(null);
         }),
-        switchMap(() => this.content.getArticles(this.page(), 9, this.category())),
+        switchMap(() => this.content.getArticles(this.page(), 9, this.category(), this.scope())),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
@@ -55,6 +64,10 @@ export class ArticleListComponent implements OnInit {
           this.loading.set(false);
         },
       });
+  }
+
+  protected setScope(scope: ArticleScope | null): void {
+    void this.router.navigate([], { queryParams: { portee: scope, page: null }, queryParamsHandling: 'merge' });
   }
 
   protected goToPage(page: number): void {

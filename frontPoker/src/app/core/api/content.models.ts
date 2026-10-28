@@ -6,11 +6,15 @@ export interface Paginated<T> {
   pages: number;
 }
 
+export type ArticleScope = 'france' | 'international';
+
 export interface ArticleSummary {
   id: number;
   title: string;
   slug: string;
   category: string | null;
+  scopeValue: ArticleScope;
+  scopeLabel: string;
   excerpt: string;
   imageUrl: string | null;
   publishedAt: string;
@@ -45,4 +49,5 @@ export interface SiteStats {
   articles: number;
   videos: number;
   members: number;
+  forumPosts: number;
 }

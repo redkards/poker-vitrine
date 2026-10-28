@@ -45,33 +45,6 @@
   }
 }
 
-.hero__stats {
-  display: flex;
-  margin: 1rem 0 0;
-
-  div {
-    display: flex;
-    flex-direction: column-reverse;
-    padding-inline: 1.4rem;
-    border-left: 1px solid var(--pv-line);
-
-    &:first-child {
-      padding-left: 0;
-      border-left: 0;
-    }
-  }
-
-  dd {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 700;
-  }
-
-  dt {
-    color: var(--pv-muted);
-    font-size: 0.85rem;
-  }
-}
 
 /* Visuel central -------------------------------------------------------- */
 .hero__visual {
@@ -336,10 +309,75 @@
   }
 }
 
+// 2 colonnes : Actu France | Actu internationale, 2 fenêtres chacune
+.news__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.news__col {
+  padding: 1.25rem;
+  border-radius: var(--pv-radius-lg);
+  background: var(--pv-surface);
+}
+
+.news__col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.45rem;
+  }
+}
+
+.news__flag {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.2rem;
+  height: 2.2rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--pv-red);
+  color: #fff;
+  font-family: var(--pv-font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.news__col-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .news__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 1100px) {
+  .news__columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .news__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .news-card {
@@ -362,11 +400,14 @@
     box-shadow: var(--pv-focus);
   }
 
-  h3 {
-    font-size: 1.3rem;
+  h4 {
+    margin: 0;
+    font-family: var(--pv-font-title);
+    font-size: 1.15rem;
+    line-height: 1.2;
   }
 
-  h3 a {
+  h4 a {
     color: var(--pv-ink);
     text-decoration: none;
 
@@ -449,10 +490,6 @@
 
   .hero__cards {
     grid-template-columns: 1fr;
-  }
-
-  .hero__stats div {
-    padding-inline: 0.9rem;
   }
 }
 

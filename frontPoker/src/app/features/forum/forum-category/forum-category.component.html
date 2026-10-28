@@ -1,0 +1,169 @@
+<div class="pv-container">
+  <a routerLink="/forum" class="back-link">← Toutes les catégories</a>
+
+  @if (notFound()) {
+    <section class="state">
+      <h1>Catégorie introuvable</h1>
+      <p>Cette catégorie n'existe pas ou a été fermée.</p>
+      <a routerLink="/forum" class="pv-btn pv-btn--primary">Retour au forum <span class="pv-arrow" aria-hidden="true">→</span></a>
+    </section>
+  } @else {
+    <header class="page-head head">
+      <div class="head__text">
+        <span class="pv-eyebrow">Forum</span>
+        <h1>{{ category()?.name ?? 'Forum' }}</h1>
+        @if (category()?.description; as description) {
+          <p>{{ description }}</p>
+        }
+      </div>
+      @if (auth.isLoggedIn()) {
+        <button
+          type="button"
+          class="pv-btn pv-btn--primary"
+          [attr.aria-expanded]="formOpen()"
+          aria-controls="new-topic"
+          (click)="toggleForm()"
+        >
+          {{ formOpen() ? 'Fermer le formulaire' : 'Nouveau sujet' }}
+          @if (!formOpen()) {
+            <span aria-hidden="true">＋</span>
+          }
+        </button>
+      } @else {
+        <a class="pv-btn pv-btn--primary" routerLink="/connexion" [queryParams]="{ returnUrl: returnUrl }">
+          Nouveau sujet <span aria-hidden="true">＋</span>
+        </a>
+      }
+    </header>
+
+    @if (auth.isLoggedIn() && formOpen()) {
+      <section id="new-topic" class="compose new-topic" aria-labelledby="new-topic-title">
+        <h2 id="new-topic-title">Nouveau sujet</h2>
+        @if (formError(); as message) {
+          <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+        }
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="pv-field">
+            <div class="compose__meta">
+              <label for="topic-title">Titre</label>
+              <p class="compose__count" id="topic-title-count" [class.is-over]="form.controls.title.value.length > limits.titleMax">
+                {{ form.controls.title.value.length }} / {{ limits.titleMax }}
+              </p>
+            </div>
+            <input
+              #titleInput
+              id="topic-title"
+              class="pv-input"
+              type="text"
+              formControlName="title"
+              [attr.maxlength]="limits.titleMax"
+              [attr.aria-invalid]="fieldError('title') ? 'true' : null"
+              [attr.aria-describedby]="fieldError('title') ? 'topic-title-hint topic-title-count topic-title-error' : 'topic-title-hint topic-title-count'"
+              (input)="clearServerError('title')"
+            />
+            <p class="pv-hint" id="topic-title-hint">Entre {{ limits.titleMin }} et {{ limits.titleMax }} caractères, soyez précis.</p>
+            @if (fieldError('title'); as message) {
+              <p class="pv-error" id="topic-title-error">{{ message }}</p>
+            }
+          </div>
+
+          <div class="pv-field">
+            <div class="compose__meta">
+              <label for="topic-content">Message</label>
+              <p class="compose__count" id="topic-content-count" [class.is-over]="form.controls.content.value.length > limits.contentMax">
+                {{ form.controls.content.value.length }} / {{ limits.contentMax }}
+              </p>
+            </div>
+            <textarea
+              id="topic-content"
+              class="pv-input"
+              formControlName="content"
+              rows="8"
+              [attr.maxlength]="limits.contentMax"
+              [attr.aria-invalid]="fieldError('content') ? 'true' : null"
+              [attr.aria-describedby]="fieldError('content') ? 'topic-content-count topic-content-error' : 'topic-content-count'"
+              (input)="clearServerError('content')"
+            ></textarea>
+            @if (fieldError('content'); as message) {
+              <p class="pv-error" id="topic-content-error">{{ message }}</p>
+            }
+          </div>
+
+          <div class="compose__actions">
+            <button type="submit" class="pv-btn pv-btn--primary" [disabled]="submitting()">
+              {{ submitting() ? 'Publication…' : 'Publier le sujet' }}
+            </button>
+            <button type="button" class="pv-btn pv-btn--outline" (click)="toggleForm()">Annuler</button>
+          </div>
+        </form>
+      </section>
+    }
+
+    <section aria-labelledby="topics-title">
+      <h2 id="topics-title" class="pv-sr-only">Sujets</h2>
+      @if (error(); as message) {
+        <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+      } @else if (loading()) {
+        <ul class="topics" aria-busy="true" aria-label="Chargement des sujets">
+          @for (i of [1, 2, 3, 4]; track i) {
+            <li class="topic topic--skeleton"></li>
+          }
+        </ul>
+      } @else if (topics().length === 0) {
+        <p class="empty">Aucun sujet dans cette catégorie pour l'instant. Lancez la discussion !</p>
+      } @else {
+        <p class="count">{{ total() }} sujet{{ total() > 1 ? 's' : '' }}</p>
+        <ul class="topics">
+          @for (topic of sortedTopics(); track topic.id) {
+            <li class="topic" [class.is-pinned]="topic.isPinned">
+              <div class="topic__main">
+                @if (topic.isPinned || topic.isLocked) {
+                  <div class="topic__badges">
+                    @if (topic.isPinned) {
+                      <span class="topic-badge topic-badge--pinned">Épinglé</span>
+                    }
+                    @if (topic.isLocked) {
+                      <span class="topic-badge topic-badge--locked"><span aria-hidden="true" class="lock"></span>Verrouillé</span>
+                    }
+                  </div>
+                }
+                <h3><a [routerLink]="['/forum/sujet', topic.id]">{{ topic.title }}</a></h3>
+                <p class="topic__by">
+                  par <strong>{{ topic.author.pseudo }}</strong>
+                  @if (topic.author.role; as role) {
+                    <span class="role-badge" [attr.data-role]="role">{{ role }}</span>
+                  }
+                  · <time [attr.datetime]="topic.createdAt">{{ topic.createdAt | forumDate }}</time>
+                </p>
+              </div>
+              <dl class="topic__stats">
+                <div>
+                  <dt>Réponses</dt>
+                  <dd>{{ topic.replyCount }}</dd>
+                </div>
+                <div>
+                  <dt>Dernière activité</dt>
+                  <dd>
+                    <time [attr.datetime]="topic.lastPostAt ?? topic.createdAt">{{ topic.lastPostAt ?? topic.createdAt | forumDate }}</time>
+                  </dd>
+                </div>
+              </dl>
+            </li>
+          }
+        </ul>
+        <app-pagination [page]="currentPage()" [pages]="pages()" (change)="goToPage($event)" />
+      }
+    </section>
+
+    @if (!auth.isLoggedIn()) {
+      <aside class="join join--bottom" aria-labelledby="join-title">
+        <h2 id="join-title">Connectez-vous pour participer</h2>
+        <p>La lecture est libre ; pour ouvrir un sujet ou répondre, il faut un compte membre vérifié.</p>
+        <div class="join__actions">
+          <a class="pv-btn pv-btn--primary" routerLink="/connexion" [queryParams]="{ returnUrl: returnUrl }">Se connecter</a>
+          <a class="pv-btn pv-btn--ghost" routerLink="/inscription">Créer un compte</a>
+        </div>
+      </aside>
+    }
+  }
+</div>

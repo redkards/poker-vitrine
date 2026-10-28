@@ -1,18 +1,19 @@
 import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
-import { ArticleSummary, SiteStats } from '../../core/api/content.models';
+import { ArticleSummary } from '../../core/api/content.models';
 import { ContentService } from '../../core/api/content.service';
 
 const AUTOPLAY_MS = 6000;
 const SLIDE_COUNT = 4;
-const NEWS_COUNT = 3;
+/** 2 fenêtres « Actu France » + 2 fenêtres « Actu internationale » */
+const NEWS_PER_SCOPE = 2;
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, NgTemplateOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -21,27 +22,12 @@ export class HomeComponent implements OnInit {
   private readonly content = inject(ContentService);
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly articles = signal<ArticleSummary[]>([]);
-  private readonly siteStats = signal<SiteStats | null>(null);
   protected readonly loaded = signal(false);
 
-  /** Carrousel « à la une » : les derniers articles */
-  protected readonly slides = computed(() => this.articles().slice(0, SLIDE_COUNT));
-  /** Section actualités : les suivants, ou les derniers s'il y en a peu */
-  protected readonly news = computed(() => {
-    const all = this.articles();
-    return all.length > SLIDE_COUNT ? all.slice(SLIDE_COUNT, SLIDE_COUNT + NEWS_COUNT) : all.slice(0, NEWS_COUNT);
-  });
-
-  protected readonly stats = computed(() => {
-    const s = this.siteStats();
-    const value = (n: number | undefined) => (n === undefined ? '—' : n.toLocaleString('fr-FR'));
-    return [
-      { value: value(s?.videos), label: 'Vidéos' },
-      { value: value(s?.articles), label: 'Articles' },
-      { value: value(s?.members), label: 'Membres' },
-    ];
-  });
+  /** Carrousel « à la une » : les derniers articles, toutes portées confondues */
+  protected readonly slides = signal<ArticleSummary[]>([]);
+  protected readonly newsFrance = signal<ArticleSummary[]>([]);
+  protected readonly newsWorld = signal<ArticleSummary[]>([]);
 
   protected readonly current = signal(0);
   protected readonly slide = computed<ArticleSummary | undefined>(() => this.slides()[this.current()]);
@@ -53,12 +39,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     forkJoin({
-      articles: this.content.getArticles(1, SLIDE_COUNT + NEWS_COUNT),
-      stats: this.content.getStats(),
+      featured: this.content.getArticles(1, SLIDE_COUNT),
+      france: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'france'),
+      world: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'international'),
     }).subscribe({
-      next: ({ articles, stats }) => {
-        this.articles.set(articles.items);
-        this.siteStats.set(stats);
+      next: ({ featured, france, world }) => {
+        this.slides.set(featured.items);
+        this.newsFrance.set(france.items);
+        this.newsWorld.set(world.items);
         this.loaded.set(true);
       },
       // L'accueil reste utilisable sans l'API : on masque simplement les contenus dynamiques

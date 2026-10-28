@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>PokerVitrine — Guide de déploiement o2switch</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+  :root { --red: #b3121b; --ink: #141414; --muted: #5f636b; --line: #dcdfe4; --soft: #f4f5f7; --ok: #1c7c4a; --todo: #9a6200; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); font: 10.5pt/1.5 "Segoe UI", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; margin: 0; }
+  h1 { font-size: 30pt; }
+  h1 span { color: var(--red); }
+  h2 { font-size: 16pt; margin: 18pt 0 6pt; padding-bottom: 4pt; border-bottom: 2px solid var(--red); break-after: avoid; }
+  h3 { font-size: 12pt; margin: 10pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  ul, ol { margin: 0 0 6pt; padding-left: 16pt; }
+  li { margin-bottom: 2pt; }
+  code { font: 9pt Consolas, monospace; background: var(--soft); padding: 0 3pt; border-radius: 3px; }
+  pre { margin: 4pt 0 8pt; padding: 7pt 9pt; background: #1e1f24; color: #f1f1f1; border-radius: 6px; white-space: pre-wrap; word-break: break-all; break-inside: avoid; }
+  pre code { background: none; color: inherit; padding: 0; font-size: 8.6pt; line-height: 1.45; }
+  pre .c { color: #9aa0a8; }
+  .eyebrow { color: var(--red); font-size: 8pt; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; }
+  .cover { display: flex; justify-content: space-between; align-items: flex-end; gap: 12pt; padding-bottom: 10pt; border-bottom: 1px solid var(--line); }
+  .meta { color: var(--muted); font-size: 9pt; text-align: right; }
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8pt; margin: 12pt 0 4pt; }
+  .tile { padding: 8pt 10pt; border-radius: 8px; background: var(--soft); }
+  .tile b { display: block; font-size: 15pt; font-family: Georgia, serif; }
+  .tile span { color: var(--muted); font-size: 8.5pt; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 9.5pt; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 6pt; border-bottom: 1px solid var(--line); }
+  th { background: var(--soft); font-size: 8.5pt; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  tr { break-inside: avoid; }
+  .done { color: var(--ok); font-weight: 700; }
+  .todo { color: var(--todo); font-weight: 700; }
+  .now { color: var(--red); font-weight: 700; }
+  .box { padding: 8pt 10pt; border-left: 3px solid var(--red); background: #fbe9ea; border-radius: 0 6px 6px 0; margin: 6pt 0 8pt; break-inside: avoid; }
+  .box.neutral { border-color: var(--muted); background: var(--soft); }
+  .box.tip { border-color: var(--ok); background: #e8f4ed; }
+  .box.check { border-color: var(--todo); background: #fbf3e4; }
+  .box > b:first-child { display: inline-block; margin-bottom: 2pt; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .page-break { break-before: page; }
+  .toc { columns: 2; column-gap: 18pt; font-size: 9.5pt; padding-left: 18pt; }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding: 3pt 0 3pt 20pt; text-indent: -20pt; border-bottom: 1px dotted var(--line); break-inside: avoid; }
+  .checklist li::before { content: "☐"; display: inline-block; width: 20pt; text-indent: 0; font-size: 12pt; color: var(--red); }
+  .src { font-size: 8.5pt; word-break: break-all; }
+  footer { margin-top: 16pt; padding-top: 6pt; border-top: 1px solid var(--line); color: var(--muted); font-size: 8pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div>
+    <div class="eyebrow">Guide de déploiement — niveau débutant</div>
+    <h1>Poker<span>Vitrine</span> chez o2switch</h1>
+    <p style="color:var(--muted);margin-top:4pt">Du premier nom de domaine à la mise en ligne : Angular (site) + Symfony (API) sur un hébergement mutualisé cPanel</p>
+  </div>
+  <div class="meta">
+    Rédigé le 29 octobre 2026<br>
+    Dépôt : github.com/redkards/poker-vitrine<br>
+    Hébergeur : o2switch (France)
+  </div>
+</div>
+
+<div class="summary">
+  <div class="tile"><b>mondomaine.fr</b><span>le site Angular (dossier <code>public_html</code>)</span></div>
+  <div class="tile"><b>api.mondomaine.fr</b><span>l'API Symfony (<code>backPoker/public</code>)</span></div>
+  <div class="tile"><b>PHP 8.2+</b><span>choisi dans « Sélectionner une version de PHP »</span></div>
+  <div class="tile"><b>MariaDB</b><span>base conseillée (PostgreSQL trop ancien, voir étape 6)</span></div>
+</div>
+
+<div class="box">
+  <b>⚠ À lire avant de commencer — point bloquant sur la base de données.</b><br>
+  o2switch propose bien PostgreSQL, mais dans une version <b>très ancienne (9.6, ou 9.2 selon une autre page de leur FAQ)</b> qu'ils ne peuvent pas mettre à jour,
+  et ils annoncent qu'ils arrêteront <b>probablement</b> de le proposer. Or le projet utilise Doctrine DBAL 4.5, qui exige <b>PostgreSQL 10 minimum</b>.
+  Conclusion : en production chez o2switch, il faut passer sur <b>MySQL/MariaDB</b>. Cela demande une petite adaptation du projet
+  (nouvelle <code>DATABASE_URL</code>, migrations régénérées) — détaillée à l'étape 6. Fais cette adaptation <b>sur ton PC</b> avant le déploiement.
+</div>
+
+<div class="box neutral">
+  <b>Comment lire ce guide.</b> Remplace partout <code>mondomaine.fr</code> par ton vrai domaine, <code>moncompte</code> par ton identifiant cPanel
+  et <code>serveur.o2switch.net</code> par le nom de ton serveur (indiqué dans l'email « Bienvenue chez o2switch »).
+  Les noms de menus cités viennent de la documentation officielle (faq.o2switch.fr). Quand un point n'a pas pu être confirmé, c'est écrit
+  « <span class="todo">à vérifier dans ton cPanel</span> ». Les interfaces évoluent : si un libellé diffère légèrement, cherche-le dans la barre de recherche du cPanel.
+</div>
+
+<h3>Sommaire</h3>
+<ol class="toc">
+  <li>Nom de domaine et offre o2switch</li>
+  <li>Premiers pas dans le cPanel</li>
+  <li>HTTPS (certificats gratuits)</li>
+  <li>Dossiers, domaine et sous-domaine <code>api</code></li>
+  <li>Version de PHP et extensions</li>
+  <li>Base de données</li>
+  <li>Accès SSH</li>
+  <li>Déployer le backend Symfony</li>
+  <li>Les fichiers <code>.htaccess</code></li>
+  <li>Déployer le frontend Angular</li>
+  <li>Emails</li>
+  <li>Tâches planifiées (crons)</li>
+  <li>Sauvegardes</li>
+  <li>Mettre à jour le site plus tard</li>
+  <li>Checklist finale et dépannage</li>
+  <li>Mentions légales</li>
+</ol>
+
+<h3>Petit lexique</h3>
+<table>
+  <tr><th style="width:24%">Mot</th><th>Ce que ça veut dire</th></tr>
+  <tr><td><b>Nom de domaine</b></td><td>L'adresse de ton site (<code>mondomaine.fr</code>). Tu la loues à l'année.</td></tr>
+  <tr><td><b>Hébergement mutualisé</b></td><td>Un serveur partagé avec d'autres clients, géré par o2switch. Pas besoin d'administrer une machine, mais pas de Docker.</td></tr>
+  <tr><td><b>cPanel</b></td><td>Le tableau de bord web de ton hébergement : fichiers, bases, emails, domaines, sécurité…</td></tr>
+  <tr><td><b>DNS</b></td><td>L'annuaire d'Internet qui relie <code>mondomaine.fr</code> à l'adresse du serveur. Une modification peut mettre jusqu'à 24–48 h à se propager.</td></tr>
+  <tr><td><b>Sous-domaine</b></td><td>Un préfixe devant le domaine (<code>api.mondomaine.fr</code>) qui peut pointer vers un autre dossier.</td></tr>
+  <tr><td><b>Racine des documents</b></td><td>Le dossier du serveur affiché quand on visite une adresse (« document root »).</td></tr>
+  <tr><td><b>SSH</b></td><td>Une connexion sécurisée en ligne de commande vers le serveur, pour lancer <code>git</code>, <code>composer</code>, <code>php bin/console</code>…</td></tr>
+  <tr><td><b>SSL / HTTPS</b></td><td>Le cadenas du navigateur : le trafic est chiffré grâce à un certificat (gratuit avec Let's Encrypt).</td></tr>
+  <tr><td><b>Cron</b></td><td>Une tâche que le serveur lance tout seul à heure fixe (ex. chaque nuit).</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 1 — Choisir le nom de domaine et souscrire l'offre</h2>
+<h3>1.1 Bien choisir son nom</h3>
+<ul>
+  <li><b>Court, facile à dire et à écrire</b> : évite les tirets multiples, les chiffres ambigus et les fautes d'orthographe probables.</li>
+  <li><b>Extension</b> : <code>.fr</code> inspire confiance pour un public français (réservé aux personnes et entreprises de l'UE et de quelques pays voisins) ; <code>.com</code> est international. Si le budget le permet, réserve les deux et redirige l'un vers l'autre.</li>
+  <li><b>Vérifie les marques</b> : un nom trop proche d'une marque déposée (base INPI / EUIPO) peut t'attirer des ennuis.</li>
+  <li><b>Vérifie la disponibilité</b> directement sur le site d'o2switch au moment de commander.</li>
+</ul>
+
+<h3>1.2 Souscrire l'offre o2switch</h3>
+<ol>
+  <li>Va sur <code>https://www.o2switch.fr</code> et choisis l'offre d'hébergement (« L'Offre Unique », déclinée en plusieurs formules au moment de la rédaction).</li>
+  <li>Au moment de la commande, <b>réclame le nom de domaine inclus</b> dans l'offre. Si tu l'oublies, la FAQ o2switch explique comment le récupérer après coup (« Je n'ai pas réclamé mon domaine offert lors de la commande… »).</li>
+  <li>Paie, puis garde précieusement l'email <b>« Bienvenue chez o2switch »</b> : il contient ton identifiant cPanel, l'adresse du cPanel et le <b>nom de ton serveur</b> (en <code>.o2switch.net</code>).</li>
+</ol>
+<div class="box check">
+  <b>Prix — à vérifier sur o2switch.fr.</b> Lors de la rédaction, le site affichait une formule d'entrée à <b>1,86 € HT/mois</b> avec <b>paiement annuel</b>,
+  les tarifs promotionnels ne valant que la première année (renouvellement au tarif normal, plus élevé), TVA calculée au paiement.
+  Les formules et prix changent souvent : <b>lis la page de commande avant de payer</b>, notamment le prix de renouvellement, la durée de conservation des sauvegardes
+  et la mention « domaine inclus ».
+</div>
+
+<h3>1.3 WHOIS et vie privée (RGPD)</h3>
+<p>Le <b>WHOIS</b> est l'annuaire public des propriétaires de domaines. Pour un particulier, les registres européens (dont l'AFNIC pour le <code>.fr</code>)
+masquent par défaut nom, adresse et téléphone. Renseigne quand même des coordonnées <b>exactes</b> lors de l'achat (c'est obligatoire et c'est ce qui prouve que le domaine t'appartient),
+et utilise une adresse email que tu consultes : les alertes d'expiration y arrivent.</p>
+
+<h3>1.4 Propagation DNS</h3>
+<p>Si le domaine est commandé avec l'hébergement, il pointe normalement déjà vers o2switch. Si tu as acheté le domaine ailleurs, tu dois remplacer ses serveurs DNS
+par ceux d'o2switch (la FAQ o2switch les donne dans « Quels sont les serveurs DNS d'o2switch ? »). Compte <b>quelques heures, parfois jusqu'à 48 h</b>
+avant que le domaine réponde partout.</p>
+<div class="box tip"><b>💡 Astuce.</b> Pendant la propagation, ton hébergement reste accessible via une adresse de secours en <code>moncompte.odns.fr</code> (mentionnée dans la FAQ o2switch). Les certificats SSL du vrai domaine, eux, ne pourront être générés qu'une fois la propagation terminée.</div>
+
+<!-- ============================================================ -->
+<h2>Étape 2 — Premiers pas dans le cPanel</h2>
+<ol>
+  <li>Connecte-toi au cPanel avec l'adresse et l'identifiant reçus par email (l'espace client o2switch y donne aussi accès).</li>
+  <li>Repère la <b>barre de recherche</b> en haut : elle trouve n'importe quel outil par son nom. Les outils sont rangés en catégories : <i>Domaines</i>, <i>Emails</i>, <i>Bases de données</i>, <i>Logiciels</i>, <i>Sécurité</i>, <i>Fichiers</i>, <i>Outils avancés</i>, <i>Mesures</i>, plus une catégorie d'outils maison o2switch.</li>
+  <li>Outils que tu utiliseras dans ce guide :</li>
+</ol>
+<table>
+  <tr><th style="width:34%">Outil (nom dans la doc o2switch)</th><th style="width:20%">Catégorie</th><th>À quoi il sert ici</th></tr>
+  <tr><td>Domaines Configurés / Sous-Domaines</td><td>Domaines</td><td>Créer <code>api.mondomaine.fr</code> et choisir sa racine</td></tr>
+  <tr><td>Let's Encrypt SSL</td><td>Sécurité</td><td>Certificats HTTPS gratuits</td></tr>
+  <tr><td>Authentification à deux facteurs</td><td>Sécurité</td><td>Protéger ton compte</td></tr>
+  <tr><td>Sélectionner une version de PHP</td><td>Logiciels</td><td>PHP 8.2+ et extensions</td></tr>
+  <tr><td>Bases de données MySQL / phpMyAdmin</td><td>Bases de données</td><td>Base de production</td></tr>
+  <tr><td>Autorisation SSH</td><td>Outils o2switch (<span class="todo">emplacement exact à vérifier</span>)</td><td>Autoriser ton adresse IP en SSH</td></tr>
+  <tr><td>Terminal</td><td>Outils avancés</td><td>Ligne de commande dans le navigateur</td></tr>
+  <tr><td>Gestionnaire de fichiers / Comptes FTP</td><td>Fichiers</td><td>Envoyer des fichiers sans SSH</td></tr>
+  <tr><td>Git Version Control</td><td>Fichiers</td><td>Cloner le dépôt GitHub (option)</td></tr>
+  <tr><td>Comptes de messagerie / Authentification</td><td>Emails</td><td>Adresse <code>no-reply@</code>, SPF/DKIM</td></tr>
+  <tr><td>Tâches Cron</td><td>Outils avancés</td><td>Tâches planifiées RGPD</td></tr>
+  <tr><td>JetBackup</td><td>Fichiers</td><td>Restaurer une sauvegarde</td></tr>
+  <tr><td>Erreurs</td><td>Mesures</td><td>Journal des erreurs Apache</td></tr>
+</table>
+
+<h3>2.1 Sécuriser le compte</h3>
+<ol>
+  <li><b>Mot de passe</b> : long (16 caractères ou plus), unique, stocké dans un gestionnaire de mots de passe (Bitwarden, KeePassXC…).</li>
+  <li><b>Double authentification</b> : outil <b>Authentification à deux facteurs</b> → bouton <b>« Configurer l'authentification à deux facteurs »</b> → scanne le QR code avec une appli (la doc o2switch cite Google Authenticator, 2FAS, Aegis) → saisis le code à 6 chiffres dans <b>« Code de sécurité »</b> → valide.</li>
+  <li>Active aussi la double authentification sur ton <b>espace client o2switch</b> si l'option y est proposée (<span class="todo">à vérifier dans ton espace client</span>) et sur ton compte <b>GitHub</b>.</li>
+</ol>
+<div class="box"><b>⚠ Attention.</b> Sauvegarde/exporte tes codes 2FA. Si tu perds ton téléphone, seul le support o2switch pourra désactiver la double authentification.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 3 — HTTPS : certificats SSL gratuits</h2>
+<p>Le site et l'API doivent être en HTTPS (les navigateurs bloquent un site HTTPS qui appelle une API en HTTP, et les jetons de connexion doivent circuler chiffrés).</p>
+<ol>
+  <li>Attends que le domaine pointe bien vers o2switch (étape 1.4) et que le sous-domaine <code>api</code> soit créé (étape 4).</li>
+  <li>Ouvre l'outil <b>Let's Encrypt SSL</b> (catégorie Sécurité).</li>
+  <li>Clique sur <b>« Générer »</b> en face de <code>mondomaine.fr</code>.</li>
+  <li>Sur la page suivante, coche <code>mondomaine.fr</code>, <code>www.mondomaine.fr</code> et <code>api.mondomaine.fr</code>. <b>Décoche</b> les domaines en <code>.odns.fr</code> / <code>.o2switch.net</code> et tout sous-domaine qui ne pointe pas vers l'hébergement (consigne de la FAQ o2switch). Valide.</li>
+  <li>Vérifie le résultat dans l'outil <b>Status SSL/TLS</b> : chaque domaine doit apparaître avec un certificat valide.</li>
+</ol>
+<div class="box check"><b>À vérifier dans ton cPanel.</b> La documentation o2switch consultée ne précise ni si le renouvellement est automatique, ni si un certificat est créé tout seul (« AutoSSL ») pour un nouveau sous-domaine. Les certificats Let's Encrypt durent 90 jours : un mois après la mise en ligne, regarde la date d'expiration dans <b>Status SSL/TLS</b> pour confirmer qu'elle a bien été repoussée.</div>
+<div class="box tip"><b>💡 Astuce.</b> L'outil <b>SSL/TLS</b> classique ne crée pas de certificat valide gratuit (seulement des certificats « auto-signés » qui affichent une alerte) : utilise bien <b>Let's Encrypt SSL</b>. Pour forcer le passage en HTTPS, la FAQ o2switch a un guide « Forcer HTTPS » ; les <code>.htaccess</code> de l'étape 9 incluent déjà cette redirection.</div>
+
+<!-- ============================================================ -->
+<h2>Étape 4 — Organisation des dossiers, domaine et sous-domaine <code>api</code></h2>
+<h3>4.1 Le plan des dossiers</h3>
+<p>On garde le dépôt (et donc tout le code PHP, les secrets, les logs) <b>en dehors</b> de <code>public_html</code>. Seuls le build Angular et le dossier <code>backPoker/public</code> sont exposés au web.</p>
+<pre><code>/home/moncompte/
+├── public_html/              <span class="c">← mondomaine.fr : fichiers du build Angular + .htaccess</span>
+└── poker-vitrine/            <span class="c">← clone du dépôt GitHub (non visible du web)</span>
+    ├── backPoker/
+    │   ├── public/           <span class="c">← api.mondomaine.fr pointe ICI (index.php + .htaccess)</span>
+    │   ├── config/jwt/       <span class="c">← clés JWT générées sur le serveur</span>
+    │   ├── .env.local        <span class="c">← secrets de production (jamais versionné)</span>
+    │   └── var/log/          <span class="c">← journaux d'erreurs Symfony</span>
+    └── frontPoker/           <span class="c">← sources Angular (non utilisées sur le serveur)</span></code></pre>
+
+<h3>4.2 Domaine principal → dossier du build Angular</h3>
+<p>Le domaine principal d'un compte cPanel pointe par défaut vers <code>public_html</code> (FAQ o2switch « Organisation des sites »). C'est parfait : tu déposeras le contenu du build Angular directement dans <code>public_html</code>. Rien à changer.</p>
+
+<h3>4.3 Créer le sous-domaine <code>api</code> → <code>backPoker/public</code></h3>
+<ol>
+  <li>Ouvre l'outil <b>Sous-Domaines</b> (catégorie Domaines).</li>
+  <li>Champ <b>« Sous-domaine »</b> : <code>api</code>. Champ <b>« Domaine »</b> : <code>mondomaine.fr</code>.</li>
+  <li>Champ <b>« Racine des documents »</b> : remplace la valeur proposée par <code>poker-vitrine/backPoker/public</code> (chemin relatif à ton dossier personnel).</li>
+  <li>Valide. (Le dossier n'existera vraiment qu'après le <code>git clone</code> de l'étape 8 ; ce n'est pas grave.)</li>
+</ol>
+<div class="box"><b>⚠ Attention.</b> Pour Symfony, la racine doit être le dossier <b><code>public</code></b>, jamais la racine du projet : sinon ton <code>.env.local</code>, tes clés et ton code seraient téléchargeables. La FAQ o2switch le rappelle (« Le domaine doit être lié avec le dossier public de l'application symfony ») et précise que la valeur préremplie par cPanel n'est pas la bonne. Si le sous-domaine a déjà été créé avec la mauvaise racine, modifie-la depuis la liste des sous-domaines ou supprime-le et recrée-le (<span class="todo">libellé exact du bouton à vérifier dans ton cPanel</span>).</div>
+<div class="box tip"><b>💡 Astuce.</b> Après avoir créé le sous-domaine, relance l'étape 3 (Let's Encrypt) pour couvrir <code>api.mondomaine.fr</code> s'il n'avait pas encore de certificat.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 5 — Version de PHP et extensions</h2>
+<ol>
+  <li>Ouvre <b>Sélectionner une version de PHP</b> (catégorie Logiciels).</li>
+  <li>La version affichée au départ est la version « native » du serveur. D'après la FAQ o2switch, pour personnaliser il faut <b>d'abord choisir une version non native</b> : sélectionne <b>8.3</b> (ou 8.2 au minimum ; 8.4 est aussi listée) puis clique sur <b>Apply</b>.</li>
+  <li>Onglet <b>Extension</b> : laisse cochées les extensions de base et vérifie que celles-ci sont cochées :</li>
+</ol>
+<table>
+  <tr><th style="width:22%">Extension</th><th>Pourquoi</th></tr>
+  <tr><td><code>ctype</code>, <code>iconv</code>, <code>mbstring</code></td><td>Exigées par Symfony (chaînes, encodage).</td></tr>
+  <tr><td><code>intl</code></td><td>Formats de dates, traductions, EasyAdmin.</td></tr>
+  <tr><td><code>pdo_mysql</code> (et <code>mysqlnd</code>)</td><td>Connexion à MariaDB (choix conseillé, étape 6).</td></tr>
+  <tr><td><code>pdo_pgsql</code></td><td>Seulement si tu restais sur PostgreSQL (déconseillé ici).</td></tr>
+  <tr><td><code>sodium</code></td><td>Hachage des mots de passe (argon2), cryptographie.</td></tr>
+  <tr><td><code>openssl</code></td><td>Clés JWT, connexions SMTP chiffrées. Souvent intégrée d'office.</td></tr>
+  <tr><td><code>opcache</code>, <code>xml</code>, <code>dom</code>, <code>tokenizer</code></td><td>Performances et composants Symfony courants.</td></tr>
+</table>
+<ol start="4">
+  <li>Onglet <b>Options</b> (le <code>php.ini</code>) : laisse <code>display_errors</code> sur <b>Off</b> en production ; tu peux mettre <code>memory_limit</code> à 256M ou plus.</li>
+</ol>
+<p>Une fois en SSH (étape 7), vérifie que la ligne de commande utilise la même version et que les extensions sont là :</p>
+<pre><code>php -v
+php -m | grep -Ei "ctype|iconv|intl|mbstring|pdo_mysql|sodium|openssl"</code></pre>
+<div class="box check"><b>À vérifier.</b> La FAQ Symfony d'o2switch indique que <code>php</code> en ligne de commande suit la version choisie dans l'outil. Si <code>php -v</code> affiche autre chose, utilise le chemin complet de la version, par exemple <code>/opt/alt/php83/usr/bin/php</code> (chemins listés dans la FAQ o2switch). Note : <code>sodium</code> n'apparaît pas forcément comme extension séparée selon la version ; si <code>php -m</code> ne la montre pas et qu'elle n'est pas proposée, contacte le support.</div>
+
+<!-- ============================================================ -->
+<h2>Étape 6 — La base de données</h2>
+<h3>6.1 Ce que propose o2switch (vérifié)</h3>
+<table>
+  <tr><th style="width:20%">Moteur</th><th>Ce qu'en dit o2switch</th><th style="width:22%">Utilisable ici ?</th></tr>
+  <tr><td><b>PostgreSQL</b></td><td>Disponible (outil « Base de données PostgreSQL » + phpPgAdmin), mais <b>version 9.6</b> (la page Symfony parle même de 9.2), non mise à jour car liée à cPanel. o2switch écrit : « Il est probable que nous arrêtions de proposer les bases de données postgresql ».</td><td class="now">Non : Doctrine DBAL 4 exige PostgreSQL 10+</td></tr>
+  <tr><td><b>MySQL / MariaDB</b></td><td>Outil « Bases de données MySQL » + phpMyAdmin, bases illimitées, hôte <code>localhost</code>. La FAQ Symfony indique <b>MariaDB 10.6</b> et dit que MySQL est « mieux supporté ».</td><td class="done">Oui (choix conseillé)</td></tr>
+</table>
+
+<h3>6.2 Adapter le projet à MariaDB (à faire sur ton PC, avant le déploiement)</h3>
+<div class="box"><b>⚠ Attention — adaptation du projet nécessaire.</b> Les migrations actuelles (<code>backPoker/src/Migrations/</code>) ont été écrites pour PostgreSQL (syntaxe propre à PostgreSQL). Elles <b>ne fonctionneront pas</b> sur MariaDB. Il faut les régénérer. C'est une tâche de développement à part entière : fais-la dans une branche, teste-la en local, puis pousse-la sur GitHub.</div>
+<ol>
+  <li>Installe un MariaDB 10.6 en local (par exemple un service <code>mariadb:10.6</code> dans <code>docker-compose.yml</code>, ou XAMPP/Laragon).</li>
+  <li>Dans ton <code>.env.local</code> de développement, remplace la <code>DATABASE_URL</code> PostgreSQL par une URL MariaDB :
+<pre><code>DATABASE_URL="mysql://utilisateur:motdepasse@127.0.0.1:3306/pokervitrine?serverVersion=10.6.0-MariaDB&amp;charset=utf8mb4"</code></pre></li>
+  <li>Déplace les anciennes migrations PostgreSQL hors du dossier (garde-les dans l'historique Git), puis génère une migration unique depuis les entités :
+<pre><code>php bin/console doctrine:database:create
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate
+php bin/phpunit</code></pre></li>
+  <li>Relis la migration générée, vérifie que les tests passent et que le site fonctionne, puis commit + push.</li>
+  <li>Mets aussi à jour la <code>DATABASE_URL</code> d'exemple du fichier <code>.env</code> versionné si tu veux que MariaDB devienne le moteur par défaut.</li>
+</ol>
+<div class="box check"><b>À vérifier.</b> La valeur exacte de <code>serverVersion</code> doit correspondre au serveur : lis la version affichée dans <b>phpMyAdmin</b> (encadré « Serveur de base de données ») ou lance <code>mysql --version</code> en SSH, et écris-la sous la forme <code>10.6.xx-MariaDB</code>. Requêtes SQL « brutes » éventuelles dans le code : à relire, car certaines fonctions diffèrent entre PostgreSQL et MariaDB.</div>
+
+<h3>6.3 Créer la base et l'utilisateur sur o2switch</h3>
+<ol>
+  <li>Ouvre <b>Bases de données MySQL</b>.</li>
+  <li><b>Premier formulaire</b> : nom de la base, par ex. <code>poker</code>. cPanel ajoute ton identifiant en préfixe → <code>moncompte_poker</code>.</li>
+  <li><b>Deuxième formulaire</b> : nom d'utilisateur (8 caractères maximum, préfixé lui aussi → <code>moncompte_pokapp</code>) et mot de passe.</li>
+  <li><b>En bas de la page</b> : choisis l'utilisateur et la base dans les deux listes, valide, coche <b>TOUS LES PRIVILÈGES</b>, valide. Un message vert confirme l'opération.</li>
+</ol>
+<div class="box tip"><b>💡 Astuce.</b> o2switch recommande un mot de passe <b>long et uniquement alphanumérique</b> (lettres et chiffres, 32 caractères par exemple, via le générateur de cPanel) : les caractères <code>$ @ : / # ?</code> cassent les URL de connexion du <code>.env</code>.</div>
+<p>Format de la <code>DATABASE_URL</code> de production :</p>
+<pre><code>DATABASE_URL="mysql://moncompte_pokapp:MotDePasseAlphanumerique@localhost:3306/moncompte_poker?serverVersion=10.6.xx-MariaDB&amp;charset=utf8mb4"</code></pre>
+
+<div class="box neutral"><b>Pour mémoire — si tu restais malgré tout sur PostgreSQL</b> (déconseillé) : l'outil « Base de données PostgreSQL » crée base, utilisateur et droits, l'hôte indiqué par o2switch est <code>127.0.0.1</code>, et l'URL aurait la forme <code>postgresql://moncompte_user:mdp@127.0.0.1:5432/moncompte_poker?serverVersion=9.6&amp;charset=utf8</code>. Mais avec Doctrine DBAL 4 et PostgreSQL 9.x, la connexion n'est pas supportée : ne pars pas dans cette voie sans l'avoir testée.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 7 — Accès SSH</h2>
+<h3>7.1 Autoriser ton adresse IP</h3>
+<p>Chez o2switch, le SSH est filtré : seules les adresses IP autorisées peuvent se connecter.</p>
+<ol>
+  <li>Trouve ton adresse IP publique (par exemple en cherchant « mon adresse IP » dans un moteur de recherche).</li>
+  <li>Dans le cPanel, ouvre l'outil <b>« Autorisation SSH »</b> et ajoute cette IP.</li>
+  <li>Tu as droit à <b>5 exceptions</b> par compte cPanel (domicile, travail…).</li>
+</ol>
+<div class="box"><b>⚠ Attention.</b> Si ta box change d'adresse IP (fréquent chez certains fournisseurs), la connexion échouera avec une erreur <code>timeout</code>. Il suffit de ré-autoriser la nouvelle IP. o2switch suggère aussi un nom DNS dynamique (type noip.com) si ton IP change souvent.</div>
+
+<h3>7.2 Créer une clé SSH sous Windows</h3>
+<p>Windows 10/11 inclut OpenSSH. Ouvre <b>PowerShell</b> (menu Démarrer → « PowerShell ») :</p>
+<pre><code>ssh-keygen -t rsa -b 4096 -C "pc-perso pokervitrine"
+<span class="c"># Appuie sur Entrée pour accepter l'emplacement (C:\Users\toi\.ssh\id_rsa)</span>
+<span class="c"># Choisis une phrase de passe (recommandé)</span>
+Get-Content $env:USERPROFILE\.ssh\id_rsa.pub   <span class="c"># affiche la clé PUBLIQUE à copier</span></code></pre>
+<p>Tu obtiens deux fichiers : <code>id_rsa</code> (clé <b>privée</b>, ne la donne jamais) et <code>id_rsa.pub</code> (clé <b>publique</b>, à mettre sur le serveur).</p>
+
+<h3>7.3 Installer la clé publique sur le serveur</h3>
+<p>La méthode décrite par o2switch : ajouter le contenu de <code>id_rsa.pub</code> à la fin du fichier <code>~/.ssh/authorized_keys</code> de l'hébergement.</p>
+<ol>
+  <li><b>Méthode débutant</b> : <b>Gestionnaire de fichiers</b> → affiche les fichiers cachés (paramètres, en haut à droite) → dossier <code>.ssh</code> (crée-le s'il n'existe pas) → fichier <code>authorized_keys</code> (crée-le si besoin) → <b>Modifier</b> → colle la clé sur une nouvelle ligne → enregistre.</li>
+  <li><b>Méthode ligne de commande</b> (depuis PowerShell, demande le mot de passe cPanel une dernière fois) :
+<pre><code>Get-Content $env:USERPROFILE\.ssh\id_rsa.pub | ssh moncompte@serveur.o2switch.net "mkdir -p ~/.ssh &amp;&amp; chmod 700 ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys &amp;&amp; chmod 644 ~/.ssh/authorized_keys"</code></pre></li>
+</ol>
+<div class="box check"><b>À vérifier dans ton cPanel.</b> Le cPanel standard possède aussi un outil « Accès SSH » / « Gérer les clés SSH » pour importer puis autoriser une clé ; la documentation o2switch consultée ne le mentionne pas. Les droits doivent être : dossier <code>.ssh</code> en 700, <code>authorized_keys</code> en 644.</div>
+
+<h3>7.4 Se connecter</h3>
+<pre><code>ssh moncompte@serveur.o2switch.net
+<span class="c"># Port 22 d'après la FAQ o2switch ; identifiant = identifiant cPanel</span></code></pre>
+<div class="box tip"><b>💡 Astuce.</b> Pas envie de configurer SSH tout de suite ? L'outil <b>Terminal</b> (Outils avancés) ouvre une ligne de commande directement dans le navigateur. Il est limité en mémoire (o2switch conseille un vrai client SSH pour les grosses commandes comme <code>composer install</code>), mais il dépanne bien.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 8 — Déployer le backend Symfony</h2>
+<div class="box neutral"><b>Prérequis sur ton PC, avant de commencer :</b> l'adaptation MariaDB de l'étape 6.2 et l'ajout de <code>symfony/apache-pack</code> (étape 9.1) sont faits, testés, <b>commités et poussés</b> sur GitHub.</div>
+
+<h3>8.1 Récupérer le code (git clone)</h3>
+<p>Le dépôt <code>github.com/redkards/poker-vitrine</code> est public : on peut le cloner en HTTPS sans clé (méthode recommandée par o2switch, car elle ne demande pas de liste blanche). <code>git</code> et <code>composer</code> (version 2) sont installés d'office sur les serveurs o2switch.</p>
+<pre><code>cd ~
+git clone https://github.com/redkards/poker-vitrine.git poker-vitrine
+cd ~/poker-vitrine/backPoker</code></pre>
+<div class="box tip"><b>💡 Alternative sans ligne de commande :</b> l'outil <b>Git Version Control</b> du cPanel → <b>Créer</b> → coche <b>Clone a repository</b> → <b>Clone URL</b> : <code>https://github.com/redkards/poker-vitrine.git</code>, <b>Repository Path</b> : <code>poker-vitrine</code>. Il faudra quand même le SSH (ou le Terminal) pour <code>composer</code> et <code>php bin/console</code>. Si un jour le dépôt devient privé, o2switch impose alors une URL en <code>ssh://</code> et une clé de déploiement (voir leur FAQ « Git Version Control »).</div>
+
+<h3>8.2 Créer le fichier <code>.env.local</code> de production</h3>
+<p>Génère d'abord deux secrets aléatoires :</p>
+<pre><code>php -r 'echo bin2hex(random_bytes(16)), PHP_EOL;'   <span class="c"># → APP_SECRET</span>
+php -r 'echo bin2hex(random_bytes(24)), PHP_EOL;'   <span class="c"># → JWT_PASSPHRASE</span></code></pre>
+<p>Puis crée le fichier (avec <code>nano .env.local</code> en SSH, ou via le Gestionnaire de fichiers) :</p>
+<pre><code>APP_ENV=prod
+APP_DEBUG=0
+APP_SECRET=colle_ici_le_premier_secret
+
+DATABASE_URL="mysql://moncompte_pokapp:MotDePasseAlphanumerique@localhost:3306/moncompte_poker?serverVersion=10.6.xx-MariaDB&amp;charset=utf8mb4"
+
+JWT_PASSPHRASE=colle_ici_le_second_secret
+
+MAILER_DSN=smtp://no-reply%40mondomaine.fr:MotDePasseMail@serveur.o2switch.net:465
+MAILER_FROM=no-reply@mondomaine.fr
+
+FRONTEND_URL=https://mondomaine.fr
+CORS_ALLOW_ORIGIN='^https://mondomaine\.fr$'
+CGU_VERSION=1.0</code></pre>
+<pre><code>chmod 600 .env.local   <span class="c"># lisible par toi seul</span></code></pre>
+<div class="box"><b>⚠ Attention.</b> Ce fichier contient tous les secrets du site : il ne doit <b>jamais</b> être commité ni envoyé par email. Les variables <code>STRIPE_*</code> ne sont pas utilisées pour l'instant. Si tu veux autoriser aussi <code>www.mondomaine.fr</code> : <code>CORS_ALLOW_ORIGIN='^https://(www\.)?mondomaine\.fr$'</code>.</div>
+
+<h3>8.3 Installer les dépendances</h3>
+<pre><code>cd ~/poker-vitrine/backPoker
+composer install --no-dev --optimize-autoloader</code></pre>
+<div class="box tip"><b>💡 Astuce.</b> Si la commande est interrompue (mémoire), relance-la depuis un vrai client SSH plutôt que le Terminal web. <code>--no-dev</code> n'installe pas les outils de test : c'est normal en production.</div>
+
+<h3>8.4 Générer les clés JWT</h3>
+<p>Les clés <code>config/jwt/*.pem</code> ne sont pas dans le dépôt (et c'est voulu) : on les crée sur le serveur, protégées par la <code>JWT_PASSPHRASE</code> du <code>.env.local</code>.</p>
+<pre><code>mkdir -p config/jwt
+PASS=$(grep '^JWT_PASSPHRASE=' .env.local | cut -d= -f2-)
+openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass pass:"$PASS"
+openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout -passin pass:"$PASS"
+chmod 600 config/jwt/private.pem
+chmod 644 config/jwt/public.pem</code></pre>
+<p>Variante plus simple fournie par le bundle : <code>php bin/console lexik:jwt:generate-keypair</code> (elle lit la passphrase depuis la configuration).</p>
+
+<h3>8.5 Base de données, configuration compilée, cache</h3>
+<pre><code>php bin/console doctrine:migrations:migrate --no-interaction
+composer dump-env prod          <span class="c"># compile .env + .env.local dans .env.local.php (plus rapide)</span>
+php bin/console cache:clear
+php bin/console cache:warmup</code></pre>
+<div class="box"><b>⚠ Attention.</b> Après <code>composer dump-env prod</code>, Symfony lit <code>.env.local.php</code> en priorité. Si tu modifies plus tard <code>.env.local</code>, <b>relance <code>composer dump-env prod</code></b> puis <code>cache:clear</code>, sinon tes changements seront ignorés.</div>
+<p>Test rapide : ouvre <code>https://api.mondomaine.fr/api</code> dans le navigateur. Tu dois obtenir une réponse de l'API (JSON ou erreur 401/404 propre), <b>pas</b> une erreur 500 ni une liste de fichiers.</p>
+
+<h3>8.6 Créer le premier compte administrateur</h3>
+<ol>
+  <li>Une fois le frontend en ligne (étape 10), <b>inscris-toi normalement</b> sur <code>https://mondomaine.fr</code> et valide ton email.</li>
+  <li>Ouvre <b>phpMyAdmin</b> → ta base <code>moncompte_poker</code> → onglet <b>SQL</b>, et exécute :
+<pre><code>UPDATE `user` SET roles = '["ROLE_ADMIN"]' WHERE email = 'ton.adresse@exemple.fr';</code></pre></li>
+  <li>Déconnecte-toi / reconnecte-toi, puis ouvre <code>https://api.mondomaine.fr/admin</code> (EasyAdmin).</li>
+</ol>
+<div class="box neutral">Sur PostgreSQL la même requête s'écrirait avec des guillemets doubles : <code>UPDATE "user" SET roles = '["ROLE_ADMIN"]' WHERE email = '...';</code> (via phpPgAdmin). Sur MariaDB, <code>user</code> s'entoure d'accents graves (<code>`user`</code>). Vérifie le nom exact de la table dans phpMyAdmin.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 9 — Les fichiers <code>.htaccess</code></h2>
+<p>Le serveur web d'o2switch lit les fichiers <code>.htaccess</code> (règles Apache). Il en faut un pour l'API et un pour le site Angular.</p>
+
+<h3>9.1 API Symfony : <code>symfony/apache-pack</code></h3>
+<p>Ce paquet ajoute automatiquement un <code>backPoker/public/.htaccess</code> qui envoie toutes les requêtes vers <code>index.php</code>. Il n'est <b>pas encore installé</b> dans le projet. Sur ton PC :</p>
+<pre><code>cd backPoker
+composer require symfony/apache-pack
+<span class="c"># Réponds "y" (yes) quand Flex demande d'exécuter la recette</span>
+git add composer.json composer.lock symfony.lock public/.htaccess
+git commit -m "Ajout symfony/apache-pack pour Apache (o2switch)"
+git push</code></pre>
+<p>Sur le serveur, après <code>git pull</code>, vérifie la présence de <code>~/poker-vitrine/backPoker/public/.htaccess</code>. Pour forcer le HTTPS, tu peux ajouter ces lignes juste après <code>RewriteEngine On</code> dans ce fichier :</p>
+<pre><code>RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]</code></pre>
+<div class="box"><b>⚠ Attention — l'en-tête Authorization.</b> Les requêtes de l'API transportent le jeton JWT dans l'en-tête <code>Authorization</code>. La recette apache-pack contient déjà la règle qui le transmet à PHP (<code>RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]</code>). Si, une fois connecté, toutes les requêtes renvoient 401, vérifie que cette ligne est bien présente.</div>
+
+<h3>9.2 Site Angular : <code>public_html/.htaccess</code></h3>
+<p>Angular est une application d'une seule page : toutes les adresses (<code>/actualites</code>, <code>/forum/…</code>) doivent renvoyer <code>index.html</code>, sinon un rafraîchissement de page donne une erreur 404. Contenu exact :</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+    RewriteEngine On
+
+    # 1. Forcer HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # 2. Laisser passer les fichiers et dossiers qui existent (JS, CSS, images...)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 3. Tout le reste -&gt; index.html (routage Angular)
+    RewriteRule ^ index.html [L]
+&lt;/IfModule&gt;
+
+# index.html jamais mis en cache (pour voir les mises a jour tout de suite)
+&lt;IfModule mod_headers.c&gt;
+    &lt;FilesMatch "^index\.html$"&gt;
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    &lt;/FilesMatch&gt;
+&lt;/IfModule&gt;</code></pre>
+<div class="box tip"><b>💡 Astuce.</b> Enregistre ce fichier sous <code>frontPoker/public/.htaccess</code> dans le projet : Angular 19 copie le contenu du dossier <code>public/</code> dans le build, et le fichier partira avec chaque mise en ligne. Vérifie après <code>ng build</code> qu'il est bien présent dans <code>dist/front-poker/browser/</code> ; sinon, crée-le directement dans <code>public_html</code> avec le Gestionnaire de fichiers.</div>
+
+<!-- ============================================================ -->
+<h2>Étape 10 — Déployer le frontend Angular</h2>
+<h3>10.1 Indiquer l'adresse de l'API</h3>
+<p>Dans <code>frontPoker/src/environments/environment.ts</code> (le fichier utilisé par le build de production) :</p>
+<pre><code>export const environment = {
+  production: true,
+  apiUrl: 'https://api.mondomaine.fr/api',
+};</code></pre>
+
+<h3>10.2 Construire le site sur ton PC</h3>
+<pre><code>cd frontPoker
+npm ci
+npx ng build
+<span class="c"># Résultat : frontPoker\dist\front-poker\browser\ (index.html, fichiers .js/.css, .htaccess)</span></code></pre>
+
+<h3>10.3 Envoyer les fichiers dans <code>public_html</code></h3>
+<p><b>Méthode débutant — Gestionnaire de fichiers :</b></p>
+<ol>
+  <li>Sur ton PC, compresse le <b>contenu</b> du dossier <code>browser</code> (pas le dossier lui-même) en <code>front.zip</code> :
+<pre><code>Compress-Archive -Path .\dist\front-poker\browser\* -DestinationPath .\front.zip -Force</code></pre></li>
+  <li>cPanel → <b>Gestionnaire de fichiers</b> → <code>public_html</code> → supprime les anciens fichiers du site (pas les dossiers système éventuels comme <code>.well-known</code>) → <b>Charger</b> <code>front.zip</code> → clic droit → <b>Extraire</b> → supprime le zip.</li>
+</ol>
+<p><b>Méthode SSH (plus rapide ensuite) :</b></p>
+<pre><code>scp .\front.zip moncompte@serveur.o2switch.net:~/
+ssh moncompte@serveur.o2switch.net "cd ~/public_html &amp;&amp; unzip -o ~/front.zip &amp;&amp; rm ~/front.zip"</code></pre>
+<p>Un client FTP (FileZilla) fonctionne aussi, avec un compte créé dans <b>Comptes FTP</b> ; préfère le mode FTPS/SFTP chiffré.</p>
+<div class="box"><b>⚠ Attention.</b> Ne supprime pas le dossier <code>.well-known</code> s'il existe dans <code>public_html</code> : il peut servir à la validation des certificats Let's Encrypt.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 11 — Emails</h2>
+<h3>11.1 Créer l'adresse d'envoi</h3>
+<ol>
+  <li>cPanel → <b>Comptes de messagerie</b> → créer <code>no-reply@mondomaine.fr</code> avec un mot de passe fort.</li>
+  <li>Bouton <b>« Connect devices »</b> en face du compte : il affiche les paramètres de connexion exacts.</li>
+</ol>
+<table>
+  <tr><th style="width:30%">Paramètre SMTP</th><th>Valeur (d'après la FAQ o2switch)</th></tr>
+  <tr><td>Serveur</td><td>Nom de ton serveur en <code>.o2switch.net</code> (email de bienvenue)</td></tr>
+  <tr><td>Port / chiffrement</td><td><b>465</b>, SSL</td></tr>
+  <tr><td>Identifiant</td><td>L'adresse email complète</td></tr>
+  <tr><td>Authentification</td><td>Obligatoire (mot de passe de la boîte)</td></tr>
+</table>
+
+<h3>11.2 Écrire le <code>MAILER_DSN</code></h3>
+<pre><code>MAILER_DSN=smtp://no-reply%40mondomaine.fr:MotDePasseMail@serveur.o2switch.net:465</code></pre>
+<p>Dans une URL, certains caractères ont un sens spécial et doivent être « encodés » : <code>@</code> → <code>%40</code>, <code>:</code> → <code>%3A</code>, <code>/</code> → <code>%2F</code>, <code>#</code> → <code>%23</code>, <code>?</code> → <code>%3F</code>, <code>+</code> → <code>%2B</code>, <code>%</code> → <code>%25</code>, espace → <code>%20</code>. Le <code>@</code> de l'adresse email devient donc <code>%40</code>.
+Le plus simple : un mot de passe de boîte mail <b>uniquement en lettres et chiffres</b> (conseil o2switch).</p>
+<p>Test d'envoi en SSH (le composant Mailer fournit cette commande) :</p>
+<pre><code>php bin/console mailer:test ton.adresse@exemple.fr</code></pre>
+
+<h3>11.3 SPF et DKIM (pour ne pas finir en spam)</h3>
+<p>D'après la FAQ o2switch, <b>SPF et DKIM sont activés par défaut</b>. Vérifie-le dans l'outil <b>Authentification</b> (catégorie Emails) : les deux doivent être au vert. Tu peux personnaliser le SPF (<b>Gérer</b> → <b>Personnaliser</b>) ; o2switch recommande l'include <code>include:spf.jabatus.fr</code>.</p>
+<div class="box check"><b>À vérifier.</b> Le DMARC n'est pas décrit dans les pages consultées. Une fois les envois validés, tu peux ajouter un enregistrement TXT <code>_dmarc.mondomaine.fr</code> → <code>v=DMARC1; p=none; rua=mailto:toi@mondomaine.fr</code> via <b>Zone Editor</b>. Teste la délivrabilité avec un service comme mail-tester.com.</div>
+
+<!-- ============================================================ -->
+<h2>Étape 12 — Tâches planifiées (crons)</h2>
+<p>Pas de démon en tâche de fond sur un mutualisé (ni Mercure, ni <code>supervisord</code>) : les traitements réguliers passent par l'outil <b>Tâches Cron</b> (Outils avancés).</p>
+<ol>
+  <li>Choisis une périodicité dans la liste (ou une expression personnalisée, à construire avec crontab.guru).</li>
+  <li>Saisis la commande, avec des chemins absolus.</li>
+  <li>Termine par <code>&gt;/dev/null 2&gt;&amp;1</code> si tu ne veux pas recevoir un email à chaque exécution — ou laisse un email de notification au début pour vérifier que ça marche.</li>
+</ol>
+<p>Exemple (purge RGPD chaque nuit à 3 h 15) — <b>commande fournie au Sprint 4, le nom ci-dessous est un exemple générique</b> :</p>
+<pre><code>15 3 * * *  cd /home/moncompte/poker-vitrine/backPoker &amp;&amp; /opt/alt/php83/usr/bin/php bin/console app:rgpd:purge-ip --env=prod &gt;/dev/null 2&gt;&amp;1</code></pre>
+<div class="box tip"><b>💡 Astuce.</b> Utilise le chemin complet du PHP correspondant à ta version (<code>/opt/alt/php82/…</code>, <code>/opt/alt/php83/…</code>) : un cron n'utilise pas forcément la même version que le site. Pour une tâche longue, o2switch conseille <code>flock -n /home/moncompte/.cron-purge.lock commande…</code> pour éviter deux exécutions simultanées.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 13 — Sauvegardes</h2>
+<ul>
+  <li><b>Sauvegardes automatiques o2switch</b> : quotidiennes, conservées 30 à 90 jours selon la formule (page offres, à vérifier pour ta formule). Restauration via l'outil <b>JetBackup</b> : <i>Home Directory</i> (fichiers), <i>Databases</i>, <i>Email Accounts</i>, <i>Cron Jobs</i>… Bouton <b>Restore</b> (remplace l'existant) ou <b>Download</b> (télécharge une archive).</li>
+  <li><b>Tes propres sauvegardes</b> (indispensables : une sauvegarde chez le même hébergeur ne protège pas de tout) :</li>
+</ul>
+<pre><code><span class="c"># Export de la base en SSH (le mot de passe est demandé)</span>
+mysqldump -u moncompte_pokapp -p moncompte_poker | gzip &gt; ~/sauvegarde-$(date +%F).sql.gz</code></pre>
+<p>Ou dans <b>phpMyAdmin</b> → ta base → onglet <b>Exporter</b> → <b>Exécuter</b>. Télécharge ensuite le fichier sur ton PC (ou un cloud), au moins une fois par mois et avant chaque mise à jour importante.
+Sauvegarde aussi, dans ton gestionnaire de mots de passe, le contenu de <code>.env.local</code> et la <code>JWT_PASSPHRASE</code>.</p>
+<div class="box"><b>⚠ Attention.</b> Dans JetBackup, ne clique jamais sur <b>Restore</b> dans <i>Home Directory</i> sans avoir d'abord sélectionné des fichiers précis : tout le compte serait restauré. Le code, lui, est déjà sauvegardé sur GitHub.</div>
+
+<!-- ============================================================ -->
+<h2>Étape 14 — Mettre à jour le site plus tard</h2>
+<h3>Backend (API)</h3>
+<pre><code>cd ~/poker-vitrine
+mysqldump -u moncompte_pokapp -p moncompte_poker | gzip &gt; ~/avant-maj-$(date +%F).sql.gz
+git pull
+cd backPoker
+composer install --no-dev --optimize-autoloader
+php bin/console doctrine:migrations:migrate --no-interaction
+composer dump-env prod
+php bin/console cache:clear</code></pre>
+<h3>Frontend (site)</h3>
+<pre><code>cd frontPoker
+git pull
+npm ci
+npx ng build
+Compress-Archive -Path .\dist\front-poker\browser\* -DestinationPath .\front.zip -Force
+<span class="c"># puis envoi dans public_html (étape 10.3)</span></code></pre>
+<div class="box tip"><b>💡 Astuce.</b> Les fichiers Angular ont un nom qui change à chaque build : supprime les anciens <code>.js</code>/<code>.css</code> de <code>public_html</code> de temps en temps (en gardant <code>.htaccess</code> et <code>.well-known</code>).</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 15 — Checklist finale</h2>
+<ul class="checklist">
+  <li>Domaine commandé, email « Bienvenue chez o2switch » conservé, DNS propagé (<code>mondomaine.fr</code> répond).</li>
+  <li>Mot de passe cPanel fort + double authentification activée (cPanel, GitHub).</li>
+  <li>Sous-domaine <code>api</code> créé, racine = <code>poker-vitrine/backPoker/public</code>.</li>
+  <li>Certificats Let's Encrypt valides pour <code>mondomaine.fr</code>, <code>www</code> et <code>api</code> (Status SSL/TLS).</li>
+  <li>PHP 8.2+ sélectionné, extensions vérifiées avec <code>php -m</code>.</li>
+  <li>Projet adapté à MariaDB (migrations régénérées, tests OK) et poussé sur GitHub.</li>
+  <li><code>symfony/apache-pack</code> installé, <code>public/.htaccess</code> présent.</li>
+  <li>Base MySQL et utilisateur créés, tous les privilèges accordés.</li>
+  <li>IP autorisée dans « Autorisation SSH », clé SSH installée, connexion OK.</li>
+  <li>Dépôt cloné dans <code>~/poker-vitrine</code>, <code>composer install --no-dev</code> réussi.</li>
+  <li><code>.env.local</code> rempli (APP_ENV=prod, secrets, DATABASE_URL, MAILER_DSN, FRONTEND_URL, CORS) et en <code>chmod 600</code>.</li>
+  <li>Clés JWT générées dans <code>config/jwt/</code>.</li>
+  <li>Migrations exécutées, <code>composer dump-env prod</code> et <code>cache:clear</code> faits.</li>
+  <li><code>environment.ts</code> pointe vers <code>https://api.mondomaine.fr/api</code>, build envoyé dans <code>public_html</code> avec son <code>.htaccess</code>.</li>
+  <li>Rafraîchir une page interne (ex. <code>/actualites</code>) ne donne pas de 404.</li>
+  <li>Inscription + email de confirmation reçu, connexion OK.</li>
+  <li>Compte administrateur créé, <code>/admin</code> accessible.</li>
+  <li>SPF/DKIM au vert, test mail-tester satisfaisant.</li>
+  <li>Cron RGPD ajouté (au Sprint 4).</li>
+  <li>Première sauvegarde de la base téléchargée sur ton PC.</li>
+  <li>Mentions légales, politique de confidentialité et CGU en ligne (étape 16).</li>
+  <li><code>https://api.mondomaine.fr/.env.local</code> et <code>https://api.mondomaine.fr/config/jwt/private.pem</code> renvoient une erreur 404 (secrets bien hors du web).</li>
+</ul>
+
+<h2>En cas de problème</h2>
+<table>
+  <tr><th style="width:28%">Symptôme</th><th>Où regarder / quoi faire</th></tr>
+  <tr><td><b>Erreur 500 sur l'API</b></td><td>Journal Symfony : <code>tail -n 50 ~/poker-vitrine/backPoker/var/log/prod.log</code>. Puis cPanel → <b>Mesures</b> → <b>Erreurs</b> (erreurs Apache, <code>.htaccess</code>, droits). Causes fréquentes : <code>.env.local</code> modifié sans <code>dump-env</code>, cache non vidé, extension PHP manquante, droits (644 fichiers / 755 dossiers ; <code>var/</code> doit être inscriptible).</td></tr>
+  <tr><td><b>« Access denied » / SQLSTATE</b></td><td>Nom de base/utilisateur avec préfixe <code>moncompte_</code>, mot de passe, privilèges dans <b>Bases de données MySQL</b>, caractère spécial dans l'URL.</td></tr>
+  <tr><td><b>Page blanche sur le site</b></td><td>Ouvre la console du navigateur (F12). Fichiers <code>.js</code> en 404 → tu as envoyé le dossier <code>browser</code> au lieu de son contenu. 404 au rafraîchissement → <code>.htaccess</code> Angular absent de <code>public_html</code>.</td></tr>
+  <tr><td><b>Erreur CORS</b> (console : « blocked by CORS policy »)</td><td><code>CORS_ALLOW_ORIGIN</code> doit correspondre exactement à l'adresse du site (https, avec ou sans www). Puis <code>composer dump-env prod</code> + <code>cache:clear</code>.</td></tr>
+  <tr><td><b>401 sur toutes les requêtes connectées</b></td><td>Règle <code>HTTP_AUTHORIZATION</code> du <code>.htaccess</code> Symfony (étape 9.1), clés JWT absentes ou passphrase différente de celle du <code>.env.local</code>.</td></tr>
+  <tr><td><b>Alerte « connexion non sécurisée »</b></td><td>Certificat absent/expiré pour ce (sous-)domaine : <b>Status SSL/TLS</b>, puis relance <b>Let's Encrypt SSL</b>. DNS pas encore propagé ?</td></tr>
+  <tr><td><b>Mixed content</b></td><td><code>apiUrl</code> commence par <code>http://</code> au lieu de <code>https://</code> : corrige <code>environment.ts</code> et refais le build.</td></tr>
+  <tr><td><b>SSH : timeout</b></td><td>Ton IP a changé : ré-autorise-la dans <b>Autorisation SSH</b>.</td></tr>
+  <tr><td><b>Emails non reçus</b></td><td><code>php bin/console mailer:test</code>, encodage du <code>MAILER_DSN</code>, outil <b>Suivre la remise</b> (Emails), dossier spam, SPF/DKIM.</td></tr>
+</table>
+<div class="box neutral">o2switch publie une procédure complète « Procédure de debug » (page blanche / erreur 500) dans sa FAQ, et son support technique est joignable depuis l'espace client. Ne passe <b>jamais</b> <code>APP_ENV=dev</code> en production pour « voir l'erreur » : cela exposerait des informations sensibles.</div>
+
+<!-- ============================================================ -->
+<h2 class="page-break">Étape 16 — Mentions légales obligatoires</h2>
+<p>En France, la loi pour la confiance dans l'économie numérique (<b>LCEN</b>, article 6) impose à tout site d'afficher des mentions légales accessibles depuis chaque page (lien en pied de page) :</p>
+<table>
+  <tr><th style="width:28%">Rubrique</th><th>Contenu</th></tr>
+  <tr><td><b>Éditeur du site</b></td><td>Particulier : nom, prénom, domicile, téléphone, email — un particulier éditant à titre non professionnel peut ne publier qu'un pseudonyme à condition d'avoir communiqué ses coordonnées exactes à l'hébergeur. Entreprise/association : dénomination, forme, adresse du siège, capital, RCS/SIREN ou numéro RNA, téléphone, email.</td></tr>
+  <tr><td><b>Directeur de la publication</b></td><td>Nom de la personne responsable des contenus.</td></tr>
+  <tr><td><b>Hébergeur</b></td><td>o2switch : dénomination sociale, adresse, téléphone. <b>Ne recopie pas des coordonnées de mémoire</b> : prends-les sur la page « Mentions légales » de <code>o2switch.fr</code> (lien en bas du site) ou dans ton espace client, et revérifie-les une fois par an.</td></tr>
+  <tr><td><b>Données personnelles</b></td><td>Lien vers la politique de confidentialité (RGPD) : données collectées (comptes, IP conservées 90 jours…), finalités, durées, droits d'accès/suppression, contact.</td></tr>
+  <tr><td><b>Cookies</b></td><td>Si des cookies non essentiels sont utilisés : bandeau de consentement (recommandations CNIL).</td></tr>
+  <tr><td><b>CGU</b></td><td>Conditions d'utilisation du forum et de l'espace membre (version suivie par <code>CGU_VERSION</code>).</td></tr>
+</table>
+<div class="box check"><b>À vérifier.</b> Lors de la rédaction, le pied de page d'o2switch.fr indiquait notamment la forme sociale (SAS), un numéro SIRET, le RCS de Clermont-Ferrand et un numéro de téléphone, mais pas l'adresse postale dans l'extrait consulté. Recopie l'ensemble depuis leur page officielle au moment de publier. Pour un projet à vocation commerciale (abonnements Stripe plus tard), des mentions supplémentaires s'appliqueront (CGV, médiation de la consommation) : fais-toi conseiller.</div>
+
+<!-- ============================================================ -->
+<h2>Sources consultées</h2>
+<p style="font-size:9pt;color:var(--muted)">Pages consultées le 29 octobre 2026. La documentation o2switch évolue : en cas de différence, c'est ton cPanel et la FAQ à jour qui font foi.</p>
+<ul class="src">
+  <li>FAQ o2switch — liste des outils cPanel : https://faq.o2switch.fr/cpanel</li>
+  <li>Base de données PostgreSQL (version 9.6, arrêt probable) : https://faq.o2switch.fr/cpanel/bases-de-donnees/postgresql</li>
+  <li>phpPgAdmin : https://faq.o2switch.fr/cpanel/bases-de-donnees/phppgadmin</li>
+  <li>Bases de données MySQL : https://faq.o2switch.fr/cpanel/bases-de-donnees/mysql</li>
+  <li>Héberger une application Symfony : https://faq.o2switch.fr/guides/php/heberger-application-symfony/</li>
+  <li>Connexion SSH (Autorisation SSH, 5 exceptions, port 22, clés) : https://faq.o2switch.fr/guides/webmastering/connexion-ssh/</li>
+  <li>Terminal SSH web : https://faq.o2switch.fr/cpanel/outils-avances/terminal-ssh-web</li>
+  <li>Sélectionner une version de PHP : https://faq.o2switch.fr/cpanel/logiciels/hebergement-php-multi-version/</li>
+  <li>Git Version Control : https://faq.o2switch.fr/cpanel/fichiers/gitweb/</li>
+  <li>JetBackup : https://faq.o2switch.fr/cpanel/fichiers/sauvegarde-jetbackup</li>
+  <li>Certificat Let's Encrypt : https://faq.o2switch.fr/questions/comment-installer-certificat-lets-encrypt/</li>
+  <li>SSL/TLS : https://faq.o2switch.fr/cpanel/securite/certificat-ssl</li>
+  <li>Authentification à deux facteurs : https://faq.o2switch.fr/cpanel/securite/authentification-mfa/</li>
+  <li>Sous-domaines : https://faq.o2switch.fr/cpanel/domaines/configuration-sous-domaine</li>
+  <li>Domaines configurés : https://faq.o2switch.fr/cpanel/domaines/configuration-domaine</li>
+  <li>Organisation des sites : https://faq.o2switch.fr/guides/webmastering/structure-recommandee-multisite/</li>
+  <li>Comptes de messagerie (SMTP 465) : https://faq.o2switch.fr/cpanel/emails/adresse-email</li>
+  <li>SPF / DKIM : https://faq.o2switch.fr/cpanel/emails/delivrabilite-spf-dkim</li>
+  <li>Tâches Cron : https://faq.o2switch.fr/cpanel/outils-avances/tache-planifiee-cron</li>
+  <li>Procédure de debug : https://faq.o2switch.fr/guides/webmastering/debuguer-page-blanche-erreur-500/</li>
+  <li>Questions fréquentes : https://faq.o2switch.fr/questions</li>
+  <li>Offres et tarifs o2switch : https://www.o2switch.fr/ et https://www.o2switch.fr/hebergement-illimite/</li>
+  <li>Doctrine DBAL — plateformes supportées (PostgreSQL 10+, MariaDB 10.4.3+) : https://www.doctrine-project.org/projects/doctrine-dbal/en/4.2/reference/platforms.html</li>
+</ul>
+
+<footer>
+  PokerVitrine — Guide de déploiement o2switch · rédigé le 29 octobre 2026 · à relire et compléter au fil des sprints (commandes RGPD du Sprint 4, adaptation MariaDB).
+</footer>
+
+</body>
+</html>
