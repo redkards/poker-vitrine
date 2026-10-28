@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>PokerVitrine — Récapitulatif du projet</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+  :root { --red: #b3121b; --ink: #141414; --muted: #5f636b; --line: #dcdfe4; --soft: #f4f5f7; --ok: #1c7c4a; --todo: #9a6200; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); font: 10.5pt/1.5 "Segoe UI", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; margin: 0; }
+  h1 { font-size: 30pt; }
+  h1 span { color: var(--red); }
+  h2 { font-size: 16pt; margin: 18pt 0 6pt; padding-bottom: 4pt; border-bottom: 2px solid var(--red); break-after: avoid; }
+  h3 { font-size: 12pt; margin: 10pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  ul { margin: 0 0 6pt; padding-left: 16pt; }
+  li { margin-bottom: 2pt; }
+  code { font: 9pt Consolas, monospace; background: var(--soft); padding: 0 3pt; border-radius: 3px; }
+  .eyebrow { color: var(--red); font-size: 8pt; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; }
+  .cover { display: flex; justify-content: space-between; align-items: flex-end; gap: 12pt; padding-bottom: 10pt; border-bottom: 1px solid var(--line); }
+  .meta { color: var(--muted); font-size: 9pt; text-align: right; }
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8pt; margin: 12pt 0 4pt; }
+  .tile { padding: 8pt 10pt; border-radius: 8px; background: var(--soft); }
+  .tile b { display: block; font-size: 17pt; font-family: Georgia, serif; }
+  .tile span { color: var(--muted); font-size: 8.5pt; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 9.5pt; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 6pt; border-bottom: 1px solid var(--line); }
+  th { background: var(--soft); font-size: 8.5pt; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  tr { break-inside: avoid; }
+  .done { color: var(--ok); font-weight: 700; white-space: nowrap; }
+  .todo { color: var(--todo); font-weight: 700; white-space: nowrap; }
+  .now { color: var(--red); font-weight: 700; white-space: nowrap; }
+  .box { padding: 8pt 10pt; border-left: 3px solid var(--red); background: #fbe9ea; border-radius: 0 6px 6px 0; margin: 6pt 0 8pt; break-inside: avoid; }
+  .box.neutral { border-color: var(--muted); background: var(--soft); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .page-break { break-before: page; }
+  footer { margin-top: 16pt; padding-top: 6pt; border-top: 1px solid var(--line); color: var(--muted); font-size: 8pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div>
+    <div class="eyebrow">Récapitulatif du projet</div>
+    <h1>Poker<span>Vitrine</span></h1>
+    <p style="color:var(--muted);margin-top:4pt">Plateforme communautaire poker francophone — Symfony + Angular + PostgreSQL</p>
+  </div>
+  <div class="meta">
+    État au 29 octobre 2026<br>
+    Dépôt : github.com/redkards/poker-vitrine<br>
+    Dossier local : Bureau\site poker test
+  </div>
+</div>
+
+<div class="summary">
+  <div class="tile"><b>3 / 6</b><span>sprints du MVP engagés (0, 1, 2)</span></div>
+  <div class="tile"><b>19</b><span>tests backend qui passent</span></div>
+  <div class="tile"><b>6</b><span>commits sauvegardés sur GitHub</span></div>
+  <div class="tile"><b>0</b><span>secret versionné (clés, mots de passe)</span></div>
+</div>
+
+<h2>1. Où en est le projet</h2>
+<p>
+  Les fondations, l'authentification complète (backend + frontend) et le backend du contenu public
+  (articles, vidéos, back-office) sont terminés et testés. Le site tourne en local avec un design validé.
+  Il reste à brancher les pages Angular Actualités et Vidéos sur l'API (fin du Sprint 2), puis le forum,
+  le profil RGPD, les finitions et le déploiement sur o2switch.
+</p>
+<div class="box">
+  <b>Point d'attention principal :</b> Docker n'est pas encore installé. La base PostgreSQL, Mailhog (emails de test)
+  et les migrations n'ont donc jamais été exécutés « pour de vrai ». Les tests et l'aperçu tournent sur SQLite.
+  Les 3 migrations ont été écrites à la main et doivent être vérifiées avec <code>doctrine:migrations:diff</code> une fois Docker en place.
+</div>
+
+<h2>2. Travail réalisé</h2>
+<table>
+  <tr><th style="width:17%">Sprint</th><th>Contenu livré</th><th style="width:11%">État</th></tr>
+  <tr>
+    <td><b>Sprint 0</b><br>Fondations</td>
+    <td>
+      docker-compose (PostgreSQL 16 sur le port 5433, Mailhog, Mercure) ; bundles JWT, CORS, EasyAdmin, Mailer ;
+      entités <code>User</code> et <code>ConsentLog</code> ; <code>security.yaml</code> (argon2id, API sans session) ;
+      clés JWT chiffrées hors Git ; dépôt GitHub.
+    </td>
+    <td class="done">Terminé</td>
+  </tr>
+  <tr>
+    <td><b>Sprint 1</b><br>Authentification</td>
+    <td>
+      <b>Back :</b> inscription avec consentement CGU explicite (preuve + IP), mot de passe robuste, email et pseudo uniques ;
+      vérification d'email (lien 24 h à usage unique, renvoi sans révéler les comptes existants) ; connexion JWT 1 h +
+      refresh token 7 j à usage unique ; blocage après 5 échecs/min ; <code>/api/me</code> ; 10 tests.<br>
+      <b>Front :</b> AuthService, intercepteur JWT avec refresh automatique, AuthGuard ; pages accueil, connexion,
+      inscription, vérification d'email, Mon espace ; design clair + rouge, titres Playfair Display, responsive.
+    </td>
+    <td class="done">Terminé</td>
+  </tr>
+  <tr>
+    <td><b>Sprint 2</b><br>Contenu public</td>
+    <td>
+      <b>Back :</b> entités <code>Article</code> (slug automatique, brouillon / publication programmée) et <code>Video</code>
+      (niveau débutant / intermédiaire / avancé) ; API <code>/api/articles</code>, <code>/api/articles/{slug}</code>,
+      <code>/api/videos</code> (filtres), <code>/api/videos/{id}</code>, <code>/api/stats</code> ;
+      back-office EasyAdmin sur <code>/admin</code> (articles, vidéos, utilisateurs) ; rôles Membre &lt; Modérateur &lt; Admin ;
+      8 vidéos pédagogiques Kill Tilt et zChance44 en données de démo ; 9 tests.<br>
+      <b>Front :</b> à faire — voir ci-dessous.
+    </td>
+    <td class="now">Back terminé<br>Front à faire</td>
+  </tr>
+</table>
+
+<h3>Décisions prises en cours de route</h3>
+<ul>
+  <li><b>Versions :</b> Symfony 7.4 et Angular 19 conservés (plus récents que les 6.4 / 18 du cahier des charges, compatibles avec tous les bundles).</li>
+  <li><b>Design :</b> thème clair + rouge inspiré de la maquette « Royal Casino », titres Playfair Display ; le visuel central sera fourni par le propriétaire du projet (<code>frontPoker/public/images/hero.webp</code>).</li>
+  <li><b>Vidéos :</b> contenus pédagogiques des chaînes Kill Tilt et zChance44, intégrées via YouTube.</li>
+  <li><b>Ajout au modèle :</b> champ <code>category</code> sur les articles (affiché sur les cartes du design).</li>
+  <li><b>Sauvegardes :</b> commit + push GitHub à chaque étape validée.</li>
+</ul>
+
+<h2>3. Travail restant</h2>
+<table>
+  <tr><th style="width:17%">Sprint</th><th>À faire</th><th style="width:11%">Priorité</th></tr>
+  <tr>
+    <td><b>Sprint 2</b><br>(fin)</td>
+    <td>
+      Pages Angular liste / détail des actualités et des vidéos (filtres par niveau, lecteur YouTube chargé au clic
+      via youtube-nocookie pour éviter les cookies avant consentement) ; accueil branché sur l'API (carrousel, actualités,
+      chiffres clés) à la place des données de démonstration.
+    </td>
+    <td class="now">Prochaine étape</td>
+  </tr>
+  <tr>
+    <td><b>Sprint 3</b><br>Forum</td>
+    <td>
+      Entités ForumCategory / ForumTopic / ForumPost ; lecture publique, écriture réservée aux membres vérifiés ;
+      modération EasyAdmin pour les modérateurs (suppression, épinglage, verrouillage) ; pages catégories, sujets,
+      réponse ; compteur de messages sur l'accueil ; notifications aux abonnés d'un sujet.
+    </td>
+    <td class="todo">À faire</td>
+  </tr>
+  <tr>
+    <td><b>Sprint 4</b><br>Profil &amp; RGPD</td>
+    <td>
+      <code>GET /api/me/export</code> (export JSON) ; <code>DELETE /api/me</code> avec confirmation par email et
+      anonymisation (pseudo « Utilisateur supprimé », email effacé) ; page profil (pseudo, mot de passe, favoris vidéos) ;
+      tâches planifiées : purge des IP après 90 jours, suppression des comptes inactifs depuis 3 ans ;
+      rédaction des CGU, Politique de confidentialité et Mentions légales ; tests de conformité.
+    </td>
+    <td class="todo">À faire</td>
+  </tr>
+  <tr>
+    <td><b>Sprint 5</b><br>Finitions &amp; déploiement</td>
+    <td>
+      Tests Jasmine côté front ; SEO (balises meta dynamiques) ; documentation API (NelmioApiDoc) ;
+      configuration de production ; déploiement o2switch ; sauvegardes PostgreSQL ; guides utilisateur et administrateur.
+    </td>
+    <td class="todo">À faire</td>
+  </tr>
+  <tr>
+    <td><b>V2</b><br>Boutique</td>
+    <td>
+      Le premier cahier des charges prévoit une boutique (livres et accessoires, Stripe, factures, CGV, TVA 5,5 % / 20 %) ;
+      le dossier de conception la classe hors MVP. À trancher avant de l'engager. Aussi en V2 : quiz, agenda des tournois,
+      newsletter, double authentification.
+    </td>
+    <td class="todo">À décider</td>
+  </tr>
+</table>
+
+<h2>4. Déploiement prévu sur o2switch</h2>
+<div class="cols">
+  <ul>
+    <li>Hébergement mutualisé : pas de Docker sur le serveur.</li>
+    <li>API Symfony sur un sous-domaine (ex. <code>api.pokervitrine.fr</code>) pointant vers <code>backPoker/public</code>.</li>
+    <li>Front Angular compilé (<code>ng build</code>) et servi par Apache, avec une règle <code>.htaccess</code> pour les routes.</li>
+  </ul>
+  <ul>
+    <li>Base : PostgreSQL si l'offre le permet (à vérifier dans le cPanel), sinon passage à MySQL.</li>
+    <li>Emails via le SMTP o2switch ; tâches RGPD via les crons du cPanel.</li>
+    <li>Mercure (temps réel) non utilisable sur un mutualisé : pas de temps réel en production.</li>
+  </ul>
+</div>
+
+<h2>5. Prérequis côté propriétaire du projet</h2>
+<table>
+  <tr><th style="width:30%">Élément</th><th>Pourquoi</th><th style="width:13%">Urgence</th></tr>
+  <tr><td><b>Docker Desktop</b></td><td>Lancer PostgreSQL et Mailhog, exécuter et vérifier les migrations, recevoir les emails de test.</td><td class="now">Haute</td></tr>
+  <tr><td><b>Accès SSH o2switch</b></td><td>Activer SSH dans le cPanel et y ajouter une clé publique pour permettre le déploiement.</td><td class="todo">Moyenne</td></tr>
+  <tr><td><b>Visuel de l'accueil</b></td><td>Image à déposer dans <code>frontPoker/public/images/hero.webp</code>.</td><td class="todo">Moyenne</td></tr>
+  <tr><td><b>Informations légales</b></td><td>Éditeur, directeur de publication, hébergeur, contact RGPD : nécessaires pour les mentions légales et la politique de confidentialité.</td><td class="todo">Sprint 4</td></tr>
+  <tr><td><b>GitHub CLI</b> (facultatif)</td><td>Permettre de créer dépôts et pull requests sans passer par le site.</td><td class="todo">Basse</td></tr>
+</table>
+
+<h2>6. Lancer le projet en local</h2>
+<div class="cols">
+  <div>
+    <h3>API (port 8000)</h3>
+    <p><code>cd backPoker</code><br><code>php -S localhost:8000 -t public public/index.php</code></p>
+    <p>Back-office : <code>http://localhost:8000/admin</code></p>
+  </div>
+  <div>
+    <h3>Site (port 4300)</h3>
+    <p><code>cd frontPoker</code><br><code>npx ng serve --port 4300</code></p>
+    <p>Le port 4200 est occupé par le projet ESCT Boxe.</p>
+  </div>
+</div>
+<div class="box neutral">
+  <b>Comptes de démonstration</b> (base locale uniquement) : <code>demo@pokervitrine.local</code> (membre) et
+  <code>admin@pokervitrine.local</code> (administrateur), mot de passe <code>Demo-Poker-2026!</code>.
+  Tests backend : <code>php bin/phpunit</code> dans <code>backPoker</code>.
+</div>
+
+<footer>
+  PokerVitrine — récapitulatif généré le 29/10/2026. Sources de référence : « Prompt sitepoker » et « Structure site poker » (dossier de conception).
+</footer>
+
+</body>
+</html>
