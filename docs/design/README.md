@@ -6,6 +6,15 @@ Source : https://cdn.dribbble.com/userupload/49408226/file/still-23df004372b3cf7
 L'image appartient à son auteur : elle n'est pas versionnée (voir `.gitignore`) et aucun de ses visuels
 (illustration, photos) ne doit être réutilisé tel quel sur le site.
 
+## Choix validés (28/10/2026)
+
+- **Thème** : clair + rouge (fond gris très clair, noir, rouge carmin, cartes sombres en accent)
+- **Titres** : Playfair Display (Google Fonts) ; texte courant en sans-serif lisible
+- **Accueil** : grand titre sur 2 lignes + sur-titre rouge + bouton, bandeau de chiffres clés (API),
+  cartes sombres Forum / Vidéos / Actualités, carrousel d'articles à la une, section actualités
+- **Visuel central** : fourni par le propriétaire du projet → emplacement prêt à l'accueillir
+  (`frontPoker/public/images/hero.*`), placeholder neutre en attendant
+
 ## Ce qu'on en retient pour PokerVitrine
 
 - Fond gris très clair, cartes blanches, ombres douces
