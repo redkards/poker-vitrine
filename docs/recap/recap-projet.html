@@ -54,23 +54,23 @@
 </div>
 
 <div class="summary">
-  <div class="tile"><b>3 / 6</b><span>sprints du MVP engagés (0, 1, 2)</span></div>
+  <div class="tile"><b>3 / 6</b><span>sprints du MVP terminés (0, 1, 2)</span></div>
   <div class="tile"><b>19</b><span>tests backend qui passent</span></div>
-  <div class="tile"><b>6</b><span>commits sauvegardés sur GitHub</span></div>
+  <div class="tile"><b>8</b><span>commits sauvegardés sur GitHub</span></div>
   <div class="tile"><b>0</b><span>secret versionné (clés, mots de passe)</span></div>
 </div>
 
 <h2>1. Où en est le projet</h2>
 <p>
-  Les fondations, l'authentification complète (backend + frontend) et le backend du contenu public
-  (articles, vidéos, back-office) sont terminés et testés. Le site tourne en local avec un design validé.
-  Il reste à brancher les pages Angular Actualités et Vidéos sur l'API (fin du Sprint 2), puis le forum,
-  le profil RGPD, les finitions et le déploiement sur o2switch.
+  Les fondations, l'authentification complète et le contenu public (actualités, vidéos pédagogiques, back-office)
+  sont terminés côté backend et frontend. Le site tourne en local avec un design validé et des contenus réels
+  servis par l'API. Il reste le forum, le profil RGPD, les finitions et le déploiement sur o2switch.
 </p>
 <div class="box">
   <b>Point d'attention principal :</b> Docker n'est pas encore installé. La base PostgreSQL, Mailhog (emails de test)
   et les migrations n'ont donc jamais été exécutés « pour de vrai ». Les tests et l'aperçu tournent sur SQLite.
   Les 3 migrations ont été écrites à la main et doivent être vérifiées avec <code>doctrine:migrations:diff</code> une fois Docker en place.
+  Procédure d'installation : fichier <code>Procedure-Docker-PokerVitrine.txt</code> sur le Bureau.
 </div>
 
 <h2>2. Travail réalisé</h2>
@@ -104,9 +104,11 @@
       <code>/api/videos</code> (filtres), <code>/api/videos/{id}</code>, <code>/api/stats</code> ;
       back-office EasyAdmin sur <code>/admin</code> (articles, vidéos, utilisateurs) ; rôles Membre &lt; Modérateur &lt; Admin ;
       8 vidéos pédagogiques Kill Tilt et zChance44 en données de démo ; 9 tests.<br>
-      <b>Front :</b> à faire — voir ci-dessous.
+      <b>Front :</b> pages Actualités (liste paginée, filtre catégorie, détail avec titre et description SEO) et
+      Vidéos (filtres niveau / catégorie, détail) ; lecteur YouTube chargé au clic via youtube-nocookie (aucune
+      requête vers YouTube avant le clic) ; accueil branché sur l'API (carrousel, actualités, chiffres clés réels).
     </td>
-    <td class="now">Back terminé<br>Front à faire</td>
+    <td class="done">Terminé</td>
   </tr>
 </table>
 
@@ -123,13 +125,12 @@
 <table>
   <tr><th style="width:17%">Sprint</th><th>À faire</th><th style="width:11%">Priorité</th></tr>
   <tr>
-    <td><b>Sprint 2</b><br>(fin)</td>
+    <td><b>Docker</b><br>(prérequis)</td>
     <td>
-      Pages Angular liste / détail des actualités et des vidéos (filtres par niveau, lecteur YouTube chargé au clic
-      via youtube-nocookie pour éviter les cookies avant consentement) ; accueil branché sur l'API (carrousel, actualités,
-      chiffres clés) à la place des données de démonstration.
+      Installer Docker Desktop, lancer PostgreSQL et Mailhog, exécuter et vérifier les 3 migrations, recharger les
+      données de démo, tester la réception réelle des emails de vérification.
     </td>
-    <td class="now">Prochaine étape</td>
+    <td class="now">Dès que possible</td>
   </tr>
   <tr>
     <td><b>Sprint 3</b><br>Forum</td>
@@ -138,7 +139,7 @@
       modération EasyAdmin pour les modérateurs (suppression, épinglage, verrouillage) ; pages catégories, sujets,
       réponse ; compteur de messages sur l'accueil ; notifications aux abonnés d'un sujet.
     </td>
-    <td class="todo">À faire</td>
+    <td class="now">Prochaine étape</td>
   </tr>
   <tr>
     <td><b>Sprint 4</b><br>Profil &amp; RGPD</td>
