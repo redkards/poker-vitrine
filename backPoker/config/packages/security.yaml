@@ -18,7 +18,7 @@ security:
             pattern: ^/(_profiler(/|$)|(_wdt|assets|build)/)
             security: false
 
-        # POST /api/login {"email": "...", "password": "..."} -> {"token": "..."}
+        # POST /api/login {"email": "...", "password": "..."} -> {"token": "...", "refresh_token": "..."}
         login:
             pattern: ^/api/login$
             stateless: true
@@ -30,6 +30,10 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            # Anti-automatisation (OWASP) : 5 tentatives / minute
+            login_throttling:
+                max_attempts: 5
+                interval: '1 minute'
 
         api:
             pattern: ^/api
@@ -37,6 +41,10 @@ security:
             provider: app_user_provider
             user_checker: App\Security\UserChecker
             jwt: ~
+            entry_point: jwt
+            # POST /api/token/refresh {"refresh_token": "..."}
+            refresh_jwt:
+                check_path: /api/token/refresh
 
         # Back-office EasyAdmin (session + formulaire), configure au Sprint 2
         main:
@@ -47,6 +55,7 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/api/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/token/refresh$, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/verify-email, roles: PUBLIC_ACCESS }
         - { path: ^/api/stripe/webhook, roles: PUBLIC_ACCESS }

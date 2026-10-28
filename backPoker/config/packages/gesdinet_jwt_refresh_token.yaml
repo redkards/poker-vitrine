@@ -1,0 +1,7 @@
+gesdinet_jwt_refresh_token:
+    refresh_token_class: App\Entity\RefreshToken
+    # 7 jours
+    ttl: 604800
+    # Rotation : chaque refresh token n'est utilisable qu'une fois
+    single_use: true
+    token_parameter_name: refresh_token

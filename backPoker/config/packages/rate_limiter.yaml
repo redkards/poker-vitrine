@@ -1,0 +1,12 @@
+framework:
+    rate_limiter:
+        # POST /api/register : 5 requetes / minute / IP
+        register:
+            policy: sliding_window
+            limit: 5
+            interval: '1 minute'
+        # POST /api/verify-email/resend : evite le spam d'emails
+        verification_resend:
+            policy: sliding_window
+            limit: 3
+            interval: '15 minutes'
