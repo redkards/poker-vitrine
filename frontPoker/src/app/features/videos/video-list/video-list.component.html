@@ -1,0 +1,68 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Apprendre en vidéo</span>
+  <h1>Vidéos pédagogiques</h1>
+  <p>Une sélection de vidéos pour progresser, des règles du jeu aux stratégies de tournoi.</p>
+</section>
+
+<section class="pv-container">
+  <div class="toolbar">
+    <div class="chips" role="group" aria-label="Filtrer par niveau">
+      <button type="button" class="chip" [class.is-active]="level() === null" [attr.aria-pressed]="level() === null" (click)="setLevel(null)">
+        Tous niveaux
+      </button>
+      @for (l of filters()?.levels ?? []; track l.value) {
+        <button
+          type="button"
+          class="chip"
+          [class.is-active]="level() === l.value"
+          [attr.aria-pressed]="level() === l.value"
+          [attr.data-level]="l.value"
+          (click)="setLevel(l.value)"
+        >
+          {{ l.label }}
+        </button>
+      }
+    </div>
+
+    @if ((filters()?.categories ?? []).length > 1) {
+      <label class="select">
+        <span class="pv-sr-only">Catégorie</span>
+        <select class="pv-input" [value]="category() ?? ''" (change)="setCategory($any($event.target).value)">
+          <option value="">Toutes les catégories</option>
+          @for (c of filters()?.categories ?? []; track c) {
+            <option [value]="c" [selected]="c === category()">{{ c }}</option>
+          }
+        </select>
+      </label>
+    }
+  </div>
+
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (loading()) {
+    <p class="muted" role="status">Chargement des vidéos…</p>
+  } @else if (videos().length === 0) {
+    <p class="muted empty">Aucune vidéo ne correspond à ces filtres.</p>
+  } @else {
+    <div class="grid">
+      @for (video of videos(); track video.id) {
+        <a class="video-card" [routerLink]="['/videos', video.id]">
+          <span class="video-card__screen" aria-hidden="true">
+            <span class="video-card__play">▶</span>
+          </span>
+          <span class="video-card__body">
+            <span class="video-card__tags">
+              <span class="badge" [attr.data-level]="video.levelValue">{{ video.levelLabel }}</span>
+              <span class="video-card__cat">{{ video.category }}</span>
+            </span>
+            <span class="video-card__title">{{ video.title }}</span>
+            @if (video.description) {
+              <span class="video-card__desc">{{ video.description }}</span>
+            }
+          </span>
+        </a>
+      }
+    </div>
+    <app-pagination [page]="page()" [pages]="pages()" (change)="goToPage($event)" />
+  }
+</section>

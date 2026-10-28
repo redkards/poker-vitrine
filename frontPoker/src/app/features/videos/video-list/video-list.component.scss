@@ -1,0 +1,132 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  min-height: 42px;
+  padding: 0 1.2rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: 999px;
+  background: var(--pv-card);
+  color: var(--pv-ink-soft);
+  font: 600 0.9rem var(--pv-font-body);
+  cursor: pointer;
+  transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+
+  &:hover {
+    border-color: var(--pv-ink);
+  }
+
+  &.is-active {
+    border-color: var(--pv-ink);
+    background: var(--pv-ink);
+    color: #fff;
+  }
+}
+
+.select select {
+  min-width: 230px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.video-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--pv-radius);
+  background: var(--pv-dark);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--pv-shadow);
+  }
+
+  &:hover .video-card__play {
+    transform: scale(1.08);
+  }
+}
+
+.video-card__screen {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  background:
+    radial-gradient(circle at 80% 20%, rgb(179 18 27 / 0.45), transparent 45%),
+    radial-gradient(90% 120% at 30% 0%, #3d0a0e 0%, var(--pv-dark-2) 75%);
+}
+
+.video-card__play {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  padding-left: 4px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--pv-ink);
+  font-size: 1.2rem;
+  transition: transform 0.18s;
+}
+
+.video-card__body {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.video-card__tags {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.video-card__cat {
+  color: #b9bbc1;
+  font-size: 0.8rem;
+}
+
+.video-card__title {
+  font-family: var(--pv-font-title);
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.video-card__desc {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #b9bbc1;
+  font-size: 0.86rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.muted {
+  color: var(--pv-muted);
+}
+
+.empty {
+  padding: 3rem 1rem;
+  text-align: center;
+}

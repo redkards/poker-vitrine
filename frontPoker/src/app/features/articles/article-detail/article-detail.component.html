@@ -1,0 +1,38 @@
+<div class="pv-container">
+  <a routerLink="/actualites" class="back-link">← Toutes les actualités</a>
+
+  @if (article(); as a) {
+    <article class="article">
+      <header class="article__head">
+        @if (a.category) {
+          <a class="pv-eyebrow article__cat" routerLink="/actualites" [queryParams]="{ categorie: a.category }">{{ a.category }}</a>
+        }
+        <h1>{{ a.title }}</h1>
+        <p class="article__lead">{{ a.excerpt }}</p>
+        <p class="article__meta">
+          Publié le <time [attr.datetime]="a.publishedAt">{{ a.publishedAt | date: 'd MMMM y' }}</time>
+          @if (a.authorPseudo) {
+            · par <strong>{{ a.authorPseudo }}</strong>
+          }
+        </p>
+      </header>
+
+      @if (a.imageUrl) {
+        <img class="article__img" [src]="a.imageUrl" alt="" />
+      }
+
+      <!-- HTML du back-office, assaini par Angular -->
+      <div class="article__content" [innerHTML]="a.content"></div>
+    </article>
+  } @else if (notFound()) {
+    <section class="state">
+      <h1>Article introuvable</h1>
+      <p>Cet article n'existe pas ou n'est plus en ligne.</p>
+      <a routerLink="/actualites" class="pv-btn pv-btn--primary">Voir les actualités <span class="pv-arrow" aria-hidden="true">→</span></a>
+    </section>
+  } @else if (error()) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ error() }}</div>
+  } @else {
+    <p class="state__loading" role="status">Chargement de l'article…</p>
+  }
+</div>

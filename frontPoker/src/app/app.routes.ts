@@ -30,11 +30,27 @@ export const routes: Routes = [
     loadComponent: () => import('./features/profile/profile.component').then((m) => m.ProfileComponent),
     title: 'Mon espace — PokerVitrine',
   },
+  {
+    path: 'actualites',
+    loadComponent: () => import('./features/articles/article-list/article-list.component').then((m) => m.ArticleListComponent),
+    title: 'Actualités — PokerVitrine',
+  },
+  {
+    path: 'actualites/:slug',
+    loadComponent: () => import('./features/articles/article-detail/article-detail.component').then((m) => m.ArticleDetailComponent),
+  },
+  {
+    path: 'videos',
+    loadComponent: () => import('./features/videos/video-list/video-list.component').then((m) => m.VideoListComponent),
+    title: 'Vidéos pédagogiques — PokerVitrine',
+  },
+  {
+    path: 'videos/:id',
+    loadComponent: () => import('./features/videos/video-detail/video-detail.component').then((m) => m.VideoDetailComponent),
+  },
   // Contenus livrés aux sprints suivants
   ...(
     [
-      ['actualites', 'Actualités', 'Sprint 2'],
-      ['videos', 'Vidéos', 'Sprint 2'],
       ['forum', 'Forum', 'Sprint 3'],
       ['cgu', "Conditions générales d'utilisation", 'Sprint 4'],
       ['confidentialite', 'Politique de confidentialité', 'Sprint 4'],

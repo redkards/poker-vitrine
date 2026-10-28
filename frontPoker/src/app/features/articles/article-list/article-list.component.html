@@ -1,0 +1,49 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Le fil du poker</span>
+  <h1>Actualités</h1>
+  <p>Stratégie, tournois, mental : nos articles pour progresser et suivre l'actualité du poker.</p>
+  @if (category(); as cat) {
+    <p class="filter">
+      Catégorie : <strong>{{ cat }}</strong>
+      <a routerLink="/actualites" class="filter__clear">Voir toutes les actualités</a>
+    </p>
+  }
+</section>
+
+<section class="pv-container">
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (loading()) {
+    <div class="grid" aria-busy="true" aria-label="Chargement des actualités">
+      @for (i of [1, 2, 3]; track i) {
+        <div class="card card--skeleton"></div>
+      }
+    </div>
+  } @else if (articles().length === 0) {
+    <p class="empty">Aucune actualité publiée pour le moment.</p>
+  } @else {
+    <div class="grid">
+      @for (article of articles(); track article.id) {
+        <article class="card">
+          @if (article.imageUrl) {
+            <img class="card__img" [src]="article.imageUrl" alt="" loading="lazy" />
+          } @else {
+            <div class="card__img card__img--placeholder" aria-hidden="true">♠</div>
+          }
+          <div class="card__body">
+            <div class="card__meta">
+              @if (article.category) {
+                <a class="card__cat" [routerLink]="[]" [queryParams]="{ categorie: article.category }">{{ article.category }}</a>
+              }
+              <time [attr.datetime]="article.publishedAt">{{ article.publishedAt | date: 'd MMMM y' }}</time>
+            </div>
+            <h2><a [routerLink]="['/actualites', article.slug]">{{ article.title }}</a></h2>
+            <p>{{ article.excerpt }}</p>
+            <span class="card__more" aria-hidden="true">Lire l'article →</span>
+          </div>
+        </article>
+      }
+    </div>
+    <app-pagination [page]="page()" [pages]="pages()" (change)="goToPage($event)" />
+  }
+</section>

@@ -302,3 +302,61 @@ img {
     font-weight: 600;
   }
 }
+
+/* En-tête des pages de rubrique (partagé) ------------------------------ */
+.page-head {
+  display: grid;
+  gap: 0.6rem;
+  margin-block: 1rem 2rem;
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 900;
+  }
+
+  > p {
+    max-width: 60ch;
+    margin: 0;
+    color: var(--pv-muted);
+  }
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--pv-ink-soft);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--pv-red);
+  }
+}
+
+/* Badge de niveau des vidéos (partagé) --------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  background: #3a3b3f;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  &[data-level='debutant'] {
+    background: #1c7c4a;
+  }
+
+  &[data-level='intermediaire'] {
+    background: #b26a00;
+  }
+
+  &[data-level='avance'] {
+    background: var(--pv-red);
+  }
+}
