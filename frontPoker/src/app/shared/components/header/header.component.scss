@@ -1,0 +1,143 @@
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-block: 1.4rem;
+}
+
+.header__menu {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.header__nav {
+  display: flex;
+  gap: 0.25rem;
+
+  a {
+    padding: 0.6rem 1.1rem;
+    border-radius: 999px;
+    color: var(--pv-ink-soft);
+    font-size: 0.93rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.18s, color 0.18s;
+
+    &:hover {
+      color: var(--pv-ink);
+    }
+
+    &.is-active {
+      background: var(--pv-card);
+      color: var(--pv-ink);
+      font-weight: 600;
+      box-shadow: var(--pv-shadow-sm);
+    }
+  }
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.header__user {
+  padding-left: 0.4rem;
+}
+
+.header__avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--pv-red);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.header__burger {
+  display: none;
+  margin-left: auto;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--pv-card);
+  cursor: pointer;
+}
+
+.header__burger-bar,
+.header__burger-bar::before,
+.header__burger-bar::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin-inline: auto;
+  border-radius: 2px;
+  background: var(--pv-ink);
+}
+
+.header__burger-bar {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  &::before {
+    top: -6px;
+  }
+
+  &::after {
+    top: 6px;
+  }
+}
+
+@media (max-width: 960px) {
+  .header__burger {
+    display: block;
+  }
+
+  .header__menu {
+    display: none;
+    position: absolute;
+    z-index: 50;
+    top: calc(100% - 0.4rem);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    border-radius: var(--pv-radius);
+    background: var(--pv-card);
+    box-shadow: var(--pv-shadow);
+
+    &--open {
+      display: flex;
+    }
+  }
+
+  .header__nav {
+    flex-direction: column;
+
+    a.is-active {
+      background: var(--pv-surface);
+      box-shadow: none;
+    }
+  }
+
+  .header__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

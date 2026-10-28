@@ -1,0 +1,144 @@
+<section class="pv-container hero" aria-labelledby="hero-title">
+  <!-- Colonne gauche : accroche -->
+  <div class="hero__intro">
+    <span class="pv-eyebrow">La communauté poker francophone</span>
+    <h1 id="hero-title" class="hero__title">
+      <span>Poker</span>
+      <span class="hero__title-red">Vitrine</span>
+    </h1>
+    <p class="hero__lead">
+      <strong>Chaque main raconte une histoire.</strong>
+      Actualités, forum d'entraide et vidéos pédagogiques pour progresser, du premier tapis aux tables finales.
+    </p>
+
+    @if (auth.isLoggedIn()) {
+      <a routerLink="/forum" class="pv-btn pv-btn--primary pv-btn--lg">
+        Aller au forum <span class="pv-arrow" aria-hidden="true">→</span>
+      </a>
+    } @else {
+      <a routerLink="/inscription" class="pv-btn pv-btn--primary pv-btn--lg">
+        Rejoindre la communauté <span class="pv-arrow" aria-hidden="true">→</span>
+      </a>
+    }
+
+    <dl class="hero__stats">
+      @for (stat of stats; track stat.label) {
+        <div>
+          <dt>{{ stat.label }}</dt>
+          <dd>{{ stat.value }}</dd>
+        </div>
+      }
+    </dl>
+  </div>
+
+  <!-- Centre : visuel + article à la une (carrousel) -->
+  <div
+    class="hero__visual"
+    role="region"
+    aria-roledescription="carrousel"
+    aria-label="Articles à la une"
+    (mouseenter)="setPaused(true)"
+    (mouseleave)="setPaused(false)"
+    (focusin)="setPaused(true)"
+    (focusout)="setPaused(false)"
+  >
+    @if (!heroImageFailed()) {
+      <img
+        class="hero__image"
+        src="images/hero.webp"
+        alt=""
+        (error)="heroImageFailed.set(true)"
+        fetchpriority="high"
+      />
+    } @else {
+      <!-- Emplacement du visuel : déposer public/images/hero.webp -->
+      <div class="hero__placeholder" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2.2c-.4 0-.8.2-1.1.5C8.6 5.1 3 9.4 3 13.6 3 16.4 5.2 18.4 7.7 18.4c1.2 0 2.3-.4 3.1-1.1-.3 1.6-1 2.9-2.3 4.1-.3.3-.1.8.3.8h6.4c.4 0 .6-.5.3-.8-1.3-1.2-2-2.5-2.3-4.1.8.7 1.9 1.1 3.1 1.1 2.5 0 4.7-2 4.7-4.8 0-4.2-5.6-8.5-7.9-10.9-.3-.3-.7-.5-1.1-.5Z"
+          />
+        </svg>
+      </div>
+    }
+
+    <a class="hero__featured" [routerLink]="slide().link" aria-live="polite">
+      <span class="hero__featured-cat">{{ slide().category }}</span>
+      <span class="hero__featured-title">{{ slide().title }}</span>
+    </a>
+  </div>
+
+  <!-- Colonne droite : index, cartes sombres, contrôles -->
+  <aside class="hero__side">
+    <ol class="hero__index" aria-label="Choisir un article à la une">
+      @for (s of slides; track s.title; let i = $index) {
+        <li>
+          <button
+            type="button"
+            [class.is-active]="i === current()"
+            [attr.aria-current]="i === current() ? 'true' : null"
+            [attr.aria-label]="'Article ' + (i + 1) + ' : ' + s.title"
+            (click)="goTo(i)"
+          >
+            {{ pad(i) }}
+          </button>
+        </li>
+      }
+    </ol>
+
+    <div class="hero__cards">
+      <a routerLink="/forum" class="dark-card dark-card--forum">
+        <span class="dark-card__art" aria-hidden="true">♠ ♥</span>
+        <span class="dark-card__body">
+          <span class="dark-card__title">Forum d'entraide</span>
+          <span class="dark-card__text">Posez vos questions, analysez vos mains.</span>
+        </span>
+        <span class="dark-card__go" aria-hidden="true">→</span>
+      </a>
+      <a routerLink="/videos" class="dark-card dark-card--videos">
+        <span class="dark-card__art" aria-hidden="true">▶</span>
+        <span class="dark-card__body">
+          <span class="dark-card__title">Vidéos pédagogiques</span>
+          <span class="dark-card__text">Du débutant à l'avancé.</span>
+        </span>
+        <span class="dark-card__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="hero__controls">
+      <button type="button" class="round-btn" (click)="prev()" aria-label="Article précédent">←</button>
+      <span class="hero__dots" aria-hidden="true">
+        @for (s of slides; track s.title; let i = $index) {
+          <span [class.is-active]="i === current()"></span>
+        }
+      </span>
+      <button type="button" class="round-btn" (click)="next()" aria-label="Article suivant">→</button>
+    </div>
+  </aside>
+</section>
+
+<!-- Dernières actualités -->
+<section class="pv-container news" aria-labelledby="news-title">
+  <div class="news__head">
+    <div>
+      <span class="pv-eyebrow">À la une</span>
+      <h2 id="news-title">Dernières actualités</h2>
+    </div>
+    <a routerLink="/actualites" class="pv-btn pv-btn--outline">
+      Toutes les actualités <span class="pv-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div class="news__grid">
+    @for (item of news; track item.title) {
+      <article class="news-card">
+        <div class="news-card__top">
+          <span class="news-card__cat">{{ item.category }}</span>
+          <time [attr.datetime]="item.date">{{ item.date | date: 'd MMMM y' }}</time>
+        </div>
+        <h3><a [routerLink]="item.link">{{ item.title }}</a></h3>
+        <p>{{ item.excerpt }}</p>
+        <span class="news-card__more" aria-hidden="true">Lire l'article →</span>
+      </article>
+    }
+  </div>
+</section>

@@ -1,0 +1,117 @@
+@if (registeredEmail(); as email) {
+  <app-auth-shell eyebrow="Presque fini" heading="Vérifiez votre boîte mail">
+    <div class="pv-alert pv-alert--success" role="status">
+      Un lien d'activation vient d'être envoyé à <strong>{{ email }}</strong>. Il est valable 24 heures.
+    </div>
+    <p class="pv-hint">
+      Pensez à regarder dans vos courriers indésirables. Votre compte sera actif dès que vous aurez cliqué sur le lien.
+    </p>
+    @if (resendMessage(); as message) {
+      <div class="pv-alert pv-alert--info" role="status">{{ message }}</div>
+    }
+    <div class="done-actions">
+      <button type="button" class="pv-btn pv-btn--outline" (click)="resend()">Renvoyer le lien</button>
+      <a routerLink="/connexion" class="pv-btn pv-btn--primary">
+        Aller à la connexion <span class="pv-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </app-auth-shell>
+} @else {
+  <app-auth-shell
+    eyebrow="Rejoindre la communauté"
+    heading="Créer un compte"
+    quote="Apprenez, partagez vos mains, progressez avec des milliers de joueurs."
+  >
+    @if (error(); as message) {
+      <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="pv-field">
+        <label for="pseudo">Pseudo</label>
+        <input
+          id="pseudo"
+          class="pv-input"
+          formControlName="pseudo"
+          autocomplete="username"
+          [attr.aria-invalid]="!!fieldError('pseudo')"
+          aria-describedby="pseudo-hint"
+        />
+        @if (fieldError('pseudo'); as e) {
+          <p class="pv-error">{{ e }}</p>
+        } @else {
+          <p class="pv-hint" id="pseudo-hint">Visible publiquement sur le forum.</p>
+        }
+      </div>
+
+      <div class="pv-field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          class="pv-input"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          [attr.aria-invalid]="!!fieldError('email')"
+        />
+        @if (fieldError('email'); as e) {
+          <p class="pv-error">{{ e }}</p>
+        }
+      </div>
+
+      <div class="pv-field">
+        <label for="password">Mot de passe</label>
+        <div class="password">
+          <input
+            id="password"
+            class="pv-input"
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="new-password"
+            [attr.aria-invalid]="!!fieldError('password')"
+            aria-describedby="password-strength"
+          />
+          <button type="button" class="password__toggle" (click)="showPassword.set(!showPassword())">
+            {{ showPassword() ? 'Masquer' : 'Afficher' }}
+          </button>
+        </div>
+        <div class="strength" [attr.data-score]="strength()" id="password-strength" aria-live="polite">
+          <span class="strength__bar"><span></span></span>
+          <span class="strength__label">Robustesse : {{ strengthLabel() }}</span>
+        </div>
+        @if (fieldError('password'); as e) {
+          <p class="pv-error">{{ e }}</p>
+        } @else {
+          <p class="pv-hint">Au moins 8 caractères, en mêlant majuscules, minuscules, chiffres et symboles.</p>
+        }
+      </div>
+
+      <div class="consent">
+        <input id="acceptCgu" type="checkbox" formControlName="acceptCgu" [attr.aria-invalid]="!!fieldError('acceptCgu')" />
+        <label for="acceptCgu">
+          J'accepte les
+          <a routerLink="/cgu" target="_blank" rel="noopener">Conditions Générales d'Utilisation</a>
+          et la
+          <a routerLink="/confidentialite" target="_blank" rel="noopener">Politique de Confidentialité</a>.
+        </label>
+      </div>
+      @if (fieldError('acceptCgu'); as e) {
+        <p class="pv-error consent__error">{{ e }}</p>
+      }
+
+      <p class="pv-hint gdpr">
+        Nous ne collectons que votre pseudo, votre email et votre mot de passe (chiffré). Vous pouvez exporter ou
+        supprimer vos données à tout moment depuis votre espace.
+      </p>
+
+      <button type="submit" class="pv-btn pv-btn--primary pv-btn--lg pv-btn--block" [disabled]="loading()">
+        {{ loading() ? 'Création du compte…' : 'Créer mon compte' }}
+        @if (!loading()) {
+          <span class="pv-arrow" aria-hidden="true">→</span>
+        }
+      </button>
+    </form>
+
+    <p class="switch">Déjà membre ? <a routerLink="/connexion">Se connecter</a></p>
+  </app-auth-shell>
+}

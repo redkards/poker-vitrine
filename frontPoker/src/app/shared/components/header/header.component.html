@@ -1,0 +1,43 @@
+<header class="header pv-container">
+  <app-logo />
+
+  <button
+    type="button"
+    class="header__burger"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="menu-principal"
+    (click)="toggleMenu()"
+  >
+    <span class="pv-sr-only">{{ menuOpen() ? 'Fermer le menu' : 'Ouvrir le menu' }}</span>
+    <span class="header__burger-bar"></span>
+  </button>
+
+  <div id="menu-principal" class="header__menu" [class.header__menu--open]="menuOpen()">
+    <nav class="header__nav" aria-label="Navigation principale">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          ariaCurrentWhenActive="page"
+          >{{ link.label }}</a
+        >
+      }
+    </nav>
+
+    <div class="header__actions">
+      @if (auth.user(); as user) {
+        <a routerLink="/mon-espace" class="pv-btn pv-btn--ghost header__user">
+          <span class="header__avatar" aria-hidden="true">{{ user.pseudo.charAt(0).toUpperCase() }}</span>
+          {{ user.pseudo }}
+        </a>
+        <button type="button" class="pv-btn pv-btn--outline" (click)="auth.logout()">Déconnexion</button>
+      } @else {
+        <a routerLink="/connexion" class="pv-btn pv-btn--outline">Connexion</a>
+        <a routerLink="/inscription" class="pv-btn pv-btn--primary">
+          Inscription <span class="pv-arrow" aria-hidden="true">→</span>
+        </a>
+      }
+    </div>
+  </div>
+</header>
