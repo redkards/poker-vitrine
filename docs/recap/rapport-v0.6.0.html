@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Poker Winners — Rapport d'avancement v0.6.0</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+body { font: 10pt/1.5 "Segoe UI", Arial, sans-serif; color: #141414; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.label { display: flex; justify-content: space-between; align-items: center; border: 2px solid #b3121b; border-radius: 8px; padding: 10pt 14pt; margin-bottom: 14pt; }
+.label h1 { font: 700 20pt Georgia, serif; color: #b3121b; margin: 0; }
+.label .meta { text-align: right; font-size: 9pt; }
+.tag { display: inline-block; background: #b3121b; color: #fff; border-radius: 4px; padding: 1pt 7pt; font-weight: 700; font-size: 9pt; }
+.tag.grey { background: #5c6370; }
+h2 { font: 700 13pt Georgia, serif; border-bottom: 1px solid #dcdfe4; padding-bottom: 3pt; margin: 14pt 0 6pt; break-after: avoid; }
+table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 9.3pt; break-inside: avoid; }
+th, td { text-align: left; padding: 4pt 6pt; border-bottom: 1px solid #e4e6ea; vertical-align: top; }
+th { background: #f4f5f7; }
+ul { margin: 0 0 6pt; padding-left: 16pt; } li { margin-bottom: 2pt; }
+.box { background: #fdf1f1; border-left: 4px solid #b3121b; padding: 6pt 10pt; margin: 8pt 0; break-inside: avoid; }
+.ok { color: #1d7a3a; font-weight: 700; } .todo { color: #b3121b; font-weight: 700; }
+code { font: 9pt Consolas, monospace; background: #f4f5f7; padding: 0 3pt; border-radius: 3px; }
+footer { margin-top: 14pt; font-size: 8.5pt; color: #5c6370; border-top: 1px solid #dcdfe4; padding-top: 5pt; }
+</style></head><body>
+
+<div class="label">
+  <div><h1>♠ Poker Winners</h1><div>Rapport d'avancement &amp; de déploiement</div></div>
+  <div class="meta"><span class="tag">v0.6.0 — BÊTA PRIVÉE</span><br>30/10/2026<br>Document interne — confidentiel</div>
+</div>
+
+<div class="box"><b>En une phrase :</b> la bêta privée est en ligne sur <b>https://beta.redkards-dev.fr</b> (protégée par mot de passe, non indexée), l'API tourne en production sur o2switch, le compte administrateur est actif. Aucune mise en ligne publique sans confirmation du propriétaire.</div>
+
+<h2>1. Noms et adresses du projet</h2>
+<table>
+<tr><th>Élément</th><th>Valeur</th></tr>
+<tr><td>Nom du site</td><td>Poker Winners (ancien nom technique conservé : pokervitrine — pas de renommage, décision du propriétaire)</td></tr>
+<tr><td>Bêta privée</td><td>https://beta.redkards-dev.fr — identifiant <code>beta</code></td></tr>
+<tr><td>API / administration</td><td>https://api.redkards-dev.fr — admin : https://api.redkards-dev.fr/admin</td></tr>
+<tr><td>Version publique (v1.0, plus tard)</td><td>https://redkards-dev.fr</td></tr>
+<tr><td>Hébergement</td><td>o2switch, serveur foudre.o2switch.net, compte cPanel bopu6118, dossier <code>~/poker-winners</code></td></tr>
+<tr><td>Base de données</td><td>MariaDB 11.4, base <code>bopu6118_poker</code></td></tr>
+<tr><td>Emails</td><td>no-reply@redkards-dev.fr (envoi), contact@redkards-dev.fr — SPF, DKIM, DMARC en place</td></tr>
+<tr><td>Code source</td><td>github.com/redkards/poker-vitrine — tag <code>v0.6.0</code> ; dossier PC : Bureau\site poker test</td></tr>
+<tr><td>Suivi Notion</td><td>Page privée « Poker Winners — Projet »</td></tr>
+</table>
+
+<h2>2. Ce qui a été réalisé</h2>
+<table>
+<tr><th>Domaine</th><th>Détail</th><th>État</th></tr>
+<tr><td>Technique</td><td>Symfony 7.4 (PHP 8.3 en prod), Angular 19 → 20 → 21 → 22, Node 22, TypeScript 6</td><td class="ok">Fait</td></tr>
+<tr><td>Contenus</td><td>12 actualités réelles sourcées (4 portées), 15 vidéos CC BY, 45 leçons (3 niveaux, quiz 5 questions), 20 tournois France/Belgique/International, forum 6 catégories</td><td class="ok">En ligne</td></tr>
+<tr><td>v1.1 Communauté</td><td>Recherche (actus + forum), profil public des membres, signalement des messages + file de modération admin</td><td class="ok">Fait</td></tr>
+<tr><td>SEO</td><td>Titre, description et Open Graph par page ; noindex conservé pendant la bêta</td><td class="ok">Fait</td></tr>
+<tr><td>Qualité</td><td>46 tests back (PHPUnit) + 9 tests front (Jasmine) verts ; build de production OK</td><td class="ok">Vert</td></tr>
+<tr><td>Sécurité</td><td>0 vulnérabilité npm et Composer ; CSP, HSTS, X-Frame-Options ; CORS limité à la bêta ; <code>.env</code> bloqué (403) ; doc API désactivée en prod ; secrets générés sur le serveur</td><td class="ok">Vérifié</td></tr>
+<tr><td>RGPD</td><td>Consentements, export des données, suppression confirmée par email + anonymisation</td><td class="ok">Fait</td></tr>
+<tr><td>Boutique (v2)</td><td>Catalogue, panier, commandes, TVA 5,5 %/20 %, admin, paiement Stripe préparé non branché — branche <code>feature/boutique-v2</code>, désactivée par défaut, testable en local sur le port 4301</td><td class="ok">Prête, en attente v2</td></tr>
+<tr><td>Documents</td><td>Recap projet, guide o2switch, scripts vidéo, plan de pub et plan de formation en PDF</td><td class="ok">Fait</td></tr>
+</table>
+
+<h2>3. Déploiement de la bêta — déroulé</h2>
+<ul>
+<li>SSH depuis le PC bloqué par le pare-feu o2switch (IP non retenue en liste blanche) → déploiement réalisé via le <b>Terminal cPanel</b>.</li>
+<li>PHP 8.3 et Composer installés dans le compte ; projet cloné ; script <code>server-setup.sh</code> : base, email, sous-domaines, secrets, clés JWT.</li>
+<li>MultiPHP : <code>api.</code> et <code>beta.</code> en PHP 8.3 ; HTTPS actif.</li>
+<li>Contenus chargés par <code>app:content:seed</code> (aucun compte de démo en production).</li>
+<li>Front envoyé en zip ; protection par mot de passe corrigée (droits du fichier, <code>openssl</code> à la place de <code>htpasswd</code>).</li>
+<li>Envoi d'emails validé (le seul rejet venait d'une adresse mal saisie, compte supprimé) ; compte redkardss@gmail.com confirmé et administrateur.</li>
+</ul>
+
+<h2>4. Points de vigilance</h2>
+<div class="box">
+<b>Mot de passe de la bêta :</b> l'ancien a été affiché dans la conversation → il a été remplacé. Ne jamais coller de mot de passe dans le chat.<br>
+<b>Emails :</b> les premiers envois d'une adresse neuve peuvent arriver en spam ; en secours, confirmation manuelle par commande.<br>
+<b>Mises à jour serveur :</b> <code>bash ~/poker-winners/deploy/deploy.sh</code> (back) ; le front se republie par zip tant que le SSH depuis le PC reste bloqué.
+</div>
+
+<h2>5. Reste à faire</h2>
+<table>
+<tr><th>Avant la version publique v1.0</th><th>Qui</th></tr>
+<tr><td>Tester la bêta complète (inscription, forum, RGPD, admin) et remonter les anomalies</td><td>Propriétaire</td></tr>
+<tr><td>Remplir les 13 champs [À COMPLÉTER] des mentions légales / confidentialité</td><td>Propriétaire</td></tr>
+<tr><td>Crons serveur : nettoyage RGPD quotidien et sauvegarde de la base</td><td>Claude (via Terminal)</td></tr>
+<tr><td>Optionnel : faire autoriser le SSH (port 22) pour automatiser les mises à jour du front</td><td>Propriétaire / o2switch</td></tr>
+<tr><td><b>Confirmation explicite</b> avant de publier sur redkards-dev.fr</td><td class="todo">Propriétaire</td></tr>
+</table>
+<table>
+<tr><th>Versions suivantes</th></tr>
+<tr><td><b>v1.1</b> notifications · <b>v1.2</b> progression des leçons sur le compte, vidéos maison · <b>v2.0</b> boutique (CGV, médiateur conso, frais de port, Stripe), quiz/classements, newsletter, double authentification</td></tr>
+</table>
+
+<footer>Poker Winners — rapport v0.6.0 du 30/10/2026 · généré à partir du dépôt (commit 9c866bb, tag v0.6.0) · aucun mot de passe ni secret dans ce document.</footer>
+</body></html>
