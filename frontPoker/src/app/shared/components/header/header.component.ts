@@ -1,6 +1,8 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CartService } from '../../../features/shop/cart.service';
+import { shopEnabled } from '../../../features/shop/shop.guard';
 import { filter } from 'rxjs';
 import { AuthService } from '../../../core/auth/auth.service';
 import { LogoComponent } from '../logo/logo.component';
@@ -23,7 +25,11 @@ export class HeaderComponent {
     { path: '/videos', label: 'Vidéos', exact: false },
     { path: '/lecons', label: 'Apprendre', exact: false },
     { path: '/calendrier', label: 'Calendrier', exact: false },
+    // Boutique v2.0 : lien masqué tant que le drapeau est désactivé
+    ...(shopEnabled() ? [{ path: '/boutique', label: 'Boutique', exact: false }] : []),
   ];
+  protected readonly shopEnabled = shopEnabled();
+  protected readonly cart = inject(CartService);
 
   constructor() {
     inject(Router)

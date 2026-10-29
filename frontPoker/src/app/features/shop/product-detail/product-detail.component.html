@@ -1,0 +1,60 @@
+<div class="pv-container">
+  <a routerLink="/boutique" class="back">← Retour à la boutique</a>
+
+  @if (notFound()) {
+    <p class="muted empty">Ce produit n'existe pas ou n'est plus en vente.</p>
+  } @else if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (product(); as p) {
+    <article class="product">
+      <div class="visual" [attr.data-category]="p.category">
+        @if (p.imageUrl) {
+          <img [src]="p.imageUrl" [alt]="p.name" />
+        } @else {
+          <span class="visual__glyph" aria-hidden="true">{{ p.category === 'livre' ? 'A♠' : '♦' }}</span>
+        }
+      </div>
+
+      <div class="product__info">
+        <span class="pv-eyebrow">{{ p.categoryLabel }}</span>
+        <h1>{{ p.name }}</h1>
+        <p class="product__price">
+          <span class="price">{{ p.priceCents | price }}</span>
+          <span class="muted">TTC · TVA {{ p.vatRate === '5.5' ? '5,5' : '20' }} % incluse</span>
+        </p>
+
+        @if (p.available > 0) {
+          <p class="stock">En stock</p>
+          <div class="product__buy">
+            <div class="qty" role="group" aria-label="Quantité">
+              <button type="button" (click)="changeQuantity(-1)" [disabled]="quantity() <= 1" aria-label="Retirer un exemplaire">−</button>
+              <output aria-live="polite">{{ quantity() }}</output>
+              <button type="button" (click)="changeQuantity(1)" [disabled]="quantity() >= p.available" aria-label="Ajouter un exemplaire">+</button>
+            </div>
+            <button type="button" class="pv-btn pv-btn--primary" (click)="addToCart(p)">Ajouter au panier</button>
+          </div>
+          @if (added()) {
+            <div class="pv-alert pv-alert--success" role="status">
+              Ajouté au panier. <a routerLink="/boutique/panier">Voir mon panier ({{ cart.count() }})</a>
+            </div>
+          }
+        } @else {
+          <p class="stock stock--out">Rupture de stock</p>
+        }
+
+        @if (p.description) {
+          <div class="product__desc">
+            <h2>Description</h2>
+            <p>{{ p.description }}</p>
+          </div>
+        }
+        <p class="muted product__legal">
+          Livraison en France, Belgique, Luxembourg et Monaco. Droit de rétractation de 14 jours :
+          voir les <a routerLink="/cgv">conditions générales de vente</a>.
+        </p>
+      </div>
+    </article>
+  } @else {
+    <p class="muted" role="status">Chargement…</p>
+  }
+</div>

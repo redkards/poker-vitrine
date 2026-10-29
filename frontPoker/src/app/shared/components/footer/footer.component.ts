@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { shopEnabled } from '../../../features/shop/shop.guard';
 import { LogoComponent } from '../logo/logo.component';
 
 @Component({
@@ -16,6 +17,9 @@ import { LogoComponent } from '../logo/logo.component';
           <a routerLink="/mentions-legales">Mentions légales</a>
           <a routerLink="/confidentialite">Politique de confidentialité</a>
           <a routerLink="/cgu">CGU</a>
+          @if (shopEnabled) {
+            <a routerLink="/cgv">CGV</a>
+          }
         </nav>
       </div>
       <p class="pv-container footer__legal">
@@ -68,4 +72,5 @@ import { LogoComponent } from '../logo/logo.component';
 })
 export class FooterComponent {
   protected readonly year = new Date().getFullYear();
+  protected readonly shopEnabled = shopEnabled();
 }

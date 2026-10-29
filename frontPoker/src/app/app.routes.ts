@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './core/auth/auth.guard';
+import { shopGuard } from './features/shop/shop.guard';
 
 export const routes: Routes = [
   {
@@ -100,6 +101,41 @@ export const routes: Routes = [
     path: 'mentions-legales',
     loadComponent: () => import('./features/legal/mentions-legales/mentions-legales.component').then((m) => m.MentionsLegalesComponent),
     title: 'Mentions légales — Poker Winners',
+  },
+  // Boutique v2.0 : routes inactives tant que environment.shopEnabled vaut false
+  {
+    path: 'boutique',
+    canMatch: [shopGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/shop/product-list/product-list.component').then((m) => m.ProductListComponent),
+        title: 'Boutique — Poker Winners',
+      },
+      {
+        path: 'panier',
+        loadComponent: () => import('./features/shop/cart/cart.component').then((m) => m.CartComponent),
+        title: 'Mon panier — Boutique — Poker Winners',
+      },
+      {
+        path: ':slug',
+        loadComponent: () => import('./features/shop/product-detail/product-detail.component').then((m) => m.ProductDetailComponent),
+        title: 'Boutique — Poker Winners',
+      },
+    ],
+  },
+  {
+    path: 'mon-espace/commandes',
+    canMatch: [shopGuard],
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/shop/my-orders/my-orders.component').then((m) => m.MyOrdersComponent),
+    title: 'Mes commandes — Poker Winners',
+  },
+  {
+    path: 'cgv',
+    canMatch: [shopGuard],
+    loadComponent: () => import('./features/legal/cgv/cgv.component').then((m) => m.CgvComponent),
+    title: 'Conditions générales de vente — Poker Winners',
   },
   { path: '**', redirectTo: '' },
 ];
