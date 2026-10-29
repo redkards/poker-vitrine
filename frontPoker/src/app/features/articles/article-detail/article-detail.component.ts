@@ -39,13 +39,13 @@ export class ArticleDetailComponent {
     this.content.getArticle(slug).subscribe({
       next: (article) => {
         this.article.set(article);
-        this.title.setTitle(`${article.title} — PokerVitrine`);
+        this.title.setTitle(`${article.title} — Poker Winners`);
         this.meta.updateTag({ name: 'description', content: article.excerpt });
       },
       error: (err: unknown) => {
         if (err instanceof HttpErrorResponse && err.status === 404) {
           this.notFound.set(true);
-          this.title.setTitle('Article introuvable — PokerVitrine');
+          this.title.setTitle('Article introuvable — Poker Winners');
           return;
         }
         this.error.set(apiErrorMessage(err, "Impossible de charger l'article."));

@@ -2,7 +2,7 @@ import type { Lesson, CardCode } from '../lessons.data';
 
 /**
  * Leçons du niveau Débutant (orders 3 à 15), en complément des leçons fondatrices de lessons.data.ts.
- * Contenu 100 % original PokerVitrine.
+ * Contenu 100 % original Poker Winners.
  */
 
 const VOCAB_BOARD: CardCode[] = ['Ac', '8s', '4d', 'Jh', '2c'];

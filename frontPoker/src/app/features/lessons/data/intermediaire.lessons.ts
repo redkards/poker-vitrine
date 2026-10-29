@@ -2,7 +2,7 @@ import type { Lesson, CardCode } from '../lessons.data';
 
 /*
  * Niveau Intermédiaire — leçons 3 à 15.
- * Contenu original PokerVitrine : connaissances générales du Texas Hold'em No-Limit,
+ * Contenu original Poker Winners : connaissances générales du Texas Hold'em No-Limit,
  * exemples de mains et formulations propres. Les repères chiffrés sont des ordres de grandeur.
  */
 

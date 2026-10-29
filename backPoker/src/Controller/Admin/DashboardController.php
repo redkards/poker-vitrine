@@ -41,7 +41,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('♠ PokerVitrine')
+            ->setTitle('♠ Poker Winners')
             ->setLocales(['fr'])
             ->setFaviconPath('favicon.ico');
     }

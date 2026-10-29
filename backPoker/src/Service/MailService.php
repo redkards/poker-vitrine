@@ -31,9 +31,9 @@ class MailService
         $link = sprintf('%s/verify-email?token=%s', rtrim($this->frontendUrl, '/'), urlencode($plainToken));
 
         $email = (new TemplatedEmail())
-            ->from(new Address($this->from, 'PokerVitrine'))
+            ->from(new Address($this->from, 'Poker Winners'))
             ->to(new Address((string) $user->getEmail(), (string) $user->getPseudo()))
-            ->subject('Confirmez votre adresse email — PokerVitrine')
+            ->subject('Confirmez votre adresse email — Poker Winners')
             ->htmlTemplate('emails/verification.html.twig')
             ->textTemplate('emails/verification.txt.twig')
             ->context([
@@ -55,7 +55,7 @@ class MailService
         $link = sprintf('%s/forum/sujet/%d', rtrim($this->frontendUrl, '/'), $topic->getId());
 
         $email = (new TemplatedEmail())
-            ->from(new Address($this->from, 'PokerVitrine'))
+            ->from(new Address($this->from, 'Poker Winners'))
             ->to(new Address((string) $subscriber->getEmail(), (string) $subscriber->getPseudo()))
             ->subject(sprintf('Nouvelle réponse : %s', $topic->getTitle()))
             ->htmlTemplate('emails/forum_reply.html.twig')
@@ -81,9 +81,9 @@ class MailService
         $link = sprintf('%s/suppression-compte?token=%s', rtrim($this->frontendUrl, '/'), urlencode($plainToken));
 
         $email = (new TemplatedEmail())
-            ->from(new Address($this->from, 'PokerVitrine'))
+            ->from(new Address($this->from, 'Poker Winners'))
             ->to(new Address((string) $user->getEmail(), (string) $user->getPseudo()))
-            ->subject('Confirmez la suppression de votre compte — PokerVitrine')
+            ->subject('Confirmez la suppression de votre compte — Poker Winners')
             ->htmlTemplate('emails/account_deletion.html.twig')
             ->textTemplate('emails/account_deletion.txt.twig')
             ->context([

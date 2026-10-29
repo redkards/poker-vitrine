@@ -19,7 +19,7 @@ import { LogoComponent } from '../logo/logo.component';
         </nav>
       </div>
       <p class="pv-container footer__legal">
-        © {{ year }} PokerVitrine · Le jeu comporte des risques : endettement, dépendance… Appelez le 09 74 75 13 13
+        © {{ year }} Poker Winners · Le jeu comporte des risques : endettement, dépendance… Appelez le 09 74 75 13 13
         (appel non surtaxé). Interdit aux moins de 18 ans.
       </p>
     </footer>

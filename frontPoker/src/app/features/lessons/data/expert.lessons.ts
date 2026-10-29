@@ -2,7 +2,7 @@ import type { Lesson, CardCode } from '../lessons.data';
 
 /**
  * Leçons du niveau Expert (rédigées en complément des leçons fondatrices de lessons.data.ts).
- * Contenu original : principes théoriques publics, formulations et exemples propres à PokerVitrine.
+ * Contenu original : principes théoriques publics, formulations et exemples propres à Poker Winners.
  */
 
 /** Tableau de référence des leçons sur la structure des ranges (polarisée / condensée). */

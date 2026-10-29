@@ -58,7 +58,7 @@ export class LessonDetailComponent {
   constructor() {
     effect(() => {
       const lesson = this.lesson();
-      this.title.setTitle(lesson ? `${lesson.title} — Leçons PokerVitrine` : 'Leçon introuvable — PokerVitrine');
+      this.title.setTitle(lesson ? `${lesson.title} — Leçons Poker Winners` : 'Leçon introuvable — Poker Winners');
     });
   }
 

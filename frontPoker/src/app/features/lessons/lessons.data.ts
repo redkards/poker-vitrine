@@ -1,5 +1,5 @@
 /**
- * Rubrique « Leçons » — contenus pédagogiques 100 % originaux PokerVitrine.
+ * Rubrique « Leçons » — contenus pédagogiques 100 % originaux Poker Winners.
  * Rédigés à partir des règles universelles du Texas Hold'em No-Limit.
  */
 
@@ -868,7 +868,7 @@ const CORE_LESSONS: Lesson[] = [
         ],
         answer: 1,
         explanation:
-          "La revue structurée des mains difficiles (gagnées ou perdues), notée et partagée, permet de repérer ses erreurs récurrentes. Le forum de PokerVitrine est fait pour ça.",
+          "La revue structurée des mains difficiles (gagnées ou perdues), notée et partagée, permet de repérer ses erreurs récurrentes. Le forum de Poker Winners est fait pour ça.",
       },
     ],
   },

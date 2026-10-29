@@ -148,14 +148,14 @@ export class ForumCategoryComponent {
         this.pages.set(result.pages);
         this.total.set(result.total);
         this.loading.set(false);
-        this.title.setTitle(`${result.category.name} — Forum — PokerVitrine`);
+        this.title.setTitle(`${result.category.name} — Forum — Poker Winners`);
       },
       error: (err: unknown) => {
         this.loading.set(false);
         if (err instanceof HttpErrorResponse && err.status === 404) {
           this.notFound.set(true);
           this.category.set(null);
-          this.title.setTitle('Catégorie introuvable — PokerVitrine');
+          this.title.setTitle('Catégorie introuvable — Poker Winners');
           return;
         }
         this.error.set(apiErrorMessage(err, 'Impossible de charger les sujets.'));

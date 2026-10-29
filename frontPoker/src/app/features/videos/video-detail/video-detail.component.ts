@@ -165,7 +165,7 @@ export class VideoDetailComponent {
         if (this.auth.isLoggedIn()) {
           this.account.getFavorites().subscribe((list) => this.isFavorite.set(list.some((v) => v.id === video.id)));
         }
-        this.title.setTitle(`${video.title} — Vidéos PokerVitrine`);
+        this.title.setTitle(`${video.title} — Vidéos Poker Winners`);
         if (video.description) {
           this.meta.updateTag({ name: 'description', content: video.description });
         }

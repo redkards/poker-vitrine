@@ -187,7 +187,7 @@ export class ForumTopicComponent {
         this.total.set(result.total);
         this.limit.set(result.limit || 20);
         this.loading.set(false);
-        this.title.setTitle(`${result.topic.title} — Forum — PokerVitrine`);
+        this.title.setTitle(`${result.topic.title} — Forum — Poker Winners`);
         this.focusNewPost();
       },
       error: (err: unknown) => {
@@ -205,7 +205,7 @@ export class ForumTopicComponent {
     this.loading.set(false);
     this.topic.set(null);
     this.notFound.set(true);
-    this.title.setTitle('Sujet introuvable — PokerVitrine');
+    this.title.setTitle('Sujet introuvable — Poker Winners');
   }
 
   /** Après publication : amène le focus (et la vue) sur le nouveau message */
