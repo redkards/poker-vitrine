@@ -55,6 +55,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/videos/video-detail/video-detail.component').then((m) => m.VideoDetailComponent),
   },
   {
+    path: 'lecons',
+    loadComponent: () => import('./features/lessons/lesson-list/lesson-list.component').then((m) => m.LessonListComponent),
+    title: 'Apprendre et se perfectionner — PokerVitrine',
+  },
+  {
+    path: 'lecons/:slug',
+    loadComponent: () => import('./features/lessons/lesson-detail/lesson-detail.component').then((m) => m.LessonDetailComponent),
+    title: 'Leçon — PokerVitrine',
+  },
+  {
     path: 'forum',
     loadComponent: () => import('./features/forum/forum-home/forum-home.component').then((m) => m.ForumHomeComponent),
     title: 'Forum — PokerVitrine',

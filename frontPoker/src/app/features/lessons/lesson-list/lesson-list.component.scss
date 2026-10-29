@@ -1,0 +1,149 @@
+.level {
+  margin-bottom: 2.75rem;
+}
+
+.level__head {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1rem;
+  border-left: 5px solid var(--pv-red);
+
+  &[data-level='debutant'] {
+    border-color: #1c7c4a;
+  }
+
+  &[data-level='intermediaire'] {
+    border-color: #b26a00;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+    color: var(--pv-muted);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+  }
+}
+
+.lesson-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--pv-radius);
+  background: var(--pv-dark);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--pv-shadow);
+  }
+
+  &:hover .lesson-card__cards app-playing-card:last-child {
+    transform: rotate(14deg) translateY(-4px);
+  }
+}
+
+.lesson-card__cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 8;
+  background:
+    radial-gradient(circle at 80% 20%, rgb(179 18 27 / 0.45), transparent 45%),
+    radial-gradient(90% 120% at 30% 0%, #3d0a0e 0%, var(--pv-dark-2) 75%);
+}
+
+.lesson-card__num {
+  position: absolute;
+  top: 0.8rem;
+  left: 1rem;
+  color: rgb(255 255 255 / 0.5);
+  font-family: var(--pv-font-title);
+  font-size: 2.2rem;
+  font-weight: 900;
+}
+
+.lesson-card__cards {
+  display: flex;
+
+  app-playing-card {
+    transition: transform 0.25s;
+  }
+
+  app-playing-card:first-child {
+    transform: rotate(-8deg);
+  }
+
+  app-playing-card:last-child {
+    margin-left: -18px;
+    transform: rotate(10deg);
+  }
+}
+
+.lesson-card__body {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.lesson-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lesson-card__meta,
+.lesson-card__desc {
+  color: #b9bbc1;
+  font-size: 0.84rem;
+}
+
+.lesson-card__title {
+  font-family: var(--pv-font-title);
+  font-size: 1.22rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.lesson-card__status {
+  margin-top: 0.3rem;
+  color: #ff9aa0;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.origin {
+  margin: 2rem 0 0;
+  color: var(--pv-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-card,
+  .lesson-card__cards app-playing-card {
+    transition: none;
+  }
+}

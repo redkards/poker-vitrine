@@ -67,9 +67,9 @@ class ArticleCrudController extends AbstractCrudController
             ->setHelp("Adresse de l'article. Laissez vide pour le générer depuis le titre.")
             ->hideOnIndex();
         yield ChoiceField::new('scope', 'Portée')
-            ->setChoices(['Actu France' => ArticleScope::France, 'Actu internationale' => ArticleScope::International])
+            ->setChoices(ArticleScope::choices())
             ->renderAsBadges()
-            ->setHelp("Colonne de l'accueil dans laquelle l'article apparaît.");
+            ->setHelp("Fenêtre de l'accueil dans laquelle l'article apparaît (actualités France / internationale, tournois live / en ligne).");
         yield TextField::new('category', 'Catégorie')->setHelp('Ex. Stratégie, Tournois, Débutant…');
         yield TextareaField::new('excerpt', 'Chapô')->setHelp('Résumé affiché sur les cartes (400 caractères max).')->hideOnIndex();
         yield TextEditorField::new('content', 'Contenu')->hideOnIndex();

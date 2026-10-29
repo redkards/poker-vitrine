@@ -1,0 +1,604 @@
+[
+  {
+    "slug": "regles-et-combinaisons",
+    "title": "Règles et combinaisons du Texas Hold'em",
+    "level": "Débutant",
+    "duration": "4 min 57 s",
+    "objective": "Savoir suivre le déroulé complet d'une main de Texas Hold'em et classer les dix combinaisons sans hésiter.",
+    "audience": "Grands débutants qui n'ont jamais joué ou qui connaissent les règles de façon approximative.",
+    "materials": [
+      "Micro-cravate ou micro USB",
+      "Un jeu de 52 cartes et quelques jetons sur un tapis uni (caméra en plongée)",
+      "Logiciel de montage avec titrage simple",
+      "Option : capture d'écran de la leçon interactive du site"
+    ],
+    "youtube": {
+      "title": "Texas Hold'em : les règles et les 10 combinaisons en 5 minutes",
+      "description": "Blindes, préflop, flop, turn, river et abattage : suivez une main complète de Texas Hold'em, puis découvrez les dix combinaisons, de la carte haute à la quinte flush royale. Une vidéo courte pour apprendre les bases sans jargon inutile. La leçon interactive correspondante vous attend sur PokerVitrine.\nRéservé aux majeurs. Jouer comporte des risques : endettement, dépendance. Joueurs Info Service : 09 74 75 13 13 (appel non surtaxé).",
+      "tags": [
+        "poker",
+        "texas holdem",
+        "règles du poker",
+        "combinaisons poker",
+        "apprendre le poker",
+        "poker débutant",
+        "main de poker",
+        "pokervitrine"
+      ]
+    },
+    "shots": [
+      {
+        "n": 1,
+        "timecode": "00:00 – 00:10",
+        "visual": "Plongée sur le tapis. Deux mains de deux cartes face cachée, cinq cartes au centre. Les cartes d'un joueur se retournent : 7♥ 7♣. Texte à l'écran : « Qui gagne ? »",
+        "voiceover": "Deux joueurs, cinq cartes au milieu de la table, et un seul gagnant. Dans cinq minutes, vous saurez lire n'importe quelle main de Texas Hold'em.",
+        "editing": "Coupes rapides, bruitage de carte retournée. Musique légère qui démarre."
+      },
+      {
+        "n": 2,
+        "timecode": "00:10 – 00:22",
+        "visual": "Carton titre : « Règles et combinaisons du Texas Hold'em » + bandeau « Débutant ». Sommaire en deux lignes : 1. Le déroulé d'une main – 2. Les 10 combinaisons.",
+        "voiceover": "Bienvenue. Aujourd'hui, nous posons les bases : d'abord le déroulé d'une main, étape par étape, puis les dix combinaisons, de la plus faible à la plus forte.",
+        "editing": "Fondu vers le carton titre, couleurs du site (blanc et rouge)."
+      },
+      {
+        "n": 3,
+        "timecode": "00:22 – 00:50",
+        "visual": "Table de six joueurs vue de dessus (schéma animé). Un jeton blanc « D » devant un siège. Les deux sièges à sa gauche s'allument : « Petite blinde 1 » puis « Grosse blinde 2 ».",
+        "voiceover": "Tout commence par le bouton, ce jeton qui désigne le donneur. Il tourne d'un siège après chaque main. Les deux joueurs assis à sa gauche posent une mise obligatoire : la petite blinde, puis la grosse blinde, en général le double. Ces blindes créent un premier pot à disputer : sans elles, personne n'aurait de raison d'entrer dans le coup.",
+        "editing": "Flèches animées pour le sens des aiguilles d'une montre. Surligner « blinde » à l'écran."
+      },
+      {
+        "n": 4,
+        "timecode": "00:50 – 01:20",
+        "visual": "Chaque siège reçoit deux cartes face cachée. Le siège à gauche de la grosse blinde clignote. Trois boutons apparaissent : « Se coucher », « Suivre », « Relancer ».",
+        "voiceover": "Premier tour : le préflop. Chaque joueur reçoit deux cartes privées, que lui seul regarde. Le premier à parler est assis juste à gauche de la grosse blinde : on dit qu'il est sous le pistolet. Il a trois options : se coucher, suivre en payant le montant de la grosse blinde, ou relancer. Chacun parle à son tour, les blindes en dernier, jusqu'à ce que toutes les mises soient égales.",
+        "editing": "Mettre en évidence chaque option quand elle est prononcée."
+      },
+      {
+        "n": 5,
+        "timecode": "01:20 – 01:45",
+        "visual": "Trois cartes se posent au centre : K♠ 8♦ 3♣. Étiquette « FLOP ». Un bouton « Checker » s'ajoute aux trois précédents.",
+        "voiceover": "Vient le flop : trois cartes posées face visible au centre. Elles sont communes, tout le monde peut s'en servir. Désormais, c'est le premier joueur encore en jeu à gauche du bouton qui parle. Tant que personne n'a misé, il peut checker, c'est-à-dire passer sans mettre de jetons.",
+        "editing": "Zoom léger sur les trois cartes. Bruitage discret à chaque carte."
+      },
+      {
+        "n": 6,
+        "timecode": "01:45 – 02:05",
+        "visual": "Une quatrième carte J♥ (étiquette « TURN »), puis une cinquième 2♠ (étiquette « RIVER »). Frise en bas : Préflop › Flop › Turn › River.",
+        "voiceover": "Nouveau tour d'enchères, puis la turn, qu'on appelle aussi le tournant : une quatrième carte commune, suivie d'un nouveau tour. Enfin la river, la rivière : la cinquième et dernière carte, avec un ultime tour d'enchères.",
+        "editing": "La frise se remplit étape par étape, l'étape courante en rouge."
+      },
+      {
+        "n": 7,
+        "timecode": "02:05 – 02:35",
+        "visual": "Abattage. Tableau K♠ 8♦ 3♣ J♥ 2♠. Joueur A révèle A♣ K♦, joueur B révèle 8♠ 8♥. Les cinq cartes retenues par chacun s'encadrent. Texte : « A : paire de rois » / « B : brelan de huit – gagnant ».",
+        "voiceover": "S'il reste au moins deux joueurs après la river, c'est l'abattage. Chacun forme la meilleure main de cinq cartes avec ses deux cartes privées et les cinq du tableau. On peut utiliser deux, une, ou même aucune de ses cartes. Ici, le premier joueur a une paire de rois. Le second a un brelan de huit : c'est lui qui remporte le pot.",
+        "editing": "Encadrer en rouge les cartes utilisées. Effet sonore de jetons poussés vers le gagnant."
+      },
+      {
+        "n": 8,
+        "timecode": "02:35 – 02:45",
+        "visual": "Transition : carton « Les 10 combinaisons » avec une échelle verticale numérotée de 1 à 10, vide.",
+        "voiceover": "Passons au classement des mains. Une règle à retenir : plus une combinaison est rare, plus elle est forte.",
+        "editing": "Échelle qui se remplira de bas en haut dans les plans suivants."
+      },
+      {
+        "n": 9,
+        "timecode": "02:45 – 03:10",
+        "visual": "Échelle, niveaux 1 à 3. 1 Carte haute : A♦ J♣ 9♠ 6♥ 3♣. 2 Paire : 10♠ 10♦ + trois cartes. 3 Double paire : Q♥ Q♣ 5♠ 5♦ K♣.",
+        "voiceover": "Tout en bas, la carte haute : aucune combinaison, c'est la plus haute carte qui compte. Juste au-dessus, la paire : deux cartes de même valeur. Puis la double paire : deux paires différentes, par exemple des dames et des cinq.",
+        "editing": "Chaque ligne apparaît au moment où elle est nommée."
+      },
+      {
+        "n": 10,
+        "timecode": "03:10 – 03:45",
+        "visual": "Niveaux 4 à 6. 4 Brelan : 6♣ 6♥ 6♠. 5 Quinte : 5♦ 6♣ 7♠ 8♥ 9♦, puis en petit la roue A♠ 2♦ 3♣ 4♥ 5♠ (coche verte) et Q♣ K♦ A♥ 2♠ 3♦ (croix rouge, « pas une quinte »). 6 Couleur : K♥ 10♥ 7♥ 4♥ 2♥.",
+        "voiceover": "Le brelan : trois cartes de même valeur. La quinte, qu'on appelle aussi suite : cinq cartes qui se suivent, dans des couleurs mélangées. L'as peut compter en haut, après le roi, ou en bas, avant le deux : as-deux-trois-quatre-cinq est une quinte. En revanche, la suite ne fait pas le tour : dame-roi-as-deux-trois n'en est pas une. Ensuite la couleur : cinq cartes de la même enseigne, dans n'importe quel ordre.",
+        "editing": "Petite animation de l'as qui glisse d'un bout à l'autre de la quinte."
+      },
+      {
+        "n": 11,
+        "timecode": "03:45 – 04:03",
+        "visual": "Niveaux 7 et 8. 7 Full : J♠ J♦ J♣ 4♥ 4♠, légende « Full aux valets par les quatre ». 8 Carré : 9♠ 9♥ 9♦ 9♣ + A♠.",
+        "voiceover": "Le full : un brelan accompagné d'une paire, par exemple trois valets et deux quatre. On dit alors full aux valets par les quatre. Puis le carré : les quatre cartes d'une même valeur.",
+        "editing": "Légende du full en sous-titre incrusté."
+      },
+      {
+        "n": 12,
+        "timecode": "04:03 – 04:17",
+        "visual": "Niveaux 9 et 10. 9 Quinte flush : 4♣ 5♣ 6♣ 7♣ 8♣. 10 Quinte flush royale : 10♠ J♠ Q♠ K♠ A♠. L'échelle complète s'affiche.",
+        "voiceover": "La quinte flush : une suite dans une seule couleur. Et tout en haut, la quinte flush royale, du dix à l'as dans la même couleur. Vous en verrez très peu dans votre vie de joueur.",
+        "editing": "Léger effet brillant sur la quinte flush royale, puis plan large de l'échelle."
+      },
+      {
+        "n": 13,
+        "timecode": "04:17 – 04:37",
+        "visual": "Tableau A♦ 9♠ 7♥ 4♣ 2♦. Joueur A : A♠ Q♣ ; joueur B : A♥ 10♦. Meilleures mains encadrées : A A Q 9 7 contre A A 10 9 7. La dame s'entoure : « kicker ». Encart : « Pique, cœur, carreau, trèfle : aucune hiérarchie ».",
+        "voiceover": "Dernier point : à combinaison égale, ce sont les cartes restantes, les kickers, ou cartes d'accompagnement, qui départagent. Ici, les deux joueurs ont une paire d'as, mais la dame bat le dix. Si les cinq meilleures cartes sont identiques, le pot est partagé. Et les couleurs n'ont aucun ordre de valeur.",
+        "editing": "Surligner la dame puis le dix."
+      },
+      {
+        "n": 14,
+        "timecode": "04:37 – 04:49",
+        "visual": "Carton récapitulatif en 3 points numérotés (voir encadré récapitulatif).",
+        "voiceover": "En résumé : deux blindes lancent le pot. Quatre tours d'enchères se succèdent, préflop, flop, turn et river. Et la meilleure main de cinq cartes l'emporte, selon l'échelle des dix combinaisons.",
+        "editing": "Les trois points apparaissent un par un."
+      },
+      {
+        "n": 15,
+        "timecode": "04:49 – 04:57",
+        "visual": "Face caméra ou capture de la leçon interactive. Logo PokerVitrine. Mention en bas : « Réservé aux majeurs – Joueurs Info Service 09 74 75 13 13 ».",
+        "voiceover": "Pour vous entraîner à reconnaître les combinaisons, retrouvez la leçon interactive sur PokerVitrine. À bientôt pour la suite.",
+        "editing": "Écran de fin YouTube (vidéo suivante : « Bien débuter ») pendant 5 à 10 s supplémentaires."
+      }
+    ],
+    "recap": [
+      "Deux blindes obligatoires lancent le pot, le bouton tourne à chaque main.",
+      "Quatre tours d'enchères : préflop, flop, turn, river, puis l'abattage.",
+      "La meilleure main de cinq cartes gagne ; à égalité, les kickers départagent."
+    ]
+  },
+  {
+    "slug": "bien-debuter",
+    "title": "Bien débuter : une approche simple et solide",
+    "level": "Débutant",
+    "duration": "3 min 45 s",
+    "objective": "Adopter trois réflexes de départ : sélectionner ses mains, jouer de façon décidée en tenant compte de la position, et savoir se coucher.",
+    "audience": "Joueurs qui connaissent les règles et disputent leurs premières parties.",
+    "materials": [
+      "Micro-cravate ou micro USB",
+      "Cartes physiques pour les exemples de mains",
+      "Schéma de table imprimé ou animé (positions)",
+      "Caméra pour un passage face caméra (optionnel)"
+    ],
+    "youtube": {
+      "title": "Débuter au poker : peu de mains, la position, savoir se coucher",
+      "description": "Trois réflexes simples pour bien commencer au Texas Hold'em : choisir peu de mains de départ, les jouer de façon décidée, tirer parti de la position et accepter de se coucher au bon moment. Exemples de mains commentés pas à pas. Prolongez avec la leçon interactive sur PokerVitrine.\nRéservé aux majeurs. Jouer comporte des risques : endettement, dépendance. Joueurs Info Service : 09 74 75 13 13 (appel non surtaxé).",
+      "tags": [
+        "poker débutant",
+        "stratégie poker",
+        "position au poker",
+        "mains de départ",
+        "texas holdem",
+        "conseils poker",
+        "se coucher poker",
+        "pokervitrine"
+      ]
+    },
+    "shots": [
+      {
+        "n": 1,
+        "timecode": "00:00 – 00:10",
+        "visual": "Face caméra, une main pose deux cartes et les repousse vers le centre (geste de se coucher). Texte : « Ne pas jouer, ça s'apprend ».",
+        "voiceover": "Au poker, la meilleure décision d'un débutant, c'est souvent de ne pas jouer la main. Voyons pourquoi, et surtout comment bien choisir.",
+        "editing": "Plan serré sur les cartes, ralenti léger sur le geste."
+      },
+      {
+        "n": 2,
+        "timecode": "00:10 – 00:20",
+        "visual": "Carton titre « Bien débuter : une approche simple et solide » + trois pictogrammes : filtre, flèche vers le haut, siège.",
+        "voiceover": "Trois idées dans cette vidéo : jouer peu de mains, les jouer de façon décidée en tenant compte de la position, et savoir se coucher.",
+        "editing": "Les pictogrammes s'allument à l'énoncé de chaque idée."
+      },
+      {
+        "n": 3,
+        "timecode": "00:20 – 00:52",
+        "visual": "Grille 13 × 13 des mains de départ. Environ une main sur huit (en combinaisons) se colore en rouge : paires de 6-6 à A-A, A-K à A-10, K-Q, K-J, Q-J. Le reste reste gris. Encart : « 1 326 combinaisons – 169 mains distinctes ».",
+        "voiceover": "Avec deux cartes, il existe mille trois cent vingt-six combinaisons possibles, qui se ramènent à cent soixante-neuf mains distinctes. Une grande partie ne vaut pas la peine d'être jouée. Pour commencer, gardez une sélection courte : les paires à partir de six, les as accompagnés d'un dix ou d'une figure, et les figures entre elles. Cela représente à peu près une main sur huit. Le reste, vous le jetez sans regret.",
+        "editing": "Remplissage progressif de la grille. Mention « repère de départ, pas une règle absolue »."
+      },
+      {
+        "n": 4,
+        "timecode": "00:52 – 01:22",
+        "visual": "Animation : un joueur ouvre en relançant à 3 grosses blindes (jetons qui avancent). Deux issues affichées côte à côte : « Tout le monde se couche : pot gagné » / « On vous paie : vous avez souvent la meilleure main ».",
+        "voiceover": "Deuxième idée : quand vous jouez, jouez franchement. Si personne n'est encore entré dans le coup, préférez relancer plutôt que de simplement payer la grosse blinde. La relance vous donne deux façons de gagner : avoir la meilleure main à la fin, ou faire coucher tout le monde tout de suite. Un repère simple : relancez à deux fois et demie, ou trois fois, la grosse blinde.",
+        "editing": "Split screen pour les deux issues."
+      },
+      {
+        "n": 5,
+        "timecode": "01:22 – 01:55",
+        "visual": "Schéma de table à neuf places. Dégradé de couleur : sièges qui parlent tôt (après la grosse blinde) en gris foncé, sièges proches du bouton en rouge vif. Étiquettes « Parle tôt » / « Parle tard ».",
+        "voiceover": "Troisième idée : la position. Parler après les autres est un vrai avantage : vous voyez ce qu'ils font avant de décider. Le bouton est la meilleure place, suivi des sièges juste à sa droite. Les premières places à parler, juste après la grosse blinde, ce qu'on appelle sous le pistolet, sont les plus délicates. En pratique : jouez encore moins de mains quand vous parlez tôt, et un peu plus quand vous êtes proche du bouton.",
+        "editing": "Le dégradé apparaît de gauche à droite autour de la table."
+      },
+      {
+        "n": 6,
+        "timecode": "01:55 – 02:25",
+        "visual": "Même main K♣ 10♦ montrée deux fois. Gauche : siège du bouton, tous les autres couchés, mention « Relance ». Droite : premier siège à parler, huit joueurs derrière, mention « Se coucher ».",
+        "voiceover": "Prenons roi-dix dépareillés. Au bouton, quand tout le monde s'est couché avant vous, c'est une relance tout à fait raisonnable. La même main en première position, avec huit joueurs qui parleront après vous : on se couche. Mêmes cartes, décision opposée. C'est exactement l'effet de la position.",
+        "editing": "Fond vert léger à gauche, fond gris à droite."
+      },
+      {
+        "n": 7,
+        "timecode": "02:25 – 03:00",
+        "visual": "Vos cartes : A♣ A♦. Tableau : 9♠ 10♠ J♠ puis 8♥. Vous misez, un adversaire étiqueté « très prudent » relance fort. Texte : « Une paire reste une paire ».",
+        "voiceover": "Savoir se coucher, maintenant. Vous avez une paire d'as. Le tableau affiche neuf, dix, valet de pique, puis un huit. Vous misez, et un adversaire très prudent, qui n'a presque rien joué de la soirée, relance fort. Quintes, couleurs, brelans, doubles paires : beaucoup de mains vous battent. Une paire d'as reste une paire. Se coucher ici n'a rien d'un aveu de faiblesse : c'est une économie.",
+        "editing": "Mettre en évidence les cartes du tableau qui forment des tirages. Pause de 1 s avant « c'est une économie »."
+      },
+      {
+        "n": 8,
+        "timecode": "03:00 – 03:18",
+        "visual": "Face caméra. Encart avec trois cases à cocher : « Durée de la session », « Budget que je peux perdre », « Je m'arrête si je suis énervé ».",
+        "voiceover": "Un dernier conseil : avant de vous asseoir, fixez-vous un cadre. Une durée, un budget que vous pouvez vous permettre de perdre, et une règle simple : si l'agacement prend le dessus, vous arrêtez.",
+        "editing": "Les cases se cochent une à une."
+      },
+      {
+        "n": 9,
+        "timecode": "03:18 – 03:33",
+        "visual": "Carton récapitulatif en 3 points numérotés.",
+        "voiceover": "Retenons trois choses. Peu de mains, environ une sur huit au départ. Quand vous entrez, relancez, et tenez compte de votre position. Et une main forte n'oblige jamais à aller jusqu'au bout.",
+        "editing": "Les trois points apparaissent un par un."
+      },
+      {
+        "n": 10,
+        "timecode": "03:33 – 03:45",
+        "visual": "Capture de la leçon interactive « Bien débuter » sur le site, puis logo PokerVitrine. Mention « Réservé aux majeurs – Joueurs Info Service 09 74 75 13 13 ».",
+        "voiceover": "Pour tester ces réflexes sur des exemples, retrouvez la leçon interactive sur PokerVitrine. Prochaine étape : les erreurs préflop qui coûtent cher.",
+        "editing": "Écran de fin YouTube vers la vidéo « Préflop : les erreurs qui coûtent cher »."
+      }
+    ],
+    "recap": [
+      "Peu de mains : environ une sur huit au départ, encore moins quand vous parlez tôt.",
+      "Quand vous entrez le premier dans le coup, relancez ; la position change la valeur d'une main.",
+      "Une main forte n'oblige pas à aller jusqu'au bout : se coucher est une économie."
+    ]
+  },
+  {
+    "slug": "erreurs-preflop",
+    "title": "Préflop : les erreurs qui coûtent cher",
+    "level": "Intermédiaire",
+    "duration": "4 min",
+    "objective": "Repérer et corriger quatre erreurs préflop fréquentes : limp, mains jouées hors de position, mains dominées et tapis ignoré.",
+    "audience": "Joueurs réguliers qui connaissent la position et les mains de départ, mais perdent des jetons sur des coups mal engagés.",
+    "materials": [
+      "Micro de bonne qualité (voix off dominante)",
+      "Capture d'écran d'une table de logiciel en mode démo ou schémas animés",
+      "Cartes physiques pour les exemples",
+      "Calculateur d'équité pour vérifier les pourcentages affichés"
+    ],
+    "youtube": {
+      "title": "Préflop : 4 erreurs qui coûtent cher (et comment les corriger)",
+      "description": "Limp trop fréquent, trop de mains jouées hors de position, relances payées avec une main dominée, tapis effectif oublié : quatre erreurs préflop qui font perdre des jetons avant même le flop. Chaque erreur est illustrée par une main et une correction simple. La leçon interactive correspondante est disponible sur PokerVitrine.\nRéservé aux majeurs. Jouer comporte des risques : endettement, dépendance. Joueurs Info Service : 09 74 75 13 13 (appel non surtaxé).",
+      "tags": [
+        "préflop",
+        "erreurs poker",
+        "stratégie poker",
+        "limp",
+        "position poker",
+        "main dominée",
+        "tapis effectif",
+        "pokervitrine"
+      ]
+    },
+    "shots": [
+      {
+        "n": 1,
+        "timecode": "00:00 – 00:10",
+        "visual": "Pile de jetons qui fond en accéléré pendant qu'aucune carte commune n'est encore posée. Texte : « Avant même le flop… »",
+        "voiceover": "Beaucoup de jetons se perdent avant même que le flop ne tombe. Voici quatre erreurs préflop qui coûtent cher, et comment les corriger.",
+        "editing": "Accéléré sur la pile de jetons, son grave court."
+      },
+      {
+        "n": 2,
+        "timecode": "00:10 – 00:20",
+        "visual": "Carton titre + liste numérotée : 1. Le limp, 2. Hors de position, 3. La main dominée, 4. Le tapis oublié.",
+        "voiceover": "Au programme : le limp, les mains jouées hors de position, les mains dominées, et la taille du tapis qu'on oublie de regarder.",
+        "editing": "Chaque erreur reste affichée en petit en haut d'écran pendant sa partie."
+      },
+      {
+        "n": 3,
+        "timecode": "00:20 – 00:42",
+        "visual": "Erreur 1. Table : un joueur en position intermédiaire se contente de payer la grosse blinde avec 6♣ 5♣. Trois autres joueurs suivent. Compteur « 5 joueurs au flop ».",
+        "voiceover": "Première erreur : le limp, un terme anglais qui désigne le fait d'entrer dans le coup en payant simplement la grosse blinde. Ici, avec six-cinq de trèfle, le joueur paie. Résultat : trois autres suivent, et vous voilà à cinq au flop, avec une main moyenne et aucune idée de ce que tiennent les autres.",
+        "editing": "Le compteur s'incrémente à chaque joueur qui paie."
+      },
+      {
+        "n": 4,
+        "timecode": "00:42 – 01:05",
+        "visual": "Tableau comparatif deux colonnes. « Limp » : pas de chance de remporter le pot tout de suite, pot à plusieurs, initiative perdue. « Relance ou se coucher » : pot souvent gagné immédiatement, moins d'adversaires, initiative.",
+        "voiceover": "Le problème du limp : vous renoncez à gagner le pot tout de suite, vous invitez du monde, et vous laissez l'initiative aux autres. La correction est simple : quand vous êtes le premier à entrer, relancez ou couchez-vous. Avec six-cinq assortis en position intermédiaire, on se couche ; près du bouton, on peut relancer.",
+        "editing": "Croix rouges et coches vertes dans le tableau."
+      },
+      {
+        "n": 5,
+        "timecode": "01:05 – 01:30",
+        "visual": "Erreur 2. Vous êtes en petite blinde avec Q♦ 8♠. Le bouton relance à 2,5 grosses blindes. Flèche : « Vous parlerez en premier à chaque tour ».",
+        "voiceover": "Deuxième erreur : jouer trop de mains hors de position. Vous êtes en petite blinde avec dame-huit dépareillés, et le bouton relance. Payer paraît bon marché. Mais sur le flop, la turn et la river, vous parlerez toujours en premier, sans savoir ce que fait votre adversaire.",
+        "editing": "Flèche qui revient à chaque tour d'enchères sur une frise."
+      },
+      {
+        "n": 6,
+        "timecode": "01:30 – 01:52",
+        "visual": "Encart « Correction » : depuis la petite blinde, relancer ou se coucher le plus souvent ; resserrer quand on paie hors de position. Petit schéma : main moyenne + hors de position = décisions difficiles.",
+        "voiceover": "La correction : depuis la petite blinde, privilégiez la sur-relance, qu'on appelle aussi 3-bet, avec vos bonnes mains, et couchez la plupart des mains moyennes. Plus généralement, quand vous serez hors de position pendant tout le coup, il vous faut une main nettement meilleure pour continuer.",
+        "editing": "Encart encadré en rouge (style .box)."
+      },
+      {
+        "n": 7,
+        "timecode": "01:52 – 02:20",
+        "visual": "Un joueur serré relance à 3 grosses blindes en première position. Vous avez A♥ 10♣, 100 grosses blindes de tapis. À droite, ses mains probables qui vous dominent : A♠ K♠, A♦ Q♣, A♣ J♦ ; paires de dix et plus hautes.",
+        "voiceover": "Troisième erreur : payer une relance avec une main dominée. Un joueur serré relance en première position, et vous avez as-dix. Le piège, c'est quand vous touchez votre as : s'il a lui aussi un as, son autre carte est souvent plus forte que votre dix. Vous gagnez alors un petit pot, ou vous en perdez un gros.",
+        "editing": "Mains dominantes qui apparaissent une par une."
+      },
+      {
+        "n": 8,
+        "timecode": "02:20 – 02:45",
+        "visual": "Barre d'équité : A♥ 10♣ contre A♠ K♠ ≈ 26 % / 74 % (partages inclus). Encart : « Mains souvent dominées face à un joueur serré : A-10, A-9, K-J, Q-J dépareillés ».",
+        "voiceover": "Face à as-roi, as-dix ne gagne qu'environ une fois sur quatre. La correction : contre un joueur serré qui ouvre tôt, couchez les mains comme as-dix, roi-valet ou dame-valet dépareillés. Elles gagnent rarement de gros pots et en perdent souvent.",
+        "editing": "Vérifier le pourcentage avec un calculateur d'équité avant l'enregistrement."
+      },
+      {
+        "n": 9,
+        "timecode": "02:45 – 03:12",
+        "visual": "Erreur 4. Deux tapis côte à côte : vous 100 grosses blindes, adversaire 18 grosses blindes. Étiquette sur le plus petit : « Tapis effectif = 18 BB ».",
+        "voiceover": "Quatrième erreur : oublier la taille du tapis. Ce qui compte, c'est le tapis effectif, autrement dit le plus petit des deux tapis engagés. Si vous avez cent grosses blindes mais que votre adversaire n'en a que dix-huit, le coup se joue à dix-huit grosses blindes, pas à cent.",
+        "editing": "Le tapis de 100 BB se « réduit » visuellement à 18 BB."
+      },
+      {
+        "n": 10,
+        "timecode": "03:12 – 03:38",
+        "visual": "Vos cartes : 4♠ 4♥. Texte : « Brelan au flop ≈ 1 fois sur 8 ». Deux scénarios : tapis effectif 100 BB (coche verte) / tapis effectif 15 BB (croix rouge).",
+        "voiceover": "Exemple : payer une relance avec une paire de quatre. Vous ne touchez un brelan ou mieux au flop qu'environ une fois sur huit. Ça vaut le coup quand les tapis sont profonds, parce que vous pouvez alors gagner gros les fois où vous touchez : ce sont les cotes implicites. À quinze grosses blindes, ce gain possible ne compense plus : mieux vaut faire tapis directement ou se coucher.",
+        "editing": "Afficher les deux scénarios en split screen."
+      },
+      {
+        "n": 11,
+        "timecode": "03:38 – 03:52",
+        "visual": "Carton récapitulatif en 3 points numérotés.",
+        "voiceover": "En résumé : premier à entrer, relancez ou couchez-vous. Hors de position ou face à un joueur serré, resserrez et méfiez-vous des mains dominées. Et regardez toujours le tapis effectif avant d'agir.",
+        "editing": "Les trois points apparaissent un par un."
+      },
+      {
+        "n": 12,
+        "timecode": "03:52 – 04:00",
+        "visual": "Capture de la leçon interactive « Erreurs préflop », logo PokerVitrine, mention « Réservé aux majeurs – Joueurs Info Service 09 74 75 13 13 ».",
+        "voiceover": "Pour vous tester sur des situations concrètes, retrouvez la leçon interactive sur PokerVitrine.",
+        "editing": "Écran de fin vers « Les bases du tournoi »."
+      }
+    ],
+    "recap": [
+      "Premier à entrer dans le coup : relancez ou couchez-vous, évitez le limp.",
+      "Hors de position ou face à un joueur serré, resserrez et méfiez-vous des mains dominées.",
+      "Regardez toujours le tapis effectif : il décide de la valeur des mains spéculatives."
+    ]
+  },
+  {
+    "slug": "bases-du-tournoi",
+    "title": "Les bases du tournoi",
+    "level": "Intermédiaire",
+    "duration": "4 min 30 s",
+    "objective": "Comprendre la mécanique d'un tournoi (blindes croissantes, antes, bulle) et adapter son jeu à la taille de son tapis exprimée en grosses blindes.",
+    "audience": "Joueurs à l'aise en partie classique qui veulent s'inscrire à leurs premiers tournois.",
+    "materials": [
+      "Micro-cravate ou micro USB",
+      "Tableau de structure de blindes réalisé soi-même (tableur ou diapo)",
+      "Jetons physiques pour illustrer les tapis",
+      "Logiciel de montage avec incrustation de texte"
+    ],
+    "youtube": {
+      "title": "Tournoi de poker : blindes, antes, tapis et bulle expliqués",
+      "description": "Comment fonctionne un tournoi de poker ? Niveaux de blindes, antes, calcul du tapis en grosses blindes, adaptation du jeu selon la profondeur et approche de la bulle : l'essentiel pour aborder vos premiers tournois avec méthode. Retrouvez la leçon interactive sur PokerVitrine.\nRéservé aux majeurs. Jouer comporte des risques : endettement, dépendance. Joueurs Info Service : 09 74 75 13 13 (appel non surtaxé).",
+      "tags": [
+        "tournoi poker",
+        "blindes",
+        "ante",
+        "bulle poker",
+        "grosses blindes",
+        "stratégie tournoi",
+        "texas holdem",
+        "pokervitrine"
+      ]
+    },
+    "shots": [
+      {
+        "n": 1,
+        "timecode": "00:00 – 00:12",
+        "visual": "Une même pile de 12 000 jetons. Horloge qui avance de 20 h à 22 h. Le compteur au-dessus passe de « 60 BB » à « 15 BB » sans que la pile ne bouge.",
+        "voiceover": "En tournoi, vos jetons ne valent pas toujours la même chose. Un tapis confortable à vingt heures peut devenir court à vingt-deux heures, sans que vous ayez perdu un seul coup.",
+        "editing": "Accéléré sur l'horloge, compteur qui chute."
+      },
+      {
+        "n": 2,
+        "timecode": "00:12 – 00:22",
+        "visual": "Carton titre « Les bases du tournoi ». Sommaire : blindes, antes, tapis en BB, profondeur, bulle.",
+        "voiceover": "Voyons comment fonctionne un tournoi, et comment adapter votre jeu à chaque étape.",
+        "editing": "Sommaire en cinq pastilles."
+      },
+      {
+        "n": 3,
+        "timecode": "00:22 – 00:48",
+        "visual": "Schéma : tous les joueurs reçoivent le même tapis de départ. Une pyramide des places payées en haut, environ 15 % des inscrits.",
+        "voiceover": "Le principe : chaque joueur paie le même droit d'entrée et reçoit le même tapis de départ. On joue jusqu'à ce qu'un seul joueur possède tous les jetons. Seules les meilleures places sont payées, souvent entre dix et vingt pour cent des inscrits. Les jetons, eux, ne s'échangent pas contre de l'argent : seule votre place finale compte.",
+        "editing": "La pyramide se remplit par le haut."
+      },
+      {
+        "n": 4,
+        "timecode": "00:48 – 01:18",
+        "visual": "Tableau de structure : Niveau 1 : 50/100 – Niveau 2 : 75/150 – Niveau 3 : 100/200 – Niveau 4 : 150/300 – Niveau 5 : 200/400… Durée par niveau : 20 min. Un sablier à côté.",
+        "voiceover": "Les blindes augmentent à intervalles réguliers : ce sont les niveaux. En ligne, un niveau dure souvent de cinq à quinze minutes ; en direct, plutôt vingt minutes ou plus. Cette hausse est le moteur du tournoi : elle oblige tout le monde à jouer des coups, sinon les blindes grignotent le tapis.",
+        "editing": "Le niveau en cours clignote, le sablier se retourne."
+      },
+      {
+        "n": 5,
+        "timecode": "01:18 – 01:45",
+        "visual": "Table : en plus des blindes, une petite pile « ante » au centre. Variante affichée : « Big blind ante : le joueur de grosse blinde paie l'ante pour toute la table ».",
+        "voiceover": "À partir d'un certain niveau, on ajoute l'ante, une mise obligatoire supplémentaire. Aujourd'hui, c'est souvent le joueur de grosse blinde qui la paie pour toute la table. Conséquence : il y a plus de jetons au milieu avant même la distribution, donc plus de raisons d'aller chercher les blindes.",
+        "editing": "Le pot de départ grossit visuellement quand l'ante arrive."
+      },
+      {
+        "n": 6,
+        "timecode": "01:45 – 02:12",
+        "visual": "Calcul à l'écran : 12 000 ÷ 200 = 60 BB ; 12 000 ÷ 800 = 15 BB. Encart : « Comptez toujours en grosses blindes ».",
+        "voiceover": "D'où un réflexe essentiel : mesurer son tapis en grosses blindes. Douze mille jetons quand la grosse blinde est à deux cents, cela fait soixante grosses blindes. Les mêmes douze mille jetons à huit cents, ce n'est plus que quinze grosses blindes. Le nombre de jetons ne dit rien ; le nombre de grosses blindes dit tout.",
+        "editing": "Calculs qui s'écrivent comme à la main."
+      },
+      {
+        "n": 7,
+        "timecode": "02:12 – 02:42",
+        "visual": "Jauge horizontale en trois zones. « Plus de 40 BB : jeu complet, mains spéculatives possibles ». « 20 à 40 BB : moins de mains spéculatives, relances plus petites ». « Moins de 20 BB : relance ou tapis ».",
+        "voiceover": "Adaptez ensuite votre jeu à la profondeur. Au-delà de quarante grosses blindes, vous pouvez jouer normalement, y compris des petites paires ou des connecteurs assortis. Entre vingt et quarante, ces mains spéculatives perdent de leur intérêt et vos relances deviennent plus petites. En dessous de vingt, vos options se réduisent souvent à relancer ou faire tapis.",
+        "editing": "Préciser à l'écran : « repères indicatifs »."
+      },
+      {
+        "n": 8,
+        "timecode": "02:42 – 03:12",
+        "visual": "Exemple : vous avez 9 BB au bouton avec A♦ 7♣, tout le monde s'est couché. Bouton « TAPIS » mis en évidence.",
+        "voiceover": "Un exemple. Il vous reste neuf grosses blindes, vous êtes au bouton avec as-sept, et tout le monde s'est couché. Relancer petit puis devoir vous coucher sur une sur-relance gaspillerait une grosse partie de votre tapis. Faire tapis directement est souvent plus efficace : vous gagnez les blindes et les antes sans combat, ou vous partez avec une main correcte.",
+        "editing": "Pause sur la décision avant d'afficher « TAPIS »."
+      },
+      {
+        "n": 9,
+        "timecode": "03:12 – 03:42",
+        "visual": "Panneau « 46 joueurs restants – 45 places payées ». Trois tapis représentés : petit, moyen, gros, avec une émoticône d'inquiétude sur le petit.",
+        "voiceover": "Vient ensuite la bulle : le moment où il ne reste qu'un joueur à éliminer avant les places payées. Le comportement change. Les petits tapis cherchent surtout à survivre. Les gros tapis en profitent pour relancer davantage et mettre la pression, car être éliminé juste avant l'argent coûte cher à tous les autres.",
+        "editing": "Mettre l'accent visuel sur le « 1 » qui sépare 46 et 45."
+      },
+      {
+        "n": 10,
+        "timecode": "03:42 – 04:10",
+        "visual": "Deux encarts. « Gros tapis : attaquez les tapis moyens qui ont peur d'être éliminés ». « Tapis moyen : évitez d'affronter le gros tapis sans une main très forte ».",
+        "voiceover": "Si vous avez un gros tapis, attaquez les blindes des joueurs moyens, qui n'ont pas envie d'être éliminés juste avant l'argent. Si vous avez un tapis moyen, évitez de payer le tapis d'un gros sans une main très forte : passer la bulle a une vraie valeur. Et si vous êtes très court, n'attendez pas d'être à deux grosses blindes pour agir.",
+        "editing": "Les deux encarts s'affichent l'un après l'autre."
+      },
+      {
+        "n": 11,
+        "timecode": "04:10 – 04:22",
+        "visual": "Carton récapitulatif en 3 points numérotés.",
+        "voiceover": "En résumé : les blindes et les antes montent, la pression aussi. Comptez toujours votre tapis en grosses blindes. Et adaptez-vous à la profondeur comme à l'approche de la bulle.",
+        "editing": "Les trois points apparaissent un par un."
+      },
+      {
+        "n": 12,
+        "timecode": "04:22 – 04:30",
+        "visual": "Capture de la leçon interactive « Bases du tournoi », logo PokerVitrine, mention « Réservé aux majeurs – Joueurs Info Service 09 74 75 13 13 ».",
+        "voiceover": "Pour vous entraîner à ces décisions, retrouvez la leçon interactive sur PokerVitrine.",
+        "editing": "Écran de fin vers « Progresser en tournoi »."
+      }
+    ],
+    "recap": [
+      "Blindes et antes augmentent à chaque niveau : la pression monte pour tout le monde.",
+      "Comptez votre tapis en grosses blindes, pas en jetons.",
+      "Adaptez votre jeu à la profondeur du tapis et changez de rythme à l'approche de la bulle."
+    ]
+  },
+  {
+    "slug": "progresser-en-tournoi",
+    "title": "Progresser en tournoi",
+    "level": "Avancé",
+    "duration": "4 min 11 s",
+    "objective": "Mettre en place une méthode de progression durable : routine de travail, revue de mains, gestion de la fatigue, compréhension de la variance et cadre de bankroll prudent.",
+    "audience": "Joueurs de tournoi réguliers qui veulent structurer leur travail, sans viser le poker comme source de revenus.",
+    "materials": [
+      "Micro de bonne qualité et lieu calme (vidéo plutôt face caméra)",
+      "Capture d'écran d'un tableur de suivi de sessions réalisé soi-même",
+      "Cartes physiques pour la main revue",
+      "Carnet ou fiche de notes visibles à l'écran"
+    ],
+    "youtube": {
+      "title": "Progresser en tournoi : routine, revue de mains, variance, bankroll",
+      "description": "Une méthode simple pour progresser au poker de tournoi : routine avant, pendant et après la session, revue de mains sans juger au résultat, gestion de la fatigue, compréhension de la variance et repères prudents de bankroll. Aucune promesse de gains : le poker doit rester un loisir. Leçon interactive à retrouver sur PokerVitrine.\nRéservé aux majeurs. Jouer comporte des risques : endettement, dépendance. Joueurs Info Service : 09 74 75 13 13 (appel non surtaxé).",
+      "tags": [
+        "progresser au poker",
+        "tournoi poker",
+        "revue de mains",
+        "variance poker",
+        "bankroll",
+        "jeu responsable",
+        "routine poker",
+        "pokervitrine"
+      ]
+    },
+    "shots": [
+      {
+        "n": 1,
+        "timecode": "00:00 – 00:10",
+        "visual": "Face caméra, carnet ouvert sur la table à côté d'un jeu de cartes. Texte : « Jouer plus ≠ progresser ».",
+        "voiceover": "Les joueurs qui progressent ne jouent pas forcément plus que les autres. Ils travaillent mieux entre deux sessions. Voici comment.",
+        "editing": "Plan fixe, lumière douce. Texte en bas à gauche."
+      },
+      {
+        "n": 2,
+        "timecode": "00:10 – 00:18",
+        "visual": "Carton titre « Progresser en tournoi » + bandeau « Avancé ». Sommaire : routine, revue de mains, fatigue, variance et bankroll.",
+        "voiceover": "Routine, revue de mains, fatigue, variance et bankroll : les cinq chantiers du joueur de tournoi.",
+        "editing": "Sommaire en cinq pastilles."
+      },
+      {
+        "n": 3,
+        "timecode": "00:18 – 00:55",
+        "visual": "Frise en trois blocs : « Avant : un objectif précis » – « Pendant : noter 2 ou 3 mains » – « Après : 10 minutes de bilan ». Exemple d'objectif affiché : « Observer mes défenses de grosse blinde ».",
+        "voiceover": "D'abord, une routine. Avant la session, fixez-vous un seul objectif précis, par exemple observer vos défenses en grosse blinde. Pendant, notez rapidement deux ou trois mains qui vous ont fait hésiter. Après, prenez dix minutes de bilan, à froid. Sur la semaine, réservez un temps d'étude régulier, même court : une heure de travail sérieux vaut mieux que trois tournois joués en pilote automatique.",
+        "editing": "Chaque bloc de la frise s'allume au fil du texte."
+      },
+      {
+        "n": 4,
+        "timecode": "00:55 – 01:25",
+        "visual": "Main revue, affichée rue par rue. Tournoi, tapis effectif 35 BB. Vous relancez à 2,2 BB au cutoff (siège à droite du bouton) avec 9♠ 9♦, le bouton paie, les blindes se couchent. Flop : A♣ 7♥ 2♦. Vous misez un tiers du pot, il paie. Turn : 5♠.",
+        "voiceover": "Passons à la revue de mains, avec un exemple. Trente-cinq grosses blindes, vous relancez au cutoff, le siège juste à droite du bouton, avec une paire de neuf. Le bouton paie. Le flop amène un as, un sept et un deux. Vous misez un tiers du pot, il paie. La turn est un cinq. Que faire ?",
+        "editing": "Les cartes apparaissent rue par rue, la frise Préflop › Flop › Turn en haut."
+      },
+      {
+        "n": 5,
+        "timecode": "01:25 – 01:55",
+        "visual": "Trois questions affichées : « Quelles mains a-t-il payé au flop ? » – « Qui bat-il, qui le bat ? » – « Quel était mon plan ? ». À côté : liste des mains adverses probables (A♥ J♠, A♦ 10♦, 8♣ 8♥, 7♠ 6♠…).",
+        "voiceover": "Pour revoir ce coup, posez-vous toujours les mêmes questions. Avec quelles mains l'adversaire a-t-il payé au flop ? Quelle part de ces mains bat votre paire de neuf ? Et aviez-vous un plan pour la turn avant de miser au flop ? Souvent, l'erreur n'est pas la décision finale, mais l'absence de plan deux rues plus tôt.",
+        "editing": "Les questions s'affichent une par une, la liste des mains en surimpression."
+      },
+      {
+        "n": 6,
+        "timecode": "01:55 – 02:12",
+        "visual": "Deux colonnes : « Bonne décision / résultat perdant » et « Mauvaise décision / résultat gagnant ». Texte central : « On juge la décision, pas le résultat ».",
+        "voiceover": "Règle d'or de la revue : on juge la décision, jamais le résultat. Une bonne décision peut perdre, une mauvaise peut gagner. Seule la qualité de la décision se répète dans le temps.",
+        "editing": "Mettre en gras la phrase centrale."
+      },
+      {
+        "n": 7,
+        "timecode": "02:12 – 02:42",
+        "visual": "Courbe d'attention qui baisse au fil des heures. Pictogrammes : pause, verre d'eau, alcool barré, réveil. Encart : « Signes de fatigue : décisions rapides, agacement, envie de se refaire ».",
+        "voiceover": "Troisième chantier : la fatigue. Un tournoi peut durer des heures, et votre attention baisse bien avant que vous ne le remarquiez. Profitez des pauses pour vous lever, buvez de l'eau, évitez l'alcool. Fixez une heure de fin avant de commencer. Et si vous jouez vite, avec agacement, ou pour vous refaire, c'est le signal d'arrêter.",
+        "editing": "La courbe descend pendant que la voix parle."
+      },
+      {
+        "n": 8,
+        "timecode": "02:42 – 03:08",
+        "visual": "Graphique illustratif (non réel) d'une série de tournois : longue suite sans place payée, puis un pic. Mention « Exemple fictif ». Texte : « Petit échantillon = peu d'information ».",
+        "voiceover": "Quatrième chantier : la variance. En tournoi, même un joueur solide peut enchaîner des dizaines de tournois sans place payée. Quelques résultats, bons ou mauvais, ne disent presque rien de votre niveau. C'est pour cela qu'il faut un cadre financier strict.",
+        "editing": "Bien laisser visible la mention « Exemple fictif »."
+      },
+      {
+        "n": 9,
+        "timecode": "03:08 – 03:37",
+        "visual": "Encart rouge « Bankroll : repères prudents » : argent dédié, séparé du budget courant ; somme que vous pouvez perdre entièrement ; au moins 100 droits d'entrée du niveau joué, davantage pour les tournois à très nombreux inscrits ; redescendre de niveau si elle baisse. Mention : « Le poker n'est pas une source de revenus ».",
+        "voiceover": "La bankroll, c'est une somme réservée au poker, séparée de votre budget courant, et que vous pouvez vous permettre de perdre entièrement. Un repère prudent pour un joueur régulier de tournois : au moins cent droits d'entrée du niveau joué, et davantage pour les tournois à très nombreux inscrits. Si cette somme diminue, redescendez de niveau. Aucune méthode ne garantit de gagner : le poker doit rester un loisir.",
+        "editing": "Encart fixe pendant tout le plan, style .box."
+      },
+      {
+        "n": 10,
+        "timecode": "03:37 – 03:52",
+        "visual": "Face caméra. Bandeau : « Jouer pour se refaire, cacher ses pertes, emprunter : parlez-en. Joueurs Info Service 09 74 75 13 13 ».",
+        "voiceover": "Enfin, si vous jouez pour vous refaire, si vous cachez vos pertes ou si vous empruntez pour jouer, parlez-en. Joueurs Info Service répond au zéro neuf, soixante-quatorze, soixante-quinze, treize, treize, appel non surtaxé.",
+        "editing": "Bandeau lisible au moins 5 s, ton posé, pas de musique."
+      },
+      {
+        "n": 11,
+        "timecode": "03:52 – 04:04",
+        "visual": "Carton récapitulatif en 3 points numérotés.",
+        "voiceover": "À retenir : une routine courte et régulière. Une revue de mains qui juge les décisions, pas les résultats. Et un cadre de temps et de bankroll que vous respectez.",
+        "editing": "Les trois points apparaissent un par un."
+      },
+      {
+        "n": 12,
+        "timecode": "04:04 – 04:11",
+        "visual": "Capture de la leçon interactive « Progresser en tournoi », logo PokerVitrine, mention « Réservé aux majeurs ».",
+        "voiceover": "Retrouvez la leçon interactive sur PokerVitrine pour mettre cette méthode en pratique.",
+        "editing": "Écran de fin avec la playlist des cinq vidéos."
+      }
+    ],
+    "recap": [
+      "Une routine courte et régulière : un objectif, quelques mains notées, un bilan à froid.",
+      "En revue de mains, jugez la décision, jamais le résultat.",
+      "Fixez un cadre de temps et une bankroll dédiée, que vous pouvez perdre ; le poker reste un loisir."
+    ]
+  }
+]

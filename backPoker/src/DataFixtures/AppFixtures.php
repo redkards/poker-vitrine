@@ -53,6 +53,8 @@ class AppFixtures extends Fixture
         $articles = [
             ...array_map(static fn (array $a) => [...$a, ArticleScope::France], self::ARTICLES),
             ...array_map(static fn (array $a) => [...$a, ArticleScope::International], self::INTERNATIONAL_ARTICLES),
+            ...array_map(static fn (array $a) => [...$a, ArticleScope::Live], self::LIVE_ARTICLES),
+            ...array_map(static fn (array $a) => [...$a, ArticleScope::Online], self::ONLINE_ARTICLES),
         ];
         foreach ($articles as $i => [$category, $title, $excerpt, $paragraphs, $scope]) {
             $content = implode('', array_map(static fn (string $p) => '<p>'.$p.'</p>', $paragraphs));
@@ -163,6 +165,38 @@ class AppFixtures extends Fixture
     /**
      * Actualités internationales de démonstration
      *
+     * @var list<array{string, string, string, list<string>}>
+     */
+    private const LIVE_ARTICLES = [
+        ['Tournois live', 'Votre premier tournoi en club ou en casino : le guide pratique', 'Inscription, pièce d’identité, placement, jetons : tout ce qu’il faut savoir avant de s’asseoir.', [
+            'Arrivez en avance : l’inscription demande une pièce d’identité et le placement est souvent tiré au sort. Le croupier distribue les cartes, vous n’avez qu’à jouer.',
+            'Annoncez clairement vos actions (« suivre », « relance à 800 ») et posez vos jetons en une seule fois : un geste en plusieurs fois peut être refusé.',
+            'Prévoyez de l’eau et des pauses : un tournoi live dure souvent plusieurs heures, et la fatigue coûte cher en fin de journée.',
+        ]],
+        ['Tournois live', 'L’étiquette à table : les règles non écrites du poker live', 'Ne pas jouer hors de son tour, protéger ses cartes, rester courtois : les bons réflexes.', [
+            'Attendez votre tour pour parler ou agir : réagir avant son tour donne des informations aux autres joueurs et peut être pénalisé.',
+            'Protégez vos cartes avec un jeton et ne commentez pas une main en cours, même couché.',
+            'Un « bonne main » après un pot perdu fait partie de la culture du jeu : le respect à table est la règle.',
+        ]],
+    ];
+
+    /**
+     * @var list<array{string, string, string, list<string>}>
+     */
+    private const ONLINE_ARTICLES = [
+        ['Tournois en ligne', 'MTT, Sit & Go, KO : choisir son format de tournoi en ligne', 'Durée, variance, nombre de joueurs : les différences pour choisir le format qui vous convient.', [
+            'Le MTT (tournoi multi-tables) réunit des centaines de joueurs : longs, très variables, ils offrent de gros premiers prix.',
+            'Le Sit & Go démarre dès que les places sont remplies : plus court et plus régulier, idéal pour apprendre.',
+            'Dans un tournoi KO, une partie de l’inscription récompense chaque élimination : le jeu y est plus agressif. Jouez uniquement sur des sites agréés par l’ANJ.',
+        ]],
+        ['Tournois en ligne', 'Bien organiser une session de tournois en ligne', 'Nombre de tables, horaires, pauses : une session préparée se joue mieux.', [
+            'Commencez avec une ou deux tables : multiplier les tables trop tôt fait baisser la qualité des décisions.',
+            'Fixez à l’avance votre budget et votre heure de fin, et respectez-les quelle que soit l’issue.',
+            'Notez les mains difficiles pour les revoir à froid ou les partager sur le forum.',
+        ]],
+    ];
+
+    /**
      * @var list<array{string, string, string, list<string>}>
      */
     private const INTERNATIONAL_ARTICLES = [

@@ -6,7 +6,14 @@ export interface Paginated<T> {
   pages: number;
 }
 
-export type ArticleScope = 'france' | 'international';
+export type ArticleScope = 'france' | 'international' | 'live' | 'online';
+
+export const ARTICLE_SCOPES: { value: ArticleScope; label: string; short: string }[] = [
+  { value: 'france', label: 'Actu France', short: 'FR' },
+  { value: 'international', label: 'Actu internationale', short: '🌍' },
+  { value: 'live', label: 'Tournois live', short: 'LIVE' },
+  { value: 'online', label: 'Tournois en ligne', short: 'WEB' },
+];
 
 export interface ArticleSummary {
   id: number;

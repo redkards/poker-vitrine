@@ -1,0 +1,114 @@
+@use '../lessons' as l;
+
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+.map {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 16 / 10;
+  margin-inline: auto;
+}
+
+.felt {
+  @include l.felt;
+  position: absolute;
+  inset: 14% 12%;
+  display: grid;
+  place-items: center;
+  color: rgb(255 255 255 / 0.75);
+  font-family: var(--pv-font-title);
+  font-size: 0.95rem;
+}
+
+.seat {
+  position: absolute;
+  display: grid;
+  justify-items: center;
+  width: 92px;
+  padding: 0.35rem 0.3rem;
+  border: 2px solid var(--pv-line);
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-card);
+  color: var(--pv-ink);
+  font: 600 0.72rem/1.15 var(--pv-font-body);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: border-color 0.18s, background-color 0.18s, color 0.18s;
+
+  &:hover {
+    border-color: var(--pv-ink);
+  }
+
+  &.is-key {
+    border-color: var(--pv-red);
+    background: var(--pv-red-soft);
+  }
+
+  &[aria-pressed='true'] {
+    border-color: var(--pv-ink);
+    background: var(--pv-ink);
+    color: #fff;
+  }
+
+  &[data-seat='BTN'] { top: 92%; left: 50%; }
+  &[data-seat='SB'] { top: 74%; left: 10%; }
+  &[data-seat='BB'] { top: 26%; left: 10%; }
+  &[data-seat='UTG'] { top: 8%; left: 50%; }
+  &[data-seat='HJ'] { top: 26%; left: 90%; }
+  &[data-seat='CO'] { top: 74%; left: 90%; }
+}
+
+.seat__short {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.dealer {
+  position: absolute;
+  top: -10px;
+  right: -8px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--pv-ink);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--pv-ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.info {
+  @include l.panel;
+}
+
+.info__title {
+  margin: 0 0 0.3rem;
+
+  span {
+    margin-left: 0.4rem;
+    color: var(--pv-red);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
+
+.info__text {
+  @include l.caption;
+}
+
+@media (max-width: 480px) {
+  .seat {
+    width: 74px;
+  }
+
+  .seat__name {
+    display: none;
+  }
+}

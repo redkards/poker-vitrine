@@ -20,6 +20,7 @@ export class HeaderComponent {
     { path: '/actualites', label: 'Actualités', exact: false },
     { path: '/forum', label: 'Forum', exact: false },
     { path: '/videos', label: 'Vidéos', exact: false },
+    { path: '/lecons', label: 'Apprendre', exact: false },
   ];
 
   constructor() {

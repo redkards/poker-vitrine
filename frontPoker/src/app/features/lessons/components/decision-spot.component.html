@@ -1,0 +1,40 @@
+<div class="spot">
+  <p class="spot__tag">Mise en situation</p>
+  <p class="spot__text">{{ situation() }}</p>
+  @if (hero(); as cards) {
+    <div class="spot__cards" role="group" [attr.aria-label]="'Vos cartes : ' + label(cards)">
+      @for (c of cards; track c) {
+        <app-playing-card [code]="c" size="lg" />
+      }
+    </div>
+  }
+  @if (board(); as cards) {
+    <div class="spot__cards" role="group" [attr.aria-label]="'Tableau : ' + label(cards)">
+      @for (c of cards; track c) {
+        <app-playing-card [code]="c" size="sm" />
+      }
+    </div>
+  }
+</div>
+
+<div class="options" role="group" aria-label="Que faites-vous ?">
+  @for (o of options(); track o.label) {
+    <button
+      type="button"
+      class="option"
+      [attr.aria-pressed]="choice() === $index"
+      [attr.data-state]="choice() === $index ? (o.correct ? 'good' : 'bad') : null"
+      (click)="choice.set($index)"
+    >
+      {{ o.label }}
+    </button>
+  }
+</div>
+
+<div class="feedback" aria-live="polite">
+  @if (picked(); as p) {
+    <p class="pv-alert" [class.pv-alert--success]="p.correct" [class.pv-alert--error]="!p.correct">
+      <strong>{{ p.correct ? 'Bonne décision.' : 'À revoir.' }}</strong> {{ p.feedback }}
+    </p>
+  }
+</div>

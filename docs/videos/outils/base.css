@@ -1,0 +1,32 @@
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+  :root { --red: #b3121b; --ink: #141414; --muted: #5f636b; --line: #dcdfe4; --soft: #f4f5f7; --ok: #1c7c4a; --todo: #9a6200; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); font: 10.5pt/1.5 "Segoe UI", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.15; margin: 0; }
+  h1 { font-size: 30pt; }
+  h1 span { color: var(--red); }
+  h2 { font-size: 16pt; margin: 18pt 0 6pt; padding-bottom: 4pt; border-bottom: 2px solid var(--red); break-after: avoid; }
+  h3 { font-size: 12pt; margin: 10pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  ul { margin: 0 0 6pt; padding-left: 16pt; }
+  li { margin-bottom: 2pt; }
+  code { font: 9pt Consolas, monospace; background: var(--soft); padding: 0 3pt; border-radius: 3px; }
+  .eyebrow { color: var(--red); font-size: 8pt; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; }
+  .cover { display: flex; justify-content: space-between; align-items: flex-end; gap: 12pt; padding-bottom: 10pt; border-bottom: 1px solid var(--line); }
+  .meta { color: var(--muted); font-size: 9pt; text-align: right; }
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8pt; margin: 12pt 0 4pt; }
+  .tile { padding: 8pt 10pt; border-radius: 8px; background: var(--soft); }
+  .tile b { display: block; font-size: 17pt; font-family: Georgia, serif; }
+  .tile span { color: var(--muted); font-size: 8.5pt; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 9.5pt; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 6pt; border-bottom: 1px solid var(--line); }
+  th { background: var(--soft); font-size: 8.5pt; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  tr { break-inside: avoid; }
+  .done { color: var(--ok); font-weight: 700; white-space: nowrap; }
+  .todo { color: var(--todo); font-weight: 700; white-space: nowrap; }
+  .now { color: var(--red); font-weight: 700; white-space: nowrap; }
+  .box { padding: 8pt 10pt; border-left: 3px solid var(--red); background: #fbe9ea; border-radius: 0 6px 6px 0; margin: 6pt 0 8pt; break-inside: avoid; }
+  .box.neutral { border-color: var(--muted); background: var(--soft); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .page-break { break-before: page; }
+  footer { margin-top: 16pt; padding-top: 6pt; border-top: 1px solid var(--line); color: var(--muted); font-size: 8pt; }

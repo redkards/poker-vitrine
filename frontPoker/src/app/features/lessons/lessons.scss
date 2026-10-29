@@ -1,0 +1,49 @@
+// Mixins partagés de la rubrique « Leçons » (n'émet aucun CSS par lui-même).
+
+@mixin panel {
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  border: 1px solid var(--pv-line);
+  border-radius: var(--pv-radius);
+  background: var(--pv-surface);
+}
+
+@mixin felt {
+  border-radius: 999px;
+  background: radial-gradient(120% 90% at 50% 30%, #1f6b46 0%, #124430 70%, #0c2f21 100%);
+  box-shadow: inset 0 0 0 6px #5a1a1e, inset 0 0 0 8px #2b0b0d, var(--pv-shadow-sm);
+}
+
+@mixin chip {
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: 999px;
+  background: var(--pv-card);
+  color: var(--pv-ink-soft);
+  font: 600 0.88rem var(--pv-font-body);
+  cursor: pointer;
+  transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+
+  &:hover {
+    border-color: var(--pv-ink);
+  }
+
+  &[aria-pressed='true'],
+  &.is-active {
+    border-color: var(--pv-ink);
+    background: var(--pv-ink);
+    color: #fff;
+  }
+}
+
+@mixin caption {
+  margin: 0;
+  color: var(--pv-ink-soft);
+  font-size: 0.92rem;
+}
+
+@mixin cards-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}

@@ -1,0 +1,45 @@
+@if (!finished()) {
+  <p class="count">Question {{ current() + 1 }} sur {{ questions().length }}</p>
+  <fieldset class="q">
+    <legend class="q__title">{{ question().question }}</legend>
+    <div class="q__options">
+      @for (o of question().options; track $index) {
+        <button
+          type="button"
+          class="opt"
+          [attr.data-state]="state($index)"
+          [attr.aria-pressed]="chosen() === $index"
+          [attr.aria-disabled]="chosen() !== null"
+          (click)="choose($index)"
+        >
+          <span class="opt__letter" aria-hidden="true">{{ letters[$index] }}</span>
+          <span>{{ o }}</span>
+          @if (state($index) === 'good') {
+            <span class="pv-sr-only">(bonne réponse)</span>
+          } @else if (state($index) === 'bad') {
+            <span class="pv-sr-only">(votre réponse, incorrecte)</span>
+          }
+        </button>
+      }
+    </div>
+  </fieldset>
+
+  <div aria-live="polite">
+    @if (chosen() !== null) {
+      <div class="pv-alert" [class.pv-alert--success]="chosen() === question().answer" [class.pv-alert--error]="chosen() !== question().answer">
+        <strong>{{ chosen() === question().answer ? 'Bonne réponse !' : 'Pas tout à fait.' }}</strong>
+        {{ question().explanation }}
+      </div>
+    }
+  </div>
+
+  <button type="button" class="pv-btn pv-btn--primary" [disabled]="chosen() === null" (click)="next()">
+    {{ isLast() ? 'Voir mon score' : 'Question suivante' }} <span class="pv-arrow" aria-hidden="true">→</span>
+  </button>
+} @else {
+  <div class="result" aria-live="polite">
+    <p class="result__score"><strong>{{ score() }}</strong> / {{ questions().length }}</p>
+    <p class="result__text">{{ verdict() }}</p>
+    <button type="button" class="pv-btn pv-btn--outline" (click)="restart()">Recommencer le quiz</button>
+  </div>
+}

@@ -1,0 +1,46 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Cours structurés en 3 niveaux</span>
+  <h1>Apprendre et se perfectionner</h1>
+  <p>
+    Des leçons courtes, interactives et animées pour comprendre le Texas Hold'em, des règles de base au jeu de tournoi.
+    Chaque leçon se termine par un quiz de trois questions.
+  </p>
+</section>
+
+<div class="pv-container">
+  @for (section of sections; track section.value) {
+    <section class="level" [attr.aria-labelledby]="'niveau-' + section.value">
+      <header class="level__head" [attr.data-level]="section.value">
+        <h2 [id]="'niveau-' + section.value">{{ section.label }}</h2>
+        <p>{{ section.description }}</p>
+      </header>
+
+      <ol class="grid">
+        @for (lesson of section.lessons; track lesson.slug) {
+          <li>
+            <a class="lesson-card" [routerLink]="['/lecons', lesson.slug]">
+              <span class="lesson-card__cover" aria-hidden="true">
+                <span class="lesson-card__num">{{ lesson.order }}</span>
+                <span class="lesson-card__cards">
+                  <app-playing-card [code]="lesson.cover[0]" />
+                  <app-playing-card [code]="lesson.cover[1]" />
+                </span>
+              </span>
+              <span class="lesson-card__body">
+                <span class="lesson-card__tags">
+                  <span class="badge" [attr.data-level]="lesson.level">{{ lesson.levelLabel }}</span>
+                  <span class="lesson-card__meta">{{ lesson.duration }} min · {{ lesson.steps.length }} étapes + quiz</span>
+                </span>
+                <span class="lesson-card__title">{{ lesson.title }}</span>
+                <span class="lesson-card__desc">{{ lesson.summary }}</span>
+                <span class="lesson-card__status">{{ status(lesson) }}</span>
+              </span>
+            </a>
+          </li>
+        }
+      </ol>
+    </section>
+  }
+
+  <p class="origin">Contenus originaux PokerVitrine · Le poker est réservé aux personnes majeures.</p>
+</div>

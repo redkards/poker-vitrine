@@ -1,0 +1,124 @@
+:host {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
+
+.count {
+  margin: 0;
+  color: var(--pv-red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.q {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.q__title {
+  margin-bottom: 1rem;
+  padding: 0;
+  font-family: var(--pv-font-title);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.q__options {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.6rem 1rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-card);
+  color: var(--pv-ink);
+  font: 500 0.95rem var(--pv-font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s, background-color 0.18s;
+
+  &:hover:not([aria-disabled='true']) {
+    border-color: var(--pv-ink);
+  }
+
+  &[aria-disabled='true'] {
+    cursor: default;
+  }
+
+  &[data-state='good'] {
+    border-color: var(--pv-success);
+    background: var(--pv-success-soft);
+  }
+
+  &[data-state='bad'] {
+    border-color: var(--pv-red);
+    background: var(--pv-red-soft);
+  }
+}
+
+.opt__letter {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--pv-surface);
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  [data-state='good'] & {
+    background: var(--pv-success);
+    color: #fff;
+  }
+
+  [data-state='bad'] & {
+    background: var(--pv-red);
+    color: #fff;
+  }
+}
+
+.pv-alert {
+  width: 100%;
+  margin: 0;
+}
+
+.result {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 2rem 1rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-surface);
+  text-align: center;
+}
+
+.result__score {
+  margin: 0;
+  font-family: var(--pv-font-title);
+  font-size: 1.6rem;
+
+  strong {
+    color: var(--pv-red);
+    font-size: 3.4rem;
+  }
+}
+
+.result__text {
+  margin: 0;
+  color: var(--pv-ink-soft);
+}

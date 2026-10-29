@@ -1,0 +1,172 @@
+@use '../lessons' as l;
+
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tab {
+  @include l.chip;
+}
+
+.panel {
+  @include l.panel;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.panel__title,
+.panel__text {
+  @include l.caption;
+}
+
+.panel__title {
+  color: var(--pv-ink);
+}
+
+.hands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hand {
+  display: flex;
+  gap: 0.2rem;
+  padding: 0.35rem;
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-card);
+  box-shadow: var(--pv-shadow-sm);
+}
+
+.reveal {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal__item {
+  overflow: hidden;
+  border: 1.5px solid var(--pv-line);
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-card);
+
+  &.is-open {
+    border-color: var(--pv-red);
+  }
+}
+
+.reveal__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 1rem;
+  border: 0;
+  background: none;
+  color: var(--pv-ink);
+  font: 700 0.95rem var(--pv-font-body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.reveal__icon {
+  color: var(--pv-red);
+  font-size: 1.3rem;
+}
+
+.reveal__text {
+  @include l.caption;
+  padding: 0 1rem 0.9rem;
+  animation: pv-fade 0.25s ease-out;
+}
+
+@keyframes pv-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.check {
+  @include l.panel;
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+
+  legend {
+    padding: 0 0.4rem;
+    font-weight: 700;
+  }
+}
+
+.check__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.93rem;
+  cursor: pointer;
+
+  input {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin-top: 0.1rem;
+    accent-color: var(--pv-red);
+  }
+}
+
+.alert {
+  margin: 0;
+}
+
+.bankroll__field {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--pv-ink-soft);
+}
+
+.bankroll__out {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.6rem;
+
+  p {
+    display: grid;
+    gap: 0.2rem;
+    margin: 0;
+    padding: 0.8rem;
+    border-radius: var(--pv-radius-sm);
+    background: var(--pv-card);
+  }
+
+  strong {
+    font-family: var(--pv-font-title);
+    font-size: 1.5rem;
+  }
+
+  span {
+    color: var(--pv-muted);
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal__text {
+    animation: none;
+  }
+}

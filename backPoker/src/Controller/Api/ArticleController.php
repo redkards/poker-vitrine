@@ -21,7 +21,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * Filtres : ?category=…&scope=france|international
+     * Filtres : ?category=…&scope=france|international|live|online
      */
     #[Route('', name: 'api_articles', methods: ['GET'])]
     public function list(
@@ -35,7 +35,7 @@ class ArticleController extends AbstractController
         $scopeEnum = $scope ? ArticleScope::tryFrom($scope) : null;
 
         if ($scope && !$scopeEnum) {
-            return $this->json(['message' => 'Portée inconnue (france ou international).'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['message' => 'Rubrique inconnue (france, international, live ou online).'], Response::HTTP_BAD_REQUEST);
         }
 
         $result = $this->articles->findPublishedPage($page, $limit, $category, $scopeEnum);

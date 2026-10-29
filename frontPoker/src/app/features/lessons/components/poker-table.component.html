@@ -1,0 +1,22 @@
+<div class="table">
+  <div class="felt">
+    <span class="street">{{ street().name }}</span>
+    <div class="board" role="group" aria-label="Tableau (cartes communes)">
+      @for (card of board(); track $index) {
+        <app-playing-card [code]="card" [hidden]="$index >= shown()" />
+      }
+    </div>
+  </div>
+  <div class="hero" role="group" [attr.aria-label]="heroLabel()">
+    <span class="hero__label">Vous</span>
+    @for (card of hero(); track $index) {
+      <app-playing-card [code]="card" size="lg" />
+    }
+  </div>
+</div>
+
+<p class="status" aria-live="polite">{{ status() }}</p>
+
+@if (interactive()) {
+  <button type="button" class="pv-btn pv-btn--outline" (click)="advance()">{{ street().next }}</button>
+}

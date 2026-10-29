@@ -3,13 +3,19 @@ import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
-import { ArticleSummary } from '../../core/api/content.models';
+import { ARTICLE_SCOPES, ArticleScope, ArticleSummary } from '../../core/api/content.models';
 import { ContentService } from '../../core/api/content.service';
 
 const AUTOPLAY_MS = 6000;
 const SLIDE_COUNT = 4;
-/** 2 fenêtres « Actu France » + 2 fenêtres « Actu internationale » */
+/** 2 fenêtres par rubrique */
 const NEWS_PER_SCOPE = 2;
+
+/** Blocs d'actualités de l'accueil : 2 colonnes chacun */
+const NEWS_BLOCKS: { id: string; eyebrow: string; title: string; scopes: [ArticleScope, ArticleScope] }[] = [
+  { id: 'actus', eyebrow: 'À la une', title: 'Dernières actualités', scopes: ['france', 'international'] },
+  { id: 'tournois', eyebrow: 'Live et en ligne', title: 'Actu tournois', scopes: ['live', 'online'] },
+];
 
 @Component({
   selector: 'app-home',
@@ -24,10 +30,19 @@ export class HomeComponent implements OnInit {
 
   protected readonly loaded = signal(false);
 
-  /** Carrousel « à la une » : les derniers articles, toutes portées confondues */
+  /** Carrousel « à la une » : les derniers articles, toutes rubriques confondues */
   protected readonly slides = signal<ArticleSummary[]>([]);
-  protected readonly newsFrance = signal<ArticleSummary[]>([]);
-  protected readonly newsWorld = signal<ArticleSummary[]>([]);
+  private readonly newsByScope = signal<Partial<Record<ArticleScope, ArticleSummary[]>>>({});
+
+  protected readonly newsBlocks = computed(() =>
+    NEWS_BLOCKS.map((block) => ({
+      ...block,
+      columns: block.scopes.map((scope) => {
+        const meta = ARTICLE_SCOPES.find((s) => s.value === scope)!;
+        return { id: scope, title: meta.label, flag: meta.short, items: this.newsByScope()[scope] ?? [] };
+      }),
+    })),
+  );
 
   protected readonly current = signal(0);
   protected readonly slide = computed<ArticleSummary | undefined>(() => this.slides()[this.current()]);
@@ -41,12 +56,18 @@ export class HomeComponent implements OnInit {
     forkJoin({
       featured: this.content.getArticles(1, SLIDE_COUNT),
       france: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'france'),
-      world: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'international'),
+      international: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'international'),
+      live: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'live'),
+      online: this.content.getArticles(1, NEWS_PER_SCOPE, null, 'online'),
     }).subscribe({
-      next: ({ featured, france, world }) => {
+      next: ({ featured, ...byScope }) => {
         this.slides.set(featured.items);
-        this.newsFrance.set(france.items);
-        this.newsWorld.set(world.items);
+        this.newsByScope.set({
+          france: byScope.france.items,
+          international: byScope.international.items,
+          live: byScope.live.items,
+          online: byScope.online.items,
+        });
         this.loaded.set(true);
       },
       // L'accueil reste utilisable sans l'API : on masque simplement les contenus dynamiques

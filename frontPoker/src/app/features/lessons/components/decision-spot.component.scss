@@ -1,0 +1,60 @@
+@use '../lessons' as l;
+
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+.spot {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1.2rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-dark);
+  color: #fff;
+}
+
+.spot__tag {
+  margin: 0;
+  color: #ff9aa0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.spot__text {
+  margin: 0;
+  color: #e4e5e8;
+}
+
+.spot__cards {
+  @include l.cards-row;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.option {
+  @include l.chip;
+  min-height: 46px;
+
+  &[data-state='good'] {
+    border-color: var(--pv-success);
+    background: var(--pv-success);
+    color: #fff;
+  }
+
+  &[data-state='bad'] {
+    border-color: var(--pv-red);
+    background: var(--pv-red);
+    color: #fff;
+  }
+}
+
+.feedback .pv-alert {
+  margin: 0;
+}

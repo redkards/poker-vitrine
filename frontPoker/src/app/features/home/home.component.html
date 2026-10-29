@@ -111,23 +111,23 @@
   </aside>
 </section>
 
-<!-- Dernières actualités -->
-<section class="pv-container news" aria-labelledby="news-title">
+<!-- Actualités (France / International) puis Tournois (live / en ligne) : 2 fenêtres par rubrique -->
+@for (block of newsBlocks(); track block.id) {
+<section class="pv-container news" [attr.aria-labelledby]="'block-' + block.id">
   <div class="news__head">
     <div>
-      <span class="pv-eyebrow">À la une</span>
-      <h2 id="news-title">Dernières actualités</h2>
+      <span class="pv-eyebrow">{{ block.eyebrow }}</span>
+      <h2 [id]="'block-' + block.id">{{ block.title }}</h2>
     </div>
-    <a routerLink="/actualites" class="pv-btn pv-btn--outline">
-      Toutes les actualités <span class="pv-arrow" aria-hidden="true">→</span>
-    </a>
+    @if ($first) {
+      <a routerLink="/actualites" class="pv-btn pv-btn--outline">
+        Toutes les actualités <span class="pv-arrow" aria-hidden="true">→</span>
+      </a>
+    }
   </div>
 
   <div class="news__columns">
-    @for (col of [
-      { id: 'france', title: 'Actu France', flag: 'FR', items: newsFrance() },
-      { id: 'international', title: 'Actu internationale', flag: '🌍', items: newsWorld() }
-    ]; track col.id) {
+    @for (col of block.columns; track col.id) {
       <section class="news__col" [attr.aria-labelledby]="'news-' + col.id">
         <div class="news__col-head">
           <h3 [id]="'news-' + col.id"><span class="news__flag" aria-hidden="true">{{ col.flag }}</span>{{ col.title }}</h3>
@@ -148,6 +148,7 @@
     }
   </div>
 </section>
+}
 
 <ng-template #newsCard let-item>
   <article class="news-card">

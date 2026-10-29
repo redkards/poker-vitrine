@@ -1,0 +1,35 @@
+@if (calculator()) {
+  <div class="calc">
+    <label>
+      <span>Mon tapis (jetons)</span>
+      <input class="pv-input" type="number" min="0" step="100" inputmode="numeric" [value]="chips()" (input)="onChips($event)" />
+    </label>
+    <span class="calc__op" aria-hidden="true">÷</span>
+    <label>
+      <span>Grosse blinde</span>
+      <input class="pv-input" type="number" min="1" step="50" inputmode="numeric" [value]="bigBlind()" (input)="onBigBlind($event)" />
+    </label>
+  </div>
+}
+
+<div class="gauge" aria-hidden="true">
+  <div class="gauge__track">
+    @for (z of zones; track z.min) {
+      <span class="gauge__zone" [attr.data-zone]="$index" [style.width.%]="width(z)" [class.is-active]="z === zone()"></span>
+    }
+    <span class="gauge__marker" [style.left.%]="percent()"></span>
+  </div>
+  <div class="gauge__scale"><span>0</span><span>10</span><span>25</span><span>40</span><span>100 BB</span></div>
+</div>
+
+@if (interactive() && !calculator()) {
+  <label class="slider">
+    <span>Tapis : <strong>{{ display() }} BB</strong></span>
+    <input type="range" min="1" [max]="max" step="1" [value]="value()" (input)="onSlider($event)" [attr.aria-valuetext]="display() + ' grosses blindes'" />
+  </label>
+}
+
+<div class="result" aria-live="polite">
+  <p class="result__value"><strong>{{ display() }} BB</strong> · {{ zone().label }}</p>
+  <p class="result__text">{{ zone().text }}</p>
+</div>

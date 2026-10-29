@@ -1,0 +1,78 @@
+@use '../lessons' as l;
+
+:host {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  @include l.chip;
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-card);
+  border: 1px solid var(--pv-line);
+}
+
+.line {
+  fill: none;
+  stroke: var(--pv-red);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.ev {
+  stroke: var(--pv-success);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+}
+
+.zero {
+  stroke: var(--pv-muted);
+  stroke-width: 1;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin: 0;
+  color: var(--pv-ink-soft);
+  font-size: 0.82rem;
+}
+
+.key {
+  display: inline-block;
+  width: 22px;
+  height: 0;
+  border-top: 3px solid var(--pv-red);
+
+  &--ev {
+    border-top: 3px dashed var(--pv-success);
+  }
+
+  &--zero {
+    border-top: 1px solid var(--pv-muted);
+  }
+}
+
+.summary {
+  @include l.caption;
+  font-weight: 600;
+}
+
+.note {
+  margin: 0;
+  color: var(--pv-muted);
+  font-size: 0.8rem;
+}

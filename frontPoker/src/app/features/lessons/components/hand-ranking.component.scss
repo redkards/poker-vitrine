@@ -1,0 +1,78 @@
+@use '../lessons' as l;
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.list {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 0.8rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: 999px;
+  background: var(--pv-card);
+  color: var(--pv-ink);
+  font: 600 0.86rem var(--pv-font-body);
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--pv-ink);
+  }
+
+  &[aria-pressed='true'] {
+    border-color: var(--pv-red);
+    background: var(--pv-red);
+    color: #fff;
+  }
+}
+
+.item__rank {
+  min-width: 1.2rem;
+  opacity: 0.7;
+  font-size: 0.78rem;
+}
+
+.example {
+  @include l.panel;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.example__title {
+  margin: 0;
+  font-family: var(--pv-font-title);
+  font-size: 1.15rem;
+}
+
+.example__cards {
+  @include l.cards-row;
+}
+
+.example__text {
+  @include l.caption;
+}
+
+@media (max-width: 640px) {
+  :host {
+    grid-template-columns: 1fr;
+  }
+
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

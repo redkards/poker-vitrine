@@ -1,0 +1,94 @@
+@let v = visual();
+@switch (v.kind) {
+  @case ('table') {
+    <app-poker-table [hero]="v.hero" [board]="v.board" [revealed]="v.revealed" [interactive]="v.interactive ?? false" />
+  }
+  @case ('showdown') {
+    <app-showdown [board]="v.board" [players]="v.players" [winner]="v.winner" [note]="v.note" />
+  }
+  @case ('ranking') {
+    <app-hand-ranking [hands]="v.hands" />
+  }
+  @case ('positions') {
+    <app-seat-map [highlight]="v.highlight" [selected]="v.selected" />
+  }
+  @case ('stack') {
+    <app-stack-gauge [bb]="v.bb" [calculator]="v.calculator" />
+  }
+  @case ('levels') {
+    <app-blind-levels [stack]="v.stack" [levels]="v.levels" />
+  }
+  @case ('decision') {
+    <app-decision-spot [situation]="v.situation" [hero]="v.hero" [board]="v.board" [options]="v.options" />
+  }
+  @case ('variance') {
+    <app-variance-chart />
+  }
+  @case ('handGroups') {
+    <div class="tabs" role="group" aria-label="Familles de mains">
+      @for (g of v.groups; track g.title) {
+        <button type="button" class="tab" [attr.aria-pressed]="tab() === $index" (click)="tab.set($index)">{{ g.title }}</button>
+      }
+    </div>
+    @let group = v.groups[tab()];
+    <div class="panel" aria-live="polite">
+      <p class="panel__title"><strong>{{ group.title }}</strong></p>
+      <p class="panel__text">{{ group.description }}</p>
+      <ul class="hands">
+        @for (hand of group.hands; track $index) {
+          <li class="hand">
+            @for (c of hand; track c) {
+              <app-playing-card [code]="c" size="sm" />
+            }
+          </li>
+        }
+      </ul>
+    </div>
+  }
+  @case ('reveal') {
+    <ul class="reveal">
+      @for (item of v.items; track item.term) {
+        <li class="reveal__item" [class.is-open]="open().has($index)">
+          <button type="button" class="reveal__btn" [attr.aria-expanded]="open().has($index)" (click)="toggle($index)">
+            <span>{{ item.term }}</span>
+            <span class="reveal__icon" aria-hidden="true">{{ open().has($index) ? '−' : '+' }}</span>
+          </button>
+          @if (open().has($index)) {
+            <p class="reveal__text">{{ item.text }}</p>
+          }
+        </li>
+      }
+    </ul>
+  }
+  @case ('checklist') {
+    <fieldset class="check">
+      <legend>{{ v.title }}</legend>
+      @for (item of v.items; track item) {
+        <label class="check__item">
+          <input type="checkbox" [checked]="open().has($index)" (change)="toggle($index)" />
+          <span>{{ item }}</span>
+        </label>
+      }
+    </fieldset>
+    <div aria-live="polite">
+      @if (v.alert && checkedCount() >= v.alert.threshold) {
+        <p class="pv-alert pv-alert--info alert">{{ v.alert.message }}</p>
+      } @else if (!v.alert && checkedCount() === v.items.length) {
+        <p class="pv-alert pv-alert--success alert">Routine complète : vous êtes prêt à décider.</p>
+      }
+    </div>
+  }
+  @case ('bankroll') {
+    <div class="panel bankroll">
+      <label class="bankroll__field">
+        <span>Somme réservée aux tournois, dont je peux me passer (€)</span>
+        <input class="pv-input" type="number" min="0" step="10" inputmode="numeric" [value]="reserve()" (input)="onReserve($event)" />
+      </label>
+      <div class="bankroll__out" aria-live="polite">
+        <p><strong>{{ reserve() / 100 | number: '1.0-2' }} €</strong><span>Droit d'entrée maximal selon le repère prudent de 1 %</span></p>
+        <p><strong>100</strong><span>Droits d'entrée d'avance dans la réserve</span></p>
+      </div>
+      <p class="panel__text">Repère indicatif, sans aucune garantie de résultat. Si la réserve baisse, on redescend de niveau ; si elle est épuisée, on ne la renfloue pas avec l'argent du quotidien.</p>
+    </div>
+  }
+}

@@ -1,0 +1,81 @@
+<div class="pv-container wrap">
+  <a routerLink="/lecons" class="back-link">← Toutes les leçons</a>
+
+  @if (lesson(); as l) {
+    <article class="lesson">
+      <header class="lesson__head">
+        <div class="lesson__tags">
+          <span class="badge" [attr.data-level]="l.level">{{ l.levelLabel }}</span>
+          <span>{{ l.duration }} min · {{ l.steps.length }} étapes + quiz</span>
+        </div>
+        <h1>{{ l.title }}</h1>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Progression dans la leçon"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [attr.aria-valuenow]="percent()"
+          [attr.aria-valuetext]="announce()"
+        >
+          <span class="progress__bar" [style.width.%]="percent()"></span>
+        </div>
+        <ol class="dots" aria-hidden="true">
+          @for (s of l.steps; track $index) {
+            <li [class.is-done]="$index < index()" [class.is-current]="$index === index()"></li>
+          }
+          <li class="dots__quiz" [class.is-current]="isQuiz()">?</li>
+        </ol>
+      </header>
+
+      <p class="pv-sr-only" aria-live="polite" aria-atomic="true">{{ announce() }}</p>
+
+      <section class="screen">
+        @if (isQuiz()) {
+          <p class="screen__count">Quiz final</p>
+          <h2 #heading tabindex="-1">Testez vos connaissances</h2>
+          <app-lesson-quiz [questions]="l.quiz" (completed)="onQuizDone($event)" />
+        } @else {
+          @for (s of stepList(); track s.title) {
+            <p class="screen__count">Étape {{ index() + 1 }} sur {{ l.steps.length }}</p>
+            <div class="screen__grid">
+              <div class="screen__text">
+                <h2 #heading tabindex="-1">{{ s.title }}</h2>
+                @for (p of s.paragraphs; track $index) {
+                  <p>{{ p }}</p>
+                }
+              </div>
+              <div class="screen__visual">
+                <app-step-visual [visual]="s.visual" />
+              </div>
+            </div>
+          }
+        }
+      </section>
+
+      <nav class="nav" aria-label="Navigation dans la leçon">
+        <button type="button" class="pv-btn pv-btn--outline" (click)="go(-1)" [disabled]="index() === 0">
+          <span aria-hidden="true">←</span> Précédent
+        </button>
+        @if (isQuiz()) {
+          <button type="button" class="pv-btn pv-btn--ghost" (click)="restartLesson()">Revoir depuis le début</button>
+        } @else {
+          <button type="button" class="pv-btn pv-btn--primary" (click)="go(1)">
+            {{ index() === l.steps.length - 1 ? 'Passer au quiz' : 'Suivant' }} <span class="pv-arrow" aria-hidden="true">→</span>
+          </button>
+        }
+      </nav>
+
+      <footer class="lesson__foot">
+        <p>
+          Contenu pédagogique original PokerVitrine, sans lien avec un opérateur de jeu. Le poker est <strong>réservé aux personnes majeures</strong>.
+          Jouer comporte des risques : endettement, dépendance… Appelez le 09 74 75 13 13 (Joueurs Info Service, appel non surtaxé).
+        </p>
+      </footer>
+    </article>
+  } @else {
+    <div class="pv-alert pv-alert--info notfound">
+      Cette leçon n'existe pas ou a été déplacée. <a routerLink="/lecons">Voir toutes les leçons</a>
+    </div>
+  }
+</div>

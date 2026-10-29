@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { apiErrorMessage } from '../../../core/api/api.service';
-import { ArticleScope, ArticleSummary } from '../../../core/api/content.models';
+import { ARTICLE_SCOPES, ArticleScope, ArticleSummary } from '../../../core/api/content.models';
 import { ContentService } from '../../../core/api/content.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
@@ -34,8 +34,7 @@ export class ArticleListComponent implements OnInit {
 
   protected readonly scopes: { value: ArticleScope | null; label: string }[] = [
     { value: null, label: 'Toutes' },
-    { value: 'france', label: 'Actu France' },
-    { value: 'international', label: 'Actu internationale' },
+    ...ARTICLE_SCOPES.map(({ value, label }) => ({ value, label })),
   ];
 
   ngOnInit(): void {
@@ -45,7 +44,7 @@ export class ArticleListComponent implements OnInit {
           const scope = params.get('portee');
           this.page.set(Math.max(1, Number(params.get('page')) || 1));
           this.category.set(params.get('categorie'));
-          this.scope.set(scope === 'france' || scope === 'international' ? scope : null);
+          this.scope.set(ARTICLE_SCOPES.find((s) => s.value === scope)?.value ?? null);
           this.loading.set(true);
           this.error.set(null);
         }),

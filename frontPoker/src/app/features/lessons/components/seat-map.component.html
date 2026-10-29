@@ -1,0 +1,29 @@
+<div class="map" role="group" aria-label="Positions autour d'une table à 6 joueurs">
+  <div class="felt" aria-hidden="true">
+    <span>Table à 6</span>
+  </div>
+  @for (seat of seats; track seat.id) {
+    <button
+      type="button"
+      class="seat"
+      [attr.data-seat]="seat.id"
+      [class.is-key]="isHighlighted(seat.id)"
+      [attr.aria-pressed]="current() === seat.id"
+      [attr.aria-label]="seat.name + ' — ' + seat.group"
+      (click)="current.set(seat.id)"
+    >
+      <span class="seat__short" aria-hidden="true">{{ seat.short }}</span>
+      <span class="seat__name" aria-hidden="true">{{ seat.name }}</span>
+      @if (seat.id === 'BTN') {
+        <span class="dealer" aria-hidden="true">D</span>
+      }
+    </button>
+  }
+</div>
+
+<div class="info" aria-live="polite">
+  <p class="info__title">
+    <strong>{{ info().name }}</strong> <span>{{ info().group }}</span>
+  </p>
+  <p class="info__text">{{ info().text }}</p>
+</div>
