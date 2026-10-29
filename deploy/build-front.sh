@@ -16,7 +16,8 @@ REV="$(git -C "${ROOT}" rev-parse --short HEAD)"
 echo "♠ Compilation de production (${MODE}, commit ${REV})"
 cd "${ROOT}/frontPoker"
 rm -rf dist
-npx ng build
+# OneDrive verrouille parfois un fichier copié (EBUSY) : une seconde tentative suffit
+npx ng build || { sleep 3; rm -rf dist; npx ng build; }
 OUT="dist/front-poker/browser"
 [ -f "${OUT}/index.html" ] && [ -f "${OUT}/.htaccess" ] || { echo "Build incomplet (index.html ou .htaccess manquant)"; exit 1; }
 
