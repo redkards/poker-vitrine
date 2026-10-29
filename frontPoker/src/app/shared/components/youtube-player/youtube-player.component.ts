@@ -114,6 +114,9 @@ export class YoutubePlayerComponent {
     if (!id || !/^[\w-]{11}$/.test(id)) {
       return null;
     }
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`);
+    // Sous-titres affichés d'office, en français (piste FR ou traduction automatique de YouTube)
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&cc_load_policy=1&cc_lang_pref=fr&hl=fr`,
+    );
   });
 }
