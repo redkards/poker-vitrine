@@ -58,3 +58,31 @@ export interface SiteStats {
   members: number;
   forumPosts: number;
 }
+
+// Calendrier des tournois live ------------------------------------------------
+export type TournamentZone = 'france' | 'belgique' | 'international';
+
+export interface Tournament {
+  id: number;
+  name: string;
+  circuit: string | null;
+  zone: TournamentZone;
+  zoneLabel: string;
+  country: string;
+  city: string;
+  venue: string | null;
+  /** AAAA-MM-JJ */
+  startDate: string;
+  endDate: string;
+  mainEventBuyIn: string | null;
+  guarantee: string | null;
+  url: string | null;
+  status: 'confirme' | 'a-confirmer';
+  note: string | null;
+  sources: { name: string; url: string }[];
+}
+
+export interface TournamentList {
+  items: Tournament[];
+  zones: { value: TournamentZone; label: string; count: number }[];
+}

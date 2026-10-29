@@ -12,6 +12,7 @@ use App\Entity\Video;
 use App\Enum\VideoLevel;
 use App\Service\ArticleImporter;
 use App\Service\GdprService;
+use App\Service\TournamentImporter;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -28,6 +29,7 @@ class AppFixtures extends Fixture
         private readonly UserPasswordHasherInterface $hasher,
         private readonly GdprService $gdpr,
         private readonly ArticleImporter $importer,
+        private readonly TournamentImporter $tournamentImporter,
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
     ) {
@@ -79,6 +81,10 @@ class AppFixtures extends Fixture
         // Vraies actualités sourcées (docs/actualites/*.json), absentes d'un déploiement sans le dossier docs
         foreach (glob($this->projectDir.'/../docs/actualites/*.json') ?: [] as $file) {
             $this->importer->importFile($file, $users['admin']);
+        }
+        // Calendrier des tournois vérifié (docs/calendrier/*.json)
+        foreach (glob($this->projectDir.'/../docs/calendrier/*.json') ?: [] as $file) {
+            $this->tournamentImporter->importFile($file);
         }
     }
 

@@ -1,0 +1,256 @@
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  padding: 0 1.1rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: 999px;
+  background: var(--pv-card);
+  color: var(--pv-ink-soft);
+  font: 600 0.9rem var(--pv-font-body);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--pv-ink);
+  }
+
+  &.is-active {
+    border-color: var(--pv-red);
+    background: var(--pv-red);
+    color: #fff;
+  }
+}
+
+.tab__count {
+  min-width: 1.6rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.08);
+  font-size: 0.78rem;
+  text-align: center;
+
+  .is-active & {
+    background: rgb(255 255 255 / 0.22);
+  }
+}
+
+.disclaimer {
+  margin: 0 0 2rem;
+  padding: 0.85rem 1.1rem;
+  border-left: 3px solid var(--pv-red);
+  border-radius: 0 var(--pv-radius-sm) var(--pv-radius-sm) 0;
+  background: var(--pv-surface);
+  color: var(--pv-ink-soft);
+  font-size: 0.88rem;
+}
+
+.month + .month {
+  margin-top: 2.25rem;
+}
+
+.month h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.events {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-card);
+  box-shadow: var(--pv-shadow-sm);
+}
+
+.event__date {
+  display: grid;
+  place-content: center;
+  height: 84px;
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-dark);
+  color: #fff;
+  text-align: center;
+}
+
+.event__day {
+  font-family: var(--pv-font-title);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.event__month {
+  color: #ff8a90;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.event__body {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 0;
+
+  h3 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+}
+
+.event__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.zone,
+.flag {
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.zone {
+  background: #3a3b3f;
+  color: #fff;
+
+  &[data-zone='france'] {
+    background: #1f4fa3;
+  }
+
+  &[data-zone='belgique'] {
+    background: #b26a00;
+  }
+
+  &[data-zone='international'] {
+    background: var(--pv-red);
+  }
+}
+
+.flag {
+  background: var(--pv-warning-soft);
+  color: #7a5200;
+
+  &--live {
+    background: var(--pv-success-soft);
+    color: var(--pv-success);
+  }
+}
+
+.event__circuit {
+  color: var(--pv-muted);
+  font-size: 0.82rem;
+}
+
+.event__where {
+  margin: 0;
+  color: var(--pv-ink-soft);
+  font-size: 0.92rem;
+}
+
+.event__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0.2rem 0 0;
+
+  dt {
+    color: var(--pv-muted);
+    font-size: 0.78rem;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 700;
+  }
+}
+
+.event__note {
+  margin: 0;
+  color: var(--pv-muted);
+  font-size: 0.85rem;
+}
+
+.event__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 0.4rem;
+}
+
+.event__official {
+  min-height: 38px;
+  padding: 0 1rem;
+  font-size: 0.85rem;
+}
+
+.event__sources {
+  font-size: 0.85rem;
+
+  summary {
+    color: var(--pv-muted);
+    cursor: pointer;
+  }
+
+  ul {
+    margin: 0.4rem 0 0;
+    padding-left: 1.1rem;
+  }
+
+  a {
+    word-break: break-word;
+  }
+}
+
+.muted {
+  color: var(--pv-muted);
+}
+
+.empty {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .event {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .event__date {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    justify-content: flex-start;
+    height: auto;
+    padding: 0.55rem 0.9rem;
+    justify-self: start;
+  }
+
+  .event__day {
+    font-size: 1.4rem;
+  }
+}

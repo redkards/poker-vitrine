@@ -1,0 +1,98 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Tournois live</span>
+  <h1>Calendrier des tournois</h1>
+  <p>Les prochains festivals et tournois en France, en Belgique et à l'international.</p>
+
+  <div class="tabs" role="group" aria-label="Filtrer par zone">
+    <button type="button" class="tab" [class.is-active]="zone() === null" [attr.aria-pressed]="zone() === null" (click)="setZone(null)">
+      Tous <span class="tab__count">{{ total() }}</span>
+    </button>
+    @for (z of data()?.zones ?? []; track z.value) {
+      <button type="button" class="tab" [class.is-active]="zone() === z.value" [attr.aria-pressed]="zone() === z.value" (click)="setZone(z.value)">
+        {{ z.label }} <span class="tab__count">{{ z.count }}</span>
+      </button>
+    }
+  </div>
+</section>
+
+<section class="pv-container">
+  <p class="disclaimer">
+    Informations issues des organisateurs et de médias spécialisés, sources citées pour chaque tournoi. Les dates et
+    les montants peuvent évoluer : vérifiez auprès de l'organisateur avant de vous déplacer. Les tournois de poker sont
+    réservés aux personnes majeures.
+  </p>
+
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (loading()) {
+    <p class="muted" role="status">Chargement du calendrier…</p>
+  } @else if (months().length === 0) {
+    <p class="muted empty">Aucun tournoi à venir dans cette zone pour le moment.</p>
+  } @else {
+    @for (month of months(); track month.key) {
+      <section class="month" [attr.aria-labelledby]="'m-' + month.key">
+        <h2 [id]="'m-' + month.key">{{ month.label }}</h2>
+        <ol class="events">
+          @for (t of month.items; track t.id) {
+            <li class="event">
+              <div class="event__date" aria-hidden="true">
+                <span class="event__day">{{ day(t) }}</span>
+                <span class="event__month">{{ shortMonth(t) }}</span>
+              </div>
+
+              <div class="event__body">
+                <div class="event__tags">
+                  <span class="zone" [attr.data-zone]="t.zone">{{ t.zoneLabel }}</span>
+                  @if (isOngoing(t)) {
+                    <span class="flag flag--live">En cours</span>
+                  }
+                  @if (t.status === 'a-confirmer') {
+                    <span class="flag">Dates à confirmer</span>
+                  }
+                  @if (t.circuit) {
+                    <span class="event__circuit">{{ t.circuit }}</span>
+                  }
+                </div>
+                <h3>{{ t.name }}</h3>
+                <p class="event__where">
+                  <time [attr.datetime]="t.startDate">{{ range(t) }}</time>
+                  · {{ t.venue ? t.venue + ', ' : '' }}{{ t.city }} ({{ t.country }})
+                </p>
+                @if (t.mainEventBuyIn || t.guarantee) {
+                  <dl class="event__facts">
+                    @if (t.mainEventBuyIn) {
+                      <div><dt>Main Event</dt><dd>{{ t.mainEventBuyIn }}</dd></div>
+                    }
+                    @if (t.guarantee) {
+                      <div><dt>Garantie</dt><dd>{{ t.guarantee }}</dd></div>
+                    }
+                  </dl>
+                }
+                @if (t.note) {
+                  <p class="event__note">{{ t.note }}</p>
+                }
+                <div class="event__links">
+                  @if (t.url) {
+                    <a class="pv-btn pv-btn--outline event__official" [href]="t.url" target="_blank" rel="noopener noreferrer nofollow">
+                      Site officiel <span aria-hidden="true">↗</span>
+                    </a>
+                  }
+                  @if (t.sources.length) {
+                    <details class="event__sources">
+                      <summary>Sources ({{ t.sources.length }})</summary>
+                      <ul>
+                        @for (s of t.sources; track s.url) {
+                          <li><a [href]="s.url" target="_blank" rel="noopener noreferrer nofollow">{{ s.name }}</a></li>
+                        }
+                      </ul>
+                    </details>
+                  }
+                </div>
+              </div>
+            </li>
+          }
+        </ol>
+      </section>
+    }
+  }
+</section>

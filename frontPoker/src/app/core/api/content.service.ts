@@ -1,7 +1,18 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { Article, ArticleScope, ArticleSummary, Paginated, SiteStats, Video, VideoLevel, VideoPage } from './content.models';
+import {
+  Article,
+  ArticleScope,
+  ArticleSummary,
+  Paginated,
+  SiteStats,
+  TournamentList,
+  TournamentZone,
+  Video,
+  VideoLevel,
+  VideoPage,
+} from './content.models';
 
 export interface VideoQuery {
   page?: number;
@@ -31,6 +42,10 @@ export class ContentService {
 
   getVideo(id: number): Observable<Video> {
     return this.api.get<Video>(`videos/${id}`);
+  }
+
+  getTournaments(zone?: TournamentZone | null): Observable<TournamentList> {
+    return this.api.get<TournamentList>('tournaments', compact({ zone }));
   }
 
   getStats(): Observable<SiteStats> {

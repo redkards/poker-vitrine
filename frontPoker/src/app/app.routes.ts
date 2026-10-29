@@ -65,6 +65,11 @@ export const routes: Routes = [
     title: 'Leçon — Poker Winners',
   },
   {
+    path: 'calendrier',
+    loadComponent: () => import('./features/calendar/calendar.component').then((m) => m.CalendarComponent),
+    title: 'Calendrier des tournois — Poker Winners',
+  },
+  {
     path: 'forum',
     loadComponent: () => import('./features/forum/forum-home/forum-home.component').then((m) => m.ForumHomeComponent),
     title: 'Forum — Poker Winners',

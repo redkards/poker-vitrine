@@ -21,6 +21,7 @@ export class HeaderComponent {
     { path: '/forum', label: 'Forum', exact: false },
     { path: '/videos', label: 'Vidéos', exact: false },
     { path: '/lecons', label: 'Apprendre', exact: false },
+    { path: '/calendrier', label: 'Calendrier', exact: false },
   ];
 
   constructor() {

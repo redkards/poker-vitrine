@@ -53,6 +53,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Contenu')->setPermission('ROLE_ADMIN');
         yield MenuItem::linkTo(ArticleCrudController::class, 'Articles', 'fa fa-newspaper')->setPermission('ROLE_ADMIN');
         yield MenuItem::linkTo(VideoCrudController::class, 'Vidéos', 'fa fa-circle-play')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(TournamentCrudController::class, 'Calendrier des tournois', 'fa fa-calendar-days')->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('Forum');
         yield MenuItem::linkTo(ForumTopicCrudController::class, 'Sujets', 'fa fa-comments');
