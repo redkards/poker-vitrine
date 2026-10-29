@@ -14,6 +14,8 @@ umask 077
 
 DOMAIN="redkards-dev.fr"
 API_HOST="api.${DOMAIN}"
+BETA_HOST="beta.${DOMAIN}"
+BETA_DIR="beta.${DOMAIN}"           # racine web de la bêta (dans le HOME)
 CPANEL_USER="$(whoami)"
 APP_DIR="${HOME}/poker-winners"
 BACK="${APP_DIR}/backPoker"
@@ -55,6 +57,12 @@ if ! uapi SubDomain listsubdomains 2>/dev/null | grep -q "domain: ${API_HOST}"; 
   uapi SubDomain addsubdomain domain=api rootdomain="${DOMAIN}" dir="poker-winners/backPoker/public" disallowdot=0 >/dev/null
 fi
 
+# --- Sous-domaine bêta (le domaine principal reste libre pour la v1.0) ----------
+if ! uapi SubDomain listsubdomains 2>/dev/null | grep -q "domain: ${BETA_HOST}"; then
+  log "Création du sous-domaine ${BETA_HOST} -> ~/${BETA_DIR}"
+  uapi SubDomain addsubdomain domain=beta rootdomain="${DOMAIN}" dir="${BETA_DIR}" disallowdot=0 >/dev/null
+fi
+
 # --- Secrets applicatifs --------------------------------------------------------
 [ -f "${SECRETS}/jwt_passphrase" ] || rand > "${SECRETS}/jwt_passphrase"
 [ -f "${SECRETS}/app_secret" ] || rand > "${SECRETS}/app_secret"
@@ -69,10 +77,10 @@ DATABASE_URL="mysql://${DB_USER}:$(urlenc "$(cat "${SECRETS}/db_password")")@loc
 JWT_PASSPHRASE=$(cat "${SECRETS}/jwt_passphrase")
 MAILER_DSN="smtp://$(urlenc "${MAIL_USER}@${DOMAIN}"):$(urlenc "$(cat "${SECRETS}/mail_password")")@$(hostname -f):465"
 MAILER_FROM=${MAIL_USER}@${DOMAIN}
-FRONTEND_URL=https://${DOMAIN}
+FRONTEND_URL=https://${BETA_HOST}
 DEFAULT_URI=https://${API_HOST}
-CORS_ALLOW_ORIGIN='^https://${DOMAIN//./\\.}$'
-TRUSTED_HOSTS='^${API_HOST//./\\.}$'
+CORS_ALLOW_ORIGIN='^https://(beta\.)?redkards-dev\.fr$'
+TRUSTED_HOSTS='^api\.redkards-dev\.fr$'
 EOF
 chmod 600 "${BACK}/.env.local"
 
@@ -102,8 +110,8 @@ fi
 bash "${APP_DIR}/deploy/deploy.sh"
 
 log "Installation terminée."
-echo "  Site (bêta)  : https://${DOMAIN}   identifiant : beta   mot de passe : $(cat "${SECRETS}/beta_password")"
+echo "  Site (bêta)  : https://${BETA_HOST}   identifiant : beta   mot de passe : $(cat "${SECRETS}/beta_password")"
 echo "  API          : https://${API_HOST}/api"
-echo "  À faire dans le cPanel : vérifier le certificat HTTPS de ${DOMAIN} et ${API_HOST} (Let's Encrypt SSL)."
+echo "  À faire dans le cPanel : vérifier le certificat HTTPS de ${BETA_HOST} et ${API_HOST} (Let's Encrypt SSL)."
 echo "  Compte admin : inscrivez-vous sur le site, confirmez l'email, puis :"
 echo "    cd ${BACK} && ${PHP_BIN} bin/console app:user:promote votre@email --role=ROLE_ADMIN"
