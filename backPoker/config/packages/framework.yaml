@@ -8,6 +8,15 @@ framework:
     #esi: true
     #fragments: true
 
+when@prod:
+    framework:
+        # Refuse les requêtes dont l'en-tête Host n'est pas le nôtre (empoisonnement de cache, liens forgés)
+        trusted_hosts: '%env(TRUSTED_HOSTS)%'
+        session:
+            cookie_secure: true
+            cookie_httponly: true
+            cookie_samesite: strict
+
 when@test:
     framework:
         test: true

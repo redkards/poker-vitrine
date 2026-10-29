@@ -1,0 +1,53 @@
+# Poker Winners — API Symfony (api.redkards-dev.fr), Apache / o2switch
+# Front controller (equivalent de symfony/apache-pack) + en-tetes de securite.
+
+DirectoryIndex index.php
+Options -Indexes -MultiViews
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # HTTPS obligatoire
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # Transmet l'en-tete Authorization (JWT) a PHP
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+
+    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+    RewriteRule .* - [E=BASE:%1]
+
+    # Pas d'acces direct a index.php
+    RewriteCond %{ENV:REDIRECT_STATUS} =""
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+
+    # Fichiers reels (assets EasyAdmin) servis directement, le reste passe par Symfony
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    RewriteRule ^ %{ENV:BASE}/index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+    Header always unset X-Powered-By
+
+    # L'API ne renvoie que du JSON : aucune ressource a charger
+    <If "%{REQUEST_URI} =~ m#^/api#">
+        Header always set Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+    </If>
+    # Back-office EasyAdmin : ressources locales uniquement
+    <If "%{REQUEST_URI} =~ m#^/admin#">
+        Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        Header always set X-Robots-Tag "noindex, nofollow"
+    </If>
+</IfModule>
+
+# Aucun fichier sensible ne doit etre servi meme s'il atterrit dans public/
+<FilesMatch "(^\.|\.(env|ini|log|sh|sql|pem|lock|yaml|yml|twig|dist)$)">
+    Require all denied
+</FilesMatch>

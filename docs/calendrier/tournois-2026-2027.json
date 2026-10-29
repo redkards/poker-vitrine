@@ -1,0 +1,383 @@
+[
+  {
+    "name": "PokerStars Open Aix-en-Provence",
+    "circuit": "PokerStars Open",
+    "zone": "france",
+    "country": "France",
+    "city": "Aix-en-Provence",
+    "venue": "Pasino Grand",
+    "startDate": "2026-11-01",
+    "endDate": "2026-11-08",
+    "mainEventBuyIn": "1 100 €",
+    "guarantee": null,
+    "url": "https://www.pokerstarslive.com/pokerstarsopen/",
+    "status": "confirme",
+    "note": "Événement d'un opérateur agréé ANJ, réservé aux majeurs. Dates du site officiel PokerStars Live (1er-8 nov.) ; PokerListings et PokerStrategy indiquent un début le 2 novembre. Main Event du 4 au 8 novembre selon CardPlayer.",
+    "sources": [
+      { "name": "PokerStars Live (officiel)", "url": "https://www.pokerstarslive.com/pokerstarsopen/" },
+      { "name": "PokerListings", "url": "https://www.pokerlistings.com/news/ept-prague-returns-to-the-2026-pokerstars-calendar" },
+      { "name": "CardPlayer (NL)", "url": "https://www.cardplayer.com/nl/pokerstars-open-aix-en-provence" }
+    ]
+  },
+  {
+    "name": "Toulouse Poker Festival",
+    "circuit": "Fivebet",
+    "zone": "france",
+    "country": "France",
+    "city": "Toulouse",
+    "venue": "Casino Barrière Toulouse",
+    "startDate": "2026-11-05",
+    "endDate": "2026-11-08",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": "https://fivebetpoker.com/festivals-fivebet/toulouse-poker-festival-novembre-2026/",
+    "status": "confirme",
+    "note": "Festival en casino, réservé aux majeurs. Buy-in du Main Event non publié sur la page officielle.",
+    "sources": [
+      { "name": "Fivebet (organisateur)", "url": "https://fivebetpoker.com/festivals-fivebet/toulouse-poker-festival-novembre-2026/" }
+    ]
+  },
+  {
+    "name": "Triton ONE North Cyprus",
+    "circuit": "Triton Poker",
+    "zone": "international",
+    "country": "Chypre du Nord",
+    "city": "Kyrenia",
+    "venue": "Merit Royal Diamond Hotel Casino",
+    "startDate": "2026-11-05",
+    "endDate": "2026-11-15",
+    "mainEventBuyIn": "8 000 $",
+    "guarantee": null,
+    "url": null,
+    "status": "confirme",
+    "note": "Série « mid-stakes » de Triton ; Main Event du 10 au 15 novembre selon PokerNews. Réservé aux majeurs.",
+    "sources": [
+      { "name": "PokerNews", "url": "https://www.pokernews.com/news/2026/10/triton-one-super-high-roller-series-northern-cyprus-schedule-52605.htm" },
+      { "name": "CardPlayer (calendrier novembre 2026)", "url": "https://www.cardplayer.com/poker-tournaments/monthly/2026/11" }
+    ]
+  },
+  {
+    "name": "WSOP Circuit Middelkerke",
+    "circuit": "WSOP Circuit",
+    "zone": "belgique",
+    "country": "Belgique",
+    "city": "Middelkerke",
+    "venue": "Casino Middelkerke Betfirst by Partouche",
+    "startDate": "2026-11-06",
+    "endDate": "2026-11-15",
+    "mainEventBuyIn": "1 500 €",
+    "guarantee": null,
+    "url": "https://www.wsop.com/tournaments/wsop-circuit-casino-middelkerke/",
+    "status": "confirme",
+    "note": "9 événements à bague WSOP Circuit. Main Event à partir du 11 novembre (4 Day 1), Day 2 le 14 novembre. Réservé aux majeurs.",
+    "sources": [
+      { "name": "WSOP.com (officiel)", "url": "https://www.wsop.com/tournaments/wsop-circuit-casino-middelkerke/" },
+      { "name": "PokerNews", "url": "https://www.pokernews.com/news/2026/10/wsop-circuit-belgium-52693.htm" }
+    ]
+  },
+  {
+    "name": "Unibet DeepStack Open La Grande-Motte",
+    "circuit": "Unibet DeepStack Open",
+    "zone": "france",
+    "country": "France",
+    "city": "La Grande-Motte",
+    "venue": "Pasino La Grande-Motte",
+    "startDate": "2026-11-10",
+    "endDate": "2026-11-15",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": "https://www.deepstackopen.com/",
+    "status": "confirme",
+    "note": "Événement d'un opérateur agréé ANJ, réservé aux majeurs. Buy-in du Main Event non publié au moment de la recherche.",
+    "sources": [
+      { "name": "Unibet DeepStack Open (officiel)", "url": "https://www.deepstackopen.com/" },
+      { "name": "CardPlayer (calendrier novembre 2026)", "url": "https://www.cardplayer.com/poker-tournaments/monthly/2026/11" }
+    ]
+  },
+  {
+    "name": "Triton Super High Roller Series North Cyprus",
+    "circuit": "Triton Poker",
+    "zone": "international",
+    "country": "Chypre du Nord",
+    "city": "Kyrenia",
+    "venue": "Merit Royal Diamond Hotel Casino",
+    "startDate": "2026-11-15",
+    "endDate": "2026-11-30",
+    "mainEventBuyIn": "100 000 $",
+    "guarantee": null,
+    "url": null,
+    "status": "confirme",
+    "note": "Série high stakes : Main Event NLH (22-24 nov.) et Main Event PLO (27-29 nov.) à 100 000 $, plus un Triton Invitational à 200 000 $. Réservé aux majeurs.",
+    "sources": [
+      { "name": "PokerNews", "url": "https://www.pokernews.com/news/2026/10/triton-one-super-high-roller-series-northern-cyprus-schedule-52605.htm" },
+      { "name": "CardPlayer (calendrier novembre 2026)", "url": "https://www.cardplayer.com/poker-tournaments/monthly/2026/11" },
+      { "name": "SoMuchPoker", "url": "https://somuchpoker.com/events-calendar/triton/2026/super-high-roller-series-north-cyprus-2026" }
+    ]
+  },
+  {
+    "name": "Circus Poker Series 2026",
+    "circuit": null,
+    "zone": "belgique",
+    "country": "Belgique",
+    "city": "Namur",
+    "venue": "Circus Casino Resort Namur",
+    "startDate": "2026-11-17",
+    "endDate": "2026-11-29",
+    "mainEventBuyIn": "2 200 €",
+    "guarantee": "800 000 €",
+    "url": "https://www.circus-poker.com/fr/ticketing/festival/details/d41844ef-c203-2b20-064d-3a1e1ae61e11",
+    "status": "confirme",
+    "note": "Main Event du 24 au 29 novembre. Réservé aux majeurs.",
+    "sources": [
+      { "name": "Circus Poker (officiel)", "url": "https://www.circus-poker.com/fr/ticketing/festival/details/d41844ef-c203-2b20-064d-3a1e1ae61e11" },
+      { "name": "CardPlayer (calendrier novembre 2026)", "url": "https://www.cardplayer.com/poker-tournaments/monthly/2026/11" }
+    ]
+  },
+  {
+    "name": "WPT World Championship",
+    "circuit": "World Poker Tour",
+    "zone": "international",
+    "country": "États-Unis",
+    "city": "Las Vegas",
+    "venue": "Wynn Las Vegas",
+    "startDate": "2026-11-27",
+    "endDate": "2026-12-21",
+    "mainEventBuyIn": "10 400 $",
+    "guarantee": null,
+    "url": "https://www.worldpokertour.com/event/schedule",
+    "status": "confirme",
+    "note": "Championnat (format mystery bounty) du 13 au 20 décembre, sans garantie officielle mais avec 1 000 000 $ ajoutés. Plus de 85 événements au programme. Réservé aux majeurs.",
+    "sources": [
+      { "name": "Pokerfuse", "url": "https://pokerfuse.com/latest-news/2026/9/2026-wpt-world-championship-returning-las-vegas/" },
+      { "name": "CardPlayer (calendrier novembre 2026)", "url": "https://www.cardplayer.com/poker-tournaments/monthly/2026/11" }
+    ]
+  },
+  {
+    "name": "Unibet DeepStack Open Lyon",
+    "circuit": "Unibet DeepStack Open",
+    "zone": "france",
+    "country": "France",
+    "city": "La Tour-de-Salvagny (Lyon)",
+    "venue": "Pasino Grand Lyon - Tour de Salvagny",
+    "startDate": "2026-12-01",
+    "endDate": "2026-12-06",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": "https://www.deepstackopen.com/",
+    "status": "confirme",
+    "note": "Événement d'un opérateur agréé ANJ, réservé aux majeurs. Buy-in du Main Event non publié au moment de la recherche.",
+    "sources": [
+      { "name": "Unibet DeepStack Open (officiel)", "url": "https://www.deepstackopen.com/" },
+      { "name": "PokerTube", "url": "https://www.pokertube.com/?p=145930" }
+    ]
+  },
+  {
+    "name": "EPT Prague",
+    "circuit": "European Poker Tour",
+    "zone": "international",
+    "country": "République tchèque",
+    "city": "Prague",
+    "venue": "Hilton Prague",
+    "startDate": "2026-12-02",
+    "endDate": "2026-12-13",
+    "mainEventBuyIn": "5 300 €",
+    "guarantee": null,
+    "url": "https://www.pokerstarslive.com/ept/",
+    "status": "confirme",
+    "note": "Dernière étape EPT de la saison 2026. Main Event du 7 au 13 décembre (SoMuchPoker). Réservé aux majeurs.",
+    "sources": [
+      { "name": "PokerStars Live (officiel)", "url": "https://www.pokerstarslive.com/ept/" },
+      { "name": "PokerListings", "url": "https://www.pokerlistings.com/news/ept-prague-returns-to-the-2026-pokerstars-calendar" },
+      { "name": "SoMuchPoker", "url": "https://somuchpoker.com/events-calendar/ept/2026/ept-prague-2026" }
+    ]
+  },
+  {
+    "name": "WSOP Paradise",
+    "circuit": "World Series of Poker",
+    "zone": "international",
+    "country": "Bahamas",
+    "city": "Nassau",
+    "venue": "Baha Mar Resort",
+    "startDate": "2026-12-02",
+    "endDate": "2026-12-17",
+    "mainEventBuyIn": "26 000 $",
+    "guarantee": "50 000 000 $",
+    "url": "https://www.wsop.com/tournaments/2026-wsop-paradise/",
+    "status": "confirme",
+    "note": "20 épreuves à bracelet. Super Main Event (Event #12) à partir du 10 décembre. Dates et buy-in selon WSOP.com ; certains médias ont publié des dates légèrement différentes avant la sortie du programme. Réservé aux majeurs.",
+    "sources": [
+      { "name": "WSOP.com (officiel)", "url": "https://www.wsop.com/tournaments/2026-wsop-paradise/" },
+      { "name": "Pokerfuse", "url": "https://pokerfuse.com/latest-news/2026/8/wsop-paradise-2026-reveals-20-event-schedule/" },
+      { "name": "CardPlayer (calendrier décembre 2026)", "url": "https://www.cardplayer.com/poker-tournaments/monthly/2026/12" }
+    ]
+  },
+  {
+    "name": "Cannes Poker Festival",
+    "circuit": "Fivebet",
+    "zone": "france",
+    "country": "France",
+    "city": "Cannes",
+    "venue": "Casino Barrière Cannes Le Croisette",
+    "startDate": "2026-12-10",
+    "endDate": "2026-12-13",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": "https://fivebetpoker.com/festivals-fivebet/cannes-poker-festival-decembre-2026/",
+    "status": "confirme",
+    "note": "Festival en casino, réservé aux majeurs. Buy-in du Main Event non publié sur la page officielle.",
+    "sources": [
+      { "name": "Fivebet (organisateur)", "url": "https://fivebetpoker.com/festivals-fivebet/cannes-poker-festival-decembre-2026/" }
+    ]
+  },
+  {
+    "name": "France Poker Open Paris (finale de saison)",
+    "circuit": "France Poker Open (PMU / Texapoker)",
+    "zone": "france",
+    "country": "France",
+    "city": "Paris",
+    "venue": "Partouche Pasino Club",
+    "startDate": "2026-12-11",
+    "endDate": "2026-12-21",
+    "mainEventBuyIn": "600 €",
+    "guarantee": null,
+    "url": "https://www.texapoker.net/fr/tournois-poker-live/paris-partouche-pasino-club-france-poker-open_2730.html",
+    "status": "confirme",
+    "note": "Événement d'un opérateur agréé ANJ (PMU), réservé aux majeurs. Dates du festival selon Texapoker (co-organisateur) ; l'annonce PMU relayée par PokerNews indiquait 14-21 décembre. Main Event (535 € + 65 €) du 13 au 21 décembre.",
+    "sources": [
+      { "name": "Texapoker (co-organisateur)", "url": "https://www.texapoker.net/fr/tournois-poker-live/paris-partouche-pasino-club-france-poker-open_2730.html" },
+      { "name": "PokerNews FR", "url": "https://fr.pokernews.com/news/2025/12/pmu-revele-le-programme-des-fpo-pour-2026-73811.htm" }
+    ]
+  },
+  {
+    "name": "Christmas Festival Namur",
+    "circuit": null,
+    "zone": "belgique",
+    "country": "Belgique",
+    "city": "Namur",
+    "venue": "Circus Casino Resort Namur",
+    "startDate": "2026-12-13",
+    "endDate": "2026-12-20",
+    "mainEventBuyIn": "250 €",
+    "guarantee": "200 000 €",
+    "url": "https://www.circus-poker.com/fr/ticketing/festival/details/9d4973af-16ea-b9d7-ee10-3a1e1ae61e11",
+    "status": "confirme",
+    "note": "Main Event en 6 Day 1 (13 au 18 décembre), Day 2 le 19 décembre. Réservé aux majeurs.",
+    "sources": [
+      { "name": "Circus Poker (officiel)", "url": "https://www.circus-poker.com/fr/ticketing/festival/details/9d4973af-16ea-b9d7-ee10-3a1e1ae61e11" }
+    ]
+  },
+  {
+    "name": "PokerStars Open Campione",
+    "circuit": "PokerStars Open",
+    "zone": "international",
+    "country": "Italie",
+    "city": "Campione d'Italia",
+    "venue": "Casinò di Campione",
+    "startDate": "2027-01-08",
+    "endDate": "2027-01-17",
+    "mainEventBuyIn": "1 250 €",
+    "guarantee": null,
+    "url": "https://www.pokerstarslive.com/pokerstarsopen/",
+    "status": "confirme",
+    "note": "Programme détaillé encore en cours de finalisation selon PokerNews. Réservé aux majeurs.",
+    "sources": [
+      { "name": "PokerStars Live (officiel)", "url": "https://www.pokerstarslive.com/pokerstarsopen/" },
+      { "name": "PokerNews", "url": "https://www.pokernews.com/news/2026/10/kick-2027-off-in-style-at-pokerstars-open-campione-52660.htm" }
+    ]
+  },
+  {
+    "name": "Winamax Poker Tour - étape de Paris",
+    "circuit": "Winamax Poker Tour",
+    "zone": "france",
+    "country": "France",
+    "city": "Paris",
+    "venue": null,
+    "startDate": "2027-01-09",
+    "endDate": "2027-01-10",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": "https://www.winamax.fr/winamax-poker-tour",
+    "status": "confirme",
+    "note": "Événement d'un opérateur agréé ANJ, réservé aux majeurs. Étape régionale à qualification gratuite (via tournois en ligne), 16 sièges pour la Grande Finale. Lieu non précisé sur la page officielle.",
+    "sources": [
+      { "name": "Winamax (officiel)", "url": "https://www.winamax.fr/winamax-poker-tour" },
+      { "name": "Rue des Joueurs", "url": "https://www.ruedesjoueurs.com/poker/poker-news/news-winamax/74555-poker-winamax-poker-tour-2026-2027-de-120-000eur-de-lots-en-jeu.html" }
+    ]
+  },
+  {
+    "name": "The Opener 2027",
+    "circuit": null,
+    "zone": "belgique",
+    "country": "Belgique",
+    "city": "Namur",
+    "venue": "Circus Casino Resort Namur",
+    "startDate": "2027-01-10",
+    "endDate": "2027-01-17",
+    "mainEventBuyIn": "175 €",
+    "guarantee": "175 000 €",
+    "url": "https://www.circus-poker.com/fr/ticketing/festival/details/d82f7d2a-2aea-597a-ae90-3a24150c260b",
+    "status": "confirme",
+    "note": "Main Event en 9 Day 1 (10 au 15 janvier), Day 2 le 16, Final Day le 17 janvier. Réservé aux majeurs.",
+    "sources": [
+      { "name": "Circus Poker (officiel)", "url": "https://www.circus-poker.com/fr/ticketing/festival/details/d82f7d2a-2aea-597a-ae90-3a24150c260b" }
+    ]
+  },
+  {
+    "name": "Irish Poker Open 2027",
+    "circuit": null,
+    "zone": "international",
+    "country": "Irlande",
+    "city": "Dublin",
+    "venue": "Royal Dublin Society (RDS)",
+    "startDate": "2027-03-18",
+    "endDate": "2027-03-29",
+    "mainEventBuyIn": "1 150 €",
+    "guarantee": "2 500 000 €",
+    "url": "https://www.pokerstarslive.com/",
+    "status": "confirme",
+    "note": "48e édition, 48 événements. Main Event : Day 1 du 21 au 26 mars, finale le 29 mars. Buy-in selon PokerNews (une autre source indique 1 050 €). Réservé aux majeurs.",
+    "sources": [
+      { "name": "PokerStars Live (officiel)", "url": "https://www.pokerstarslive.com/" },
+      { "name": "PokerNews", "url": "https://www.pokernews.com/news/2026/10/2027-irish-poker-open-runs-march-18-29-full-schedule-52651.htm" },
+      { "name": "SCCG", "url": "https://sccgmanagement.com/sccg-articles/2026/10/22/2027-irish-poker-open-locked-in-for-march-18-29-at-royal-dublin-society-with-multiple-seven-figure-guarantees/" }
+    ]
+  },
+  {
+    "name": "Winamax Poker Tour - Grande Finale",
+    "circuit": "Winamax Poker Tour",
+    "zone": "france",
+    "country": "France",
+    "city": "Aix-en-Provence",
+    "venue": "Pasino Grand Aix-en-Provence",
+    "startDate": "2027-03-19",
+    "endDate": "2027-03-29",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": "https://www.winamax.fr/winamax-poker-tour",
+    "status": "confirme",
+    "note": "Événement d'un opérateur agréé ANJ, réservé aux majeurs. Finale accessible via les étapes régionales du WiPT (siège valorisé 500 € selon Winamax).",
+    "sources": [
+      { "name": "Winamax (officiel)", "url": "https://www.winamax.fr/winamax-poker-tour" },
+      { "name": "Rue des Joueurs", "url": "https://www.ruedesjoueurs.com/poker/poker-news/news-winamax/74555-poker-winamax-poker-tour-2026-2027-de-120-000eur-de-lots-en-jeu.html" }
+    ]
+  },
+  {
+    "name": "Aussie Millions 2027",
+    "circuit": null,
+    "zone": "international",
+    "country": "Australie",
+    "city": "Melbourne",
+    "venue": "Crown Melbourne",
+    "startDate": "2027-04-08",
+    "endDate": "2027-04-24",
+    "mainEventBuyIn": null,
+    "guarantee": null,
+    "url": null,
+    "status": "confirme",
+    "note": "Dates annoncées par Crown Melbourne ; programme et structures pas encore publiés. Réservé aux majeurs.",
+    "sources": [
+      { "name": "ASGAM (communiqué Crown Melbourne)", "url": "https://asgam.com/2026/08/24/crown-melbourne-announces-april-dates-for-2027-aussie-millions/" },
+      { "name": "SoMuchPoker", "url": "https://somuchpoker.com/news/aussie-millions-returns-april-2027" }
+    ]
+  }
+]
