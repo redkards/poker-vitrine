@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Modèle de projet — site communautaire (Poker Winners)</title>
+<style>
+@page { size: A4; margin: 15mm 14mm; }
+body { font: 9.6pt/1.5 "Segoe UI", Arial, sans-serif; color: #141414; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.label { border: 2px solid #b3121b; border-radius: 8px; padding: 9pt 13pt; margin-bottom: 10pt; display: flex; justify-content: space-between; align-items: center; }
+.label h1 { font: 700 18pt Georgia, serif; color: #b3121b; margin: 0; }
+.tag { background: #b3121b; color: #fff; border-radius: 4px; padding: 1pt 7pt; font-weight: 700; font-size: 8.5pt; }
+h2 { font: 700 12.5pt Georgia, serif; border-bottom: 1px solid #dcdfe4; padding-bottom: 2pt; margin: 13pt 0 5pt; break-after: avoid; }
+h3 { font: 700 10.5pt Georgia, serif; margin: 8pt 0 3pt; break-after: avoid; }
+table { width: 100%; border-collapse: collapse; margin: 3pt 0 7pt; font-size: 8.8pt; break-inside: avoid; }
+th, td { text-align: left; padding: 3pt 5pt; border-bottom: 1px solid #e4e6ea; vertical-align: top; }
+th { background: #f4f5f7; }
+ul, ol { margin: 0 0 5pt; padding-left: 15pt; } li { margin-bottom: 1.5pt; }
+code, pre { font: 8.5pt Consolas, monospace; background: #f4f5f7; border-radius: 3px; }
+code { padding: 0 3pt; } pre { padding: 6pt 8pt; white-space: pre-wrap; break-inside: avoid; margin: 3pt 0 7pt; }
+.box { background: #fdf1f1; border-left: 4px solid #b3121b; padding: 5pt 9pt; margin: 6pt 0; break-inside: avoid; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10pt; }
+footer { margin-top: 10pt; font-size: 8pt; color: #5c6370; border-top: 1px solid #dcdfe4; padding-top: 4pt; }
+</style></head><body>
+
+<div class="label">
+  <div><h1>Modèle de projet — site communautaire</h1><div>Blueprint réutilisable tiré de <b>Poker Winners</b> (v0.6.0)</div></div>
+  <div style="text-align:right;font-size:8.5pt"><span class="tag">MODÈLE v1</span><br>30/10/2026<br>Sans mot de passe ni secret</div>
+</div>
+
+<div class="box"><b>But :</b> reproduire un site vitrine + communauté (actualités, forum, vidéos, cours, calendrier, comptes, RGPD, boutique en option) sur un thème quelconque, de la spec au déploiement sur un mutualisé cPanel (o2switch), en ~10 étapes vérifiables. Remplacer « poker » par le thème du nouveau projet.</div>
+
+<h2>1. Pile technique retenue</h2>
+<table>
+<tr><th>Couche</th><th>Choix</th><th>Pourquoi / remarque</th></tr>
+<tr><td>API</td><td>Symfony 7.4 LTS, PHP 8.2+ (8.3 en prod), Doctrine ORM 3</td><td>Monolithe API JSON + back-office dans le même projet</td></tr>
+<tr><td>Auth</td><td>lexik/jwt (1 h) + gesdinet refresh token (7 j, usage unique)</td><td>Front SPA sans cookie de session ; refresh automatique par intercepteur</td></tr>
+<tr><td>Back-office</td><td>EasyAdmin 5 (session + formulaire de connexion)</td><td>CRUD générés ; rôles USER &lt; MODERATOR &lt; ADMIN</td></tr>
+<tr><td>Front</td><td>Angular 22 standalone, signals, <code>input()</code>, control flow, lazy routes</td><td>Toujours démarrer sur la dernière version maintenue</td></tr>
+<tr><td>Base</td><td>MariaDB 10.6+ partout (Docker en local, MariaDB 11.4 en prod)</td><td>PostgreSQL d'o2switch trop ancien (9.6) pour Doctrine DBAL 4</td></tr>
+<tr><td>Local</td><td>Docker : MariaDB (3307), Mailhog (1025/8025) ; API <code>php -S localhost:8000</code> ; front <code>ng serve --port 4300</code></td><td>Ports distincts par projet pour en faire tourner plusieurs</td></tr>
+<tr><td>Tests</td><td>PHPUnit fonctionnels (SQLite via <code>.env.test</code>), Jasmine/Karma ChromeHeadless</td><td>46 + 9 tests à v0.6.0</td></tr>
+<tr><td>Hébergement</td><td>o2switch mutualisé (cPanel, uapi, MultiPHP, Let's Encrypt)</td><td>Front statique + API sur sous-domaine</td></tr>
+</table>
+
+<h2>2. Arborescence du dépôt</h2>
+<pre>/CLAUDE.md                règles du projet (lancement, tests, interdits)
+/CHANGELOG.md  /docs/ROADMAP.md     versionnage SemVer + feuille de route
+/docker-compose.yml       MariaDB, Mailhog (nommer le projet pour des volumes stables)
+/backPoker   (API Symfony)  src/{Entity,Enum,Repository,Dto,Service,Command,Controller/Api,Controller/Admin,Content,Migrations}
+/frontPoker  (Angular)      src/app/{core/api,core/auth,core/seo,shared/components,features/*}  public/{.htaccess,robots.txt}
+/deploy      server-setup.sh · deploy.sh · update.sh · build-front.sh · publish-front.sh (variante SSH)
+/docs        actualites/*.json · calendrier/*.json · videos/ · design/ · deploiement/ · recap/</pre>
+
+<h2>3. Modèle de données (12 entités)</h2>
+<table>
+<tr><th>Entité</th><th>Rôle</th></tr>
+<tr><td>User · ConsentLog · RefreshToken</td><td>Compte (email nullable pour l'anonymisation, pseudo, rôles, isVerified, jetons de vérif/suppression), preuves de consentement (version CGU, IP, date), refresh JWT</td></tr>
+<tr><td>Article (enum ArticleScope)</td><td>Actualités par portée (ex. france / international / live / online), sources en liens nofollow</td></tr>
+<tr><td>Video (enum VideoLevel) · VideoFavorite</td><td>Vidéos YouTube sous licence CC BY + favoris par membre</td></tr>
+<tr><td>ForumCategory · ForumTopic · ForumPost · ForumSubscription · ForumPostReport (enum ReportReason)</td><td>Forum modéré, abonnements, signalements avec file de modération</td></tr>
+<tr><td>Tournament (enum TournamentZone)</td><td>Calendrier d'événements par zone, unique (nom, date de début)</td></tr>
+<tr><td><i>v2 :</i> Product · Order · OrderItem</td><td>Boutique (TVA par catégorie, prix en centimes, snapshot des lignes), derrière un drapeau</td></tr>
+</table>
+<p>Leçons et quiz : données TypeScript côté front (<code>features/lessons/data/*.lessons.ts</code>), 3 niveaux × 15 leçons × quiz de 5 questions — pas de table tant que la progression reste locale.</p>
+
+<h2>4. API (préfixe /api)</h2>
+<div class="two">
+<table>
+<tr><th>Routes publiques</th></tr>
+<tr><td><code>POST login</code>, <code>token/refresh</code>, <code>register</code>, <code>verify-email</code>, <code>verify-email/resend</code></td></tr>
+<tr><td><code>GET articles?scope=</code>, <code>articles/{slug}</code>, <code>videos</code>, <code>videos/{id}</code>, <code>tournaments?zone=</code>, <code>stats</code></td></tr>
+<tr><td><code>GET forum/…</code> (catégories, sujets, messages), <code>search?q=</code>, <code>members/{pseudo}</code></td></tr>
+</table>
+<table>
+<tr><th>Routes connectées (JWT)</th></tr>
+<tr><td><code>GET/PATCH me</code>, <code>PATCH me/password</code>, <code>GET me/export</code>, <code>DELETE me</code> → email de confirmation → <code>account-deletion/confirm</code></td></tr>
+<tr><td><code>me/favorites</code>, favoris vidéo, créer sujet / message, abonnements, <code>POST forum/posts/{id}/report</code></td></tr>
+<tr><td>Doc OpenAPI (Nelmio) sur <code>/api/doc</code> en <b>dev uniquement</b></td></tr>
+</table>
+</div>
+<p>Conventions : DTO <code>#[MapRequestPayload]</code> + contraintes Validator (messages en français), réponses JSON, pagination commune, rate limiters nommés (<code>register, verification_resend, forum_post, forum_report, search</code>) + login throttling (429).</p>
+
+<h2>5. Sécurité et RGPD — à reprendre tels quels</h2>
+<div class="two"><div>
+<h3>Sécurité</h3>
+<ul>
+<li>Secrets jamais versionnés (<code>.env.local</code>, <code>.env.*.local</code>, <code>*.pem</code>) ; générés <b>sur le serveur</b> par le script d'installation (droits 600).</li>
+<li><code>.htaccess</code> : HTTPS forcé, HSTS, CSP stricte (<code>script-src 'self'</code>), X-Frame-Options DENY, fichiers sensibles bloqués.</li>
+<li>Angular : <code>optimization.styles.inlineCritical: false</code> (sinon un <code>onload</code> inline viole la CSP) ; copier <code>.htaccess</code> via un glob d'assets explicite.</li>
+<li>CORS limité aux origines du site ; <code>trusted_hosts</code> ; cookies session secure/httponly/samesite.</li>
+<li>Mots de passe : <code>PasswordStrength</code> niveau moyen ; bêta protégée par Basic Auth + <code>noindex</code>.</li>
+<li>Vidéos : uniquement CC BY vérifiées, attribution ; lecture au clic via youtube-nocookie (sous-titres FR : <code>cc_load_policy=1&amp;cc_lang_pref=fr</code>).</li>
+</ul></div><div>
+<h3>RGPD</h3>
+<ul>
+<li>Consentement CGU/confidentialité journalisé (version, IP, date).</li>
+<li>Vérification d'email obligatoire avant de poster.</li>
+<li>Export JSON des données (<code>me/export</code>).</li>
+<li>Suppression confirmée par email puis <b>anonymisation</b> (les messages restent, l'auteur devient « Utilisateur supprimé »).</li>
+<li>Cron <code>app:gdpr:cleanup</code> (comptes non vérifiés, jetons expirés).</li>
+<li>Pages légales avec champs <code>[À COMPLÉTER]</code> centralisés dans <code>legal.config.ts</code>.</li>
+<li>Boutique : commandes conservées (obligation comptable) mais détachées du compte anonymisé.</li>
+</ul></div></div>
+
+<h2>6. Contenus et outils</h2>
+<ul>
+<li><b>Importeurs idempotents</b> JSON → base : <code>app:articles:import</code>, <code>app:tournaments:import</code> (rejet des URL non http(s), dates invalides).</li>
+<li><b>Contenu de base en prod</b> sans compte de démo : <code>app:content:seed</code> (classe partagée <code>App\Content\DefaultContent</code> utilisée aussi par les fixtures).</li>
+<li><b>Fixtures</b> (dev) : comptes démo + forum + contenus. <code>app:user:promote email --role=ROLE_ADMIN</code>.</li>
+<li><b>Actualités réelles</b> : chaque info vérifiée sur 2 sources, sources citées ; aucun contenu copié de créateurs (droit d'auteur).</li>
+<li><b>PDF</b> : HTML imprimé avec Edge headless (<code>--print-to-pdf</code>) depuis un chemin sans espaces ; contrôle avec <code>pdfinfo</code>/<code>pdftoppm</code> (poppler).</li>
+</ul>
+
+<h2>7. Déploiement o2switch (sans SSH)</h2>
+<table>
+<tr><th>#</th><th>Étape</th><th>Commande / action</th></tr>
+<tr><td>1</td><td>PHP 8.3 + Composer dans le compte (CLI par défaut = 8.1)</td><td><code>ln -sf /opt/cpanel/ea-php83/root/usr/bin/php ~/bin/php</code> puis installeur Composer dans <code>~/bin</code>, PATH dans <code>.bashrc</code></td></tr>
+<tr><td>2</td><td>Cloner le dépôt</td><td><code>git clone https://github.com/&lt;compte&gt;/&lt;depot&gt;.git ~/&lt;app&gt;</code></td></tr>
+<tr><td>3</td><td>Installation unique</td><td><code>bash ~/&lt;app&gt;/deploy/server-setup.sh</code> : base + utilisateur aux droits limités, boîte no-reply, sous-domaines <code>api.</code>/<code>beta.</code>, <code>.env.local</code>, clés JWT, accès bêta</td></tr>
+<tr><td>4</td><td>cPanel</td><td>MultiPHP Manager : <code>api.</code> et <code>beta.</code> en PHP 8.3 ; Let's Encrypt ; vérifier SPF/DKIM/DMARC</td></tr>
+<tr><td>5</td><td>Contenus</td><td><code>php bin/console app:content:seed --env=prod</code></td></tr>
+<tr><td>6</td><td>Front (sur le PC)</td><td><code>bash deploy/build-front.sh</code> → branche <code>front-beta</code> (build + protection bêta)</td></tr>
+<tr><td>7</td><td>Mise à jour (serveur)</td><td><code>bash ~/&lt;app&gt;/deploy/update.sh</code> : API (composer, migrations, cache, audit) + front, sauvegarde <code>.previous</code></td></tr>
+<tr><td>8</td><td>Admin</td><td>S'inscrire, confirmer l'email, <code>app:user:promote … --env=prod</code></td></tr>
+<tr><td>9</td><td>Accès testeurs</td><td>Une ligne par testeur dans <code>~/.htpasswds/&lt;app&gt;-beta</code> via <code>openssl passwd -apr1 -stdin</code> (<code>&gt;&gt;</code>), droits 644</td></tr>
+<tr><td>10</td><td>v1.0 publique</td><td><code>build-front.sh --public</code> + <code>update.sh --public</code> — <b>uniquement après confirmation du propriétaire</b></td></tr>
+</table>
+
+<h2>8. Pièges rencontrés et solutions</h2>
+<table>
+<tr><th>Symptôme</th><th>Cause</th><th>Solution</th></tr>
+<tr><td>SSH « Connection timed out »</td><td>IP non retenue dans le pare-feu o2switch (la clé n'est pas en cause)</td><td>Terminal cPanel + <code>update.sh</code> ; ne jamais regénérer de clé pour un timeout</td></tr>
+<tr><td>API 500 « requires PHP &gt;= 8.2 »</td><td>Sous-domaine resté en PHP 8.1</td><td>MultiPHP Manager → 8.3</td></tr>
+<tr><td>Bêta 500 après saisie du mot de passe</td><td>Fichier htpasswd illisible / binaire <code>htpasswd</code> absent</td><td><code>openssl passwd -apr1</code>, <code>chmod 755 ~/.htpasswds</code>, <code>644</code> sur le fichier</td></tr>
+<tr><td>« La page de connexion se réinitialise »</td><td>Aucun compte / compte non vérifié</td><td>Lister les comptes, confirmer à la main si l'email tarde</td></tr>
+<tr><td>Email non reçu</td><td>Adresse mal saisie (rejet 550) ou spam</td><td>« Suivi de la livraison » cPanel ; recherche <code>from:no-reply@…</code></td></tr>
+<tr><td>npm « edgesOut » / conflits de peers</td><td>node_modules d'une version précédente</td><td>Supprimer node_modules + lock, <code>npx -y npm@11 install</code></td></tr>
+<tr><td>Build EBUSY sur <code>.htaccess</code></td><td>Verrou OneDrive</td><td>Seconde tentative automatique dans <code>build-front.sh</code></td></tr>
+<tr><td>CSP bloque l'appli</td><td>CSS critique inliné par Angular</td><td><code>inlineCritical: false</code></td></tr>
+<tr><td>API qui ne répond plus en local</td><td>Docker Desktop arrêté après redémarrage</td><td>Démarrer Docker puis <code>docker compose up -d</code></td></tr>
+</table>
+
+<h2>9. Méthode de travail (avec Claude Code)</h2>
+<ul>
+<li><b>Sprints</b> : 0 socle → 1 comptes/RGPD → 2 contenus → 3 forum → 4 profil/légal → 5 finitions/déploiement ; versions SemVer (tag + CHANGELOG à chaque livraison).</li>
+<li><b>Agents en parallèle</b>, chacun sur une zone distincte (back / front / contenus) ; fonctionnalités futures sur une <b>branche + worktree</b> séparés et un drapeau désactivé (ex. boutique v2).</li>
+<li>Consigne aux agents : « expert du domaine » (ex. expert en poker), lecture minimale, rapport court ; vérifier chaque livraison (tests, build, contrôle des sources/licences).</li>
+<li>Commit + push à chaque étape verte ; aucun secret dans le chat ni dans Git ; jamais de mise en ligne publique sans confirmation.</li>
+<li>Un <code>CLAUDE.md</code> par projet et des dossiers séparés pour ne pas mélanger deux projets.</li>
+</ul>
+
+<h2>10. Check-list pour dupliquer</h2>
+<ol>
+<li>Choisir thème, nom, domaine ; créer le dépôt GitHub et le dossier local (chemin sans espaces de préférence).</li>
+<li>Copier la structure (sections 2–6), renommer les préfixes (<code>backXxx</code>, <code>frontXxx</code>), adapter les enums de portée/zone/niveau au thème.</li>
+<li>Rédiger CLAUDE.md, ROADMAP, design (couleurs, police) ; choisir des ports locaux libres.</li>
+<li>Produire les contenus vérifiés (JSON d'actualités, calendrier, vidéos sous licence libre, leçons).</li>
+<li>Tests verts → tag v0.x → déploiement bêta (section 7) → testeurs → mentions légales → confirmation → v1.0.</li>
+</ol>
+
+<footer>Modèle établi à partir de Poker Winners v0.6.0 (dépôt github.com/redkards/poker-vitrine, tag v0.6.0) · aucun mot de passe, clé ni secret dans ce document.</footer>
+</body></html>
