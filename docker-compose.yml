@@ -1,23 +1,26 @@
 services:
+  # MariaDB 10.6 : meme moteur que l'hebergement o2switch (leur PostgreSQL 9.6 est trop ancien pour Doctrine DBAL 4)
   database:
-    image: postgres:16-alpine
+    image: mariadb:10.6
     container_name: pokervitrine_db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-pokervitrine}
-      POSTGRES_USER: ${POSTGRES_USER:-poker}
+      MARIADB_DATABASE: ${DB_NAME:-pokervitrine}
+      MARIADB_USER: ${DB_USER:-poker}
       # A changer en production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-poker}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-poker}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     ports:
-      # 5433 cote hote : un PostgreSQL Windows occupe deja le 5432
-      - "5433:5432"
+      # 3307 cote hote : le 3306 est reserve au MySQL de WAMP
+      - "3307:3306"
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-pokervitrine}", "-U", "${POSTGRES_USER:-poker}"]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
       start_period: 30s
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - mariadb_data:/var/lib/mysql:rw
 
   mailhog:
     image: mailhog/mailhog:v1.0.1
@@ -46,6 +49,6 @@ services:
       - mercure_config:/config
 
 volumes:
-  database_data:
+  mariadb_data:
   mercure_data:
   mercure_config:

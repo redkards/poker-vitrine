@@ -156,7 +156,7 @@ class AppFixtures extends Fixture
         ]],
         ['mental-bankroll', 'Combien de caves prévoir pour jouer sereinement ?', false, [
             ['demo', 'Vous gardez combien de caves d’avance pour votre limite habituelle ?'],
-            ['admin', 'La vidéo de zChance44 sur le bankroll management dans la rubrique Vidéos répond très bien à cette question, je vous la conseille.'],
+            ['admin', "Une règle de prudence courante : au moins 20 à 30 caves pour le cash game, davantage en tournoi car la variance y est plus forte.\nLa leçon « Progresser en tournoi » de la rubrique Leçons détaille le sujet."],
         ]],
     ];
 
@@ -210,18 +210,19 @@ class AppFixtures extends Fixture
     ];
 
     /**
-     * Vidéos pédagogiques des chaînes Kill Tilt et zChance44 (vérifiées via oEmbed le 29/10/2026)
+     * Vidéos de démonstration : uniquement des vidéos sous licence Creative Commons vérifiée
+     * (les vidéos de chaînes tierces Kill Tilt et zChance44 ont été retirées à la demande du propriétaire).
+     *
+     * Licence CC BY vérifiée sur la page YouTube de chaque vidéo le 29/10/2026 : l'auteur et la licence
+     * doivent rester crédités dans la description.
      *
      * @var list<array{string, string, string, VideoLevel, string}>
      */
     private const VIDEOS = [
-        ['Apprendre le poker : règles, combinaisons, tournois et cash game', 'https://www.youtube.com/watch?v=u73qYPvdNAA', 'Règles', VideoLevel::Debutant, 'Par Kill Tilt. Les règles, la force des mains et les différences entre tournois et cash game.'],
-        ['Stratégie simple mais redoutable pour gagner au poker', 'https://www.youtube.com/watch?v=ZI43rck5pCE', 'Stratégie', VideoLevel::Debutant, 'Par Kill Tilt. Une ligne de jeu simple pour bien démarrer.'],
-        ['Le bankroll management au poker', 'https://www.youtube.com/watch?v=eW8yhEe7QLo', 'Gestion', VideoLevel::Debutant, 'Par zChance44. Gérer son capital pour durer et progresser sans se ruiner.'],
-        ['Stratégie préflop : évite cette erreur', 'https://www.youtube.com/watch?v=yqs2NoTIIuY', 'Préflop', VideoLevel::Intermediaire, 'Par Kill Tilt. Une erreur préflop fréquente et comment la corriger.'],
-        ['Comment bien bluffer au poker', 'https://www.youtube.com/watch?v=54QJmea2jkQ', 'Stratégie', VideoLevel::Intermediaire, 'Par zChance44. Choisir ses spots de bluff.'],
-        ['Construire ses ranges au poker', 'https://www.youtube.com/watch?v=e9GtkRUrV5w', 'Préflop', VideoLevel::Intermediaire, 'Par zChance44. Bâtir des ranges cohérentes selon la position.'],
-        ['5 clés pour vraiment progresser en MTT', 'https://www.youtube.com/watch?v=jffknGENDCU', 'Tournoi', VideoLevel::Avance, 'Par Kill Tilt. Les priorités de travail pour les joueurs de tournois.'],
-        ['Passer pro en tournois : la méthode étape par étape', 'https://www.youtube.com/watch?v=OJ3zCQV0L8A', 'Tournoi', VideoLevel::Avance, 'Par Kill Tilt. Méthode détaillée pour franchir les paliers en MTT.'],
+        ['Poker Hand Rankings : quelle main bat quelle main ?', 'https://www.youtube.com/watch?v=FtPEAIV8STw', 'Règles', VideoLevel::Debutant, "Hiérarchie des combinaisons et lecture du tableau en Hold'em (en anglais, 28 min). Vidéo de Ryan Morales, licence Creative Commons Attribution (CC BY)."],
+        ['Limit, No-Limit, Pot-Limit : quelles différences ?', 'https://www.youtube.com/watch?v=13tU6Jmyj5o', 'Règles', VideoLevel::Debutant, "Les trois structures d'enchères expliquées simplement (en anglais, 4 min). Vidéo d'AceHighTV, licence Creative Commons Attribution (CC BY)."],
+        ['Bankroll management : bien gérer son capital', 'https://www.youtube.com/watch?v=c-p52T0t1O4', 'Gestion', VideoLevel::Debutant, "Gérer son capital de jeu avec un calculateur (en anglais, 38 min). Vidéo de WinnerInAWeek, licence Creative Commons Attribution (CC BY)."],
+        ['Poker et probabilités : analyse combinatoire', 'https://www.youtube.com/watch?v=SU1EU529d_8', 'Stratégie', VideoLevel::Intermediaire, "Calculer la probabilité des mains grâce à la combinatoire (14 min). Vidéo de Patrick Anastasoglou, licence Creative Commons Attribution (CC BY)."],
+        ['Cotes du pot et équité des tirages', 'https://www.youtube.com/watch?v=_X8Sy2bdZGo', 'Stratégie', VideoLevel::Intermediaire, "Pot odds, équité de seuil des tirages et bluff (en anglais, 8 min). Vidéo de WinnerInAWeek, licence Creative Commons Attribution (CC BY)."],
     ];
 }
