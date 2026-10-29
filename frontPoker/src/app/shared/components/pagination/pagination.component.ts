@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -21,6 +21,7 @@ import { Component, computed, input, output } from '@angular/core';
       </nav>
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .pager {
       display: flex;

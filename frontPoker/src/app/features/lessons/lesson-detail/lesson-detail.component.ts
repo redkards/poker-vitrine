@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, effect, inject, input, linkedSignal, untracked, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, effect, inject, input, linkedSignal, untracked, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { findLesson } from '../lessons.data';
@@ -13,6 +13,7 @@ import { LessonQuizComponent } from '../components/lesson-quiz.component';
   selector: 'app-lesson-detail',
   imports: [RouterLink, StepVisualComponent, LessonQuizComponent],
   templateUrl: './lesson-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './lesson-detail.component.scss',
 })
 export class LessonDetailComponent {

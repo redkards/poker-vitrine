@@ -1,4 +1,4 @@
-import { Component, ElementRef, afterNextRender, computed, effect, inject, Injector, input, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, afterNextRender, computed, effect, inject, Injector, input, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -18,6 +18,7 @@ import { ForumDatePipe } from '../forum-date.pipe';
   selector: 'app-forum-category',
   imports: [RouterLink, ReactiveFormsModule, PaginationComponent, ForumDatePipe],
   templateUrl: './forum-category.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './forum-category.component.scss',
 })
 export class ForumCategoryComponent {

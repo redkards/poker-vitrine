@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -15,6 +15,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
   selector: 'app-article-list',
   imports: [RouterLink, DatePipe, PaginationComponent],
   templateUrl: './article-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './article-list.component.scss',
 })
 export class ArticleListComponent implements OnInit {

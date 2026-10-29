@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { SeatId } from '../lessons.data';
 
 interface Seat {
@@ -22,6 +22,7 @@ const SEATS: Seat[] = [
 @Component({
   selector: 'app-seat-map',
   templateUrl: './seat-map.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './seat-map.component.scss',
 })
 export class SeatMapComponent {

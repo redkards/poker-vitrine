@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 
 export interface StackZone {
   min: number;
@@ -27,6 +27,7 @@ export function zoneFor(bb: number): StackZone {
 @Component({
   selector: 'app-stack-gauge',
   templateUrl: './stack-gauge.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './stack-gauge.component.scss',
 })
 export class StackGaugeComponent {

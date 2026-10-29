@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { StepVisual } from '../lessons.data';
 import { BlindLevelsComponent } from './blind-levels.component';
@@ -30,6 +30,7 @@ import { VarianceChartComponent } from './variance-chart.component';
     VarianceChartComponent,
   ],
   templateUrl: './step-visual.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './step-visual.component.scss',
 })
 export class StepVisualComponent {

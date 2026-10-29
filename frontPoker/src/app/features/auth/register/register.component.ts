@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -24,6 +24,7 @@ function passwordScore(value: string): number {
   selector: 'app-register',
   imports: [ReactiveFormsModule, RouterLink, AuthShellComponent],
   templateUrl: './register.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {

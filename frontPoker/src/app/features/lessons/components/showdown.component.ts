@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { CardCode, ShowdownPlayer } from '../lessons.data';
 import { PlayingCardComponent, cardsName } from './playing-card.component';
 
@@ -32,6 +32,7 @@ import { PlayingCardComponent, cardsName } from './playing-card.component';
       {{ revealed() ? 'Cacher à nouveau' : 'Abattage : révéler les cartes' }}
     </button>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './showdown.component.scss',
 })
 export class ShowdownComponent {

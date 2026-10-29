@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
@@ -21,6 +21,7 @@ const parse = (d: string) => new Date(`${d}T00:00:00Z`);
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './calendar.component.scss',
 })
 export class CalendarComponent implements OnInit {

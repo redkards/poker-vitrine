@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api.service';
 import { ForumCategory } from '../../../core/api/forum.models';
@@ -12,6 +12,7 @@ import { ForumDatePipe } from '../forum-date.pipe';
   selector: 'app-forum-home',
   imports: [RouterLink, ForumDatePipe],
   templateUrl: './forum-home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './forum-home.component.scss',
 })
 export class ForumHomeComponent implements OnInit {

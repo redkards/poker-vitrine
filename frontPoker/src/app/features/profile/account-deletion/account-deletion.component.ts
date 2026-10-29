@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api.service';
 import { AccountService } from '../../../core/api/account.service';
@@ -44,6 +44,7 @@ type State = 'confirm' | 'loading' | 'done' | 'error';
       }
     </app-auth-shell>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     p {
       margin: 0 0 1.5rem;

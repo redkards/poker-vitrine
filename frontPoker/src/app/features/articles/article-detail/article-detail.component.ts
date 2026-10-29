@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Meta, Title } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ import { ContentService } from '../../../core/api/content.service';
   selector: 'app-article-detail',
   imports: [RouterLink, DatePipe],
   templateUrl: './article-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './article-detail.component.scss',
 })
 export class ArticleDetailComponent {

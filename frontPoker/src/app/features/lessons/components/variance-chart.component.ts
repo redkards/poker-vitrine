@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 
 const N = 200;
 const W = 600;
@@ -74,6 +74,7 @@ function longestDrought(series: number[]): number {
     <p class="summary" aria-live="polite">{{ summary() }}</p>
     <p class="note">Illustration fictive : 200 tournois joués par un même joueur au même niveau, avec une hypothèse de rendement moyen de {{ evPct }} %. Dans la réalité, une grande partie des joueurs perdent sur la durée.</p>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './variance-chart.component.scss',
 })
 export class VarianceChartComponent {

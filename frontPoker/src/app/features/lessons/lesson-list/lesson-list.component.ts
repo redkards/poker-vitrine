@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LESSON_LEVELS, Lesson, lessonsByLevel } from '../lessons.data';
 import { LessonProgressService } from '../lesson-progress.service';
@@ -11,6 +11,7 @@ import { PlayingCardComponent } from '../components/playing-card.component';
   selector: 'app-lesson-list',
   imports: [RouterLink, PlayingCardComponent],
   templateUrl: './lesson-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './lesson-list.component.scss',
 })
 export class LessonListComponent {

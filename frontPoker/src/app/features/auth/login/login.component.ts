@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { AuthShellComponent } from '../auth-shell/auth-shell.component';
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink, AuthShellComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './login.component.html',
 })
 export class LoginComponent {

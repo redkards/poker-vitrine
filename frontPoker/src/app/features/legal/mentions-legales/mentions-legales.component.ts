@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LEGAL, LegalSection, isPending, scrollToSection } from '../legal.config';
 
@@ -9,6 +9,7 @@ import { LEGAL, LegalSection, isPending, scrollToSection } from '../legal.config
   selector: 'app-mentions-legales',
   imports: [RouterLink],
   templateUrl: './mentions-legales.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: '../legal-layout.scss',
 })
 export class MentionsLegalesComponent {

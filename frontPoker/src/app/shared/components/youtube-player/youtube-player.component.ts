@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 /**
@@ -29,6 +29,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .player {
       position: relative;

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Gabarit des pages d'authentification : panneau sombre décoratif + formulaire.
@@ -18,6 +18,7 @@ import { Component, input } from '@angular/core';
       </div>
     </section>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .shell {
       display: grid;

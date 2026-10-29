@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { CardCode, DecisionOption } from '../lessons.data';
 import { PlayingCardComponent, cardsName } from './playing-card.component';
 
@@ -9,6 +9,7 @@ import { PlayingCardComponent, cardsName } from './playing-card.component';
   selector: 'app-decision-spot',
   imports: [PlayingCardComponent],
   templateUrl: './decision-spot.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './decision-spot.component.scss',
 })
 export class DecisionSpotComponent {

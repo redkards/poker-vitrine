@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { HandExample } from '../lessons.data';
 import { PlayingCardComponent } from './playing-card.component';
 
@@ -28,6 +28,7 @@ import { PlayingCardComponent } from './playing-card.component';
       <p class="example__text">{{ hand().description }}</p>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './hand-ranking.component.scss',
 })
 export class HandRankingComponent {

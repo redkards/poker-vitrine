@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,6 +17,7 @@ type Feedback = { type: 'success' | 'error'; text: string } | null;
   selector: 'app-profile',
   imports: [DatePipe, ReactiveFormsModule, RouterLink],
   templateUrl: './profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {

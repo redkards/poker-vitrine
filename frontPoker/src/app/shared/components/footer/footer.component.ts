@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LogoComponent } from '../logo/logo.component';
 
@@ -24,6 +24,7 @@ import { LogoComponent } from '../logo/logo.component';
       </p>
     </footer>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .footer {
       margin-top: 4rem;

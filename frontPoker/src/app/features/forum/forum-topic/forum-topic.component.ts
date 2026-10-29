@@ -1,4 +1,4 @@
-import { Component, Injector, afterNextRender, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, Injector, afterNextRender, computed, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
   selector: 'app-forum-topic',
   imports: [RouterLink, DatePipe, ReactiveFormsModule, PaginationComponent],
   templateUrl: './forum-topic.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './forum-topic.component.scss',
 })
 export class ForumTopicComponent {

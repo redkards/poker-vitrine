@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -21,6 +21,7 @@ const NEWS_BLOCKS: { id: string; eyebrow: string; title: string; scopes: [Articl
   selector: 'app-home',
   imports: [RouterLink, DatePipe, NgTemplateOutlet],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal, output } from '@angular/core';
+import { Component, computed, input, linkedSignal, output, ChangeDetectionStrategy } from '@angular/core';
 import { QuizQuestion } from '../lessons.data';
 
 /**
@@ -7,6 +7,7 @@ import { QuizQuestion } from '../lessons.data';
 @Component({
   selector: 'app-lesson-quiz',
   templateUrl: './lesson-quiz.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './lesson-quiz.component.scss',
 })
 export class LessonQuizComponent {

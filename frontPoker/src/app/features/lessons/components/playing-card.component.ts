@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { CardCode, Rank, Suit } from '../lessons.data';
 
 const RANK_LABEL: Record<Rank, string> = {
@@ -35,6 +35,7 @@ export function cardsName(codes: readonly CardCode[]): string {
     </span>
   `,
   styleUrl: './playing-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     role: 'img',
     class: 'card',

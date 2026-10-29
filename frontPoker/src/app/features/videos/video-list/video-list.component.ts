@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
@@ -16,6 +16,7 @@ const LEVELS: VideoLevel[] = ['debutant', 'intermediaire', 'avance'];
   selector: 'app-video-list',
   imports: [RouterLink, PaginationComponent],
   templateUrl: './video-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './video-list.component.scss',
 })
 export class VideoListComponent implements OnInit {

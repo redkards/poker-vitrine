@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Meta, Title } from '@angular/platform-browser';
@@ -58,6 +58,7 @@ import { YoutubePlayerComponent } from '../../../shared/components/youtube-playe
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .wrap {
       margin-top: 1rem;

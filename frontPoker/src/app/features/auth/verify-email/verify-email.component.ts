@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input, signal } from '@angular/core';
+import { Component, OnInit, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,6 +14,7 @@ type State = 'loading' | 'success' | 'expired' | 'invalid';
 @Component({
   selector: 'app-verify-email',
   imports: [FormsModule, RouterLink, AuthShellComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-auth-shell eyebrow="Activation du compte" [heading]="headings[state()]">
       @switch (state()) {

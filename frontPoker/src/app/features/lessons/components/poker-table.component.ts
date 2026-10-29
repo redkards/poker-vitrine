@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { CardCode } from '../lessons.data';
 import { PlayingCardComponent, cardsName } from './playing-card.component';
 
@@ -16,6 +16,7 @@ const STREETS = [
   selector: 'app-poker-table',
   imports: [PlayingCardComponent],
   templateUrl: './poker-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './poker-table.component.scss',
 })
 export class PokerTableComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, linkedSignal, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { BlindLevel } from '../lessons.data';
 import { StackGaugeComponent } from './stack-gauge.component';
@@ -35,6 +35,7 @@ import { StackGaugeComponent } from './stack-gauge.component';
       <button type="button" class="pv-btn pv-btn--primary" (click)="next()" [disabled]="current() === levels().length - 1">Niveau suivant</button>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     :host { display: grid; gap: 0.9rem; }
     .wrap { overflow-x: auto; }
