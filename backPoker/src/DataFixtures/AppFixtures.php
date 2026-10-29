@@ -9,11 +9,12 @@ use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
 use App\Entity\User;
 use App\Entity\Video;
-use App\Enum\ArticleScope;
 use App\Enum\VideoLevel;
+use App\Service\ArticleImporter;
 use App\Service\GdprService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -26,6 +27,9 @@ class AppFixtures extends Fixture
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher,
         private readonly GdprService $gdpr,
+        private readonly ArticleImporter $importer,
+        #[Autowire('%kernel.project_dir%')]
+        private readonly string $projectDir,
     ) {
     }
 
@@ -50,25 +54,6 @@ class AppFixtures extends Fixture
             $users[$pseudo] = $user;
         }
 
-        $articles = [
-            ...array_map(static fn (array $a) => [...$a, ArticleScope::France], self::ARTICLES),
-            ...array_map(static fn (array $a) => [...$a, ArticleScope::International], self::INTERNATIONAL_ARTICLES),
-            ...array_map(static fn (array $a) => [...$a, ArticleScope::Live], self::LIVE_ARTICLES),
-            ...array_map(static fn (array $a) => [...$a, ArticleScope::Online], self::ONLINE_ARTICLES),
-        ];
-        foreach ($articles as $i => [$category, $title, $excerpt, $paragraphs, $scope]) {
-            $content = implode('', array_map(static fn (string $p) => '<p>'.$p.'</p>', $paragraphs));
-            $article = (new Article())
-                ->setTitle($title)
-                ->setCategory($category)
-                ->setScope($scope)
-                ->setExcerpt($excerpt)
-                ->setContent($content)
-                ->setAuthor($users['admin'])
-                ->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 2 + $i * 3)));
-            $manager->persist($article);
-        }
-
         $this->loadForum($manager, $users);
 
         // Brouillon : n'apparaît pas dans l'API publique
@@ -90,6 +75,11 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+
+        // Vraies actualités sourcées (docs/actualites/*.json), absentes d'un déploiement sans le dossier docs
+        foreach (glob($this->projectDir.'/../docs/actualites/*.json') ?: [] as $file) {
+            $this->importer->importFile($file, $users['admin']);
+        }
     }
 
     /**
@@ -162,86 +152,9 @@ class AppFixtures extends Fixture
         ]],
     ];
 
-    /**
-     * Actualités internationales de démonstration
-     *
-     * @var list<array{string, string, string, list<string>}>
-     */
-    private const LIVE_ARTICLES = [
-        ['Tournois live', 'Votre premier tournoi en club ou en casino : le guide pratique', 'Inscription, pièce d’identité, placement, jetons : tout ce qu’il faut savoir avant de s’asseoir.', [
-            'Arrivez en avance : l’inscription demande une pièce d’identité et le placement est souvent tiré au sort. Le croupier distribue les cartes, vous n’avez qu’à jouer.',
-            'Annoncez clairement vos actions (« suivre », « relance à 800 ») et posez vos jetons en une seule fois : un geste en plusieurs fois peut être refusé.',
-            'Prévoyez de l’eau et des pauses : un tournoi live dure souvent plusieurs heures, et la fatigue coûte cher en fin de journée.',
-        ]],
-        ['Tournois live', 'L’étiquette à table : les règles non écrites du poker live', 'Ne pas jouer hors de son tour, protéger ses cartes, rester courtois : les bons réflexes.', [
-            'Attendez votre tour pour parler ou agir : réagir avant son tour donne des informations aux autres joueurs et peut être pénalisé.',
-            'Protégez vos cartes avec un jeton et ne commentez pas une main en cours, même couché.',
-            'Un « bonne main » après un pot perdu fait partie de la culture du jeu : le respect à table est la règle.',
-        ]],
-    ];
 
-    /**
-     * @var list<array{string, string, string, list<string>}>
-     */
-    private const ONLINE_ARTICLES = [
-        ['Tournois en ligne', 'MTT, Sit & Go, KO : choisir son format de tournoi en ligne', 'Durée, variance, nombre de joueurs : les différences pour choisir le format qui vous convient.', [
-            'Le MTT (tournoi multi-tables) réunit des centaines de joueurs : longs, très variables, ils offrent de gros premiers prix.',
-            'Le Sit & Go démarre dès que les places sont remplies : plus court et plus régulier, idéal pour apprendre.',
-            'Dans un tournoi KO, une partie de l’inscription récompense chaque élimination : le jeu y est plus agressif. Jouez uniquement sur des sites agréés par l’ANJ.',
-        ]],
-        ['Tournois en ligne', 'Bien organiser une session de tournois en ligne', 'Nombre de tables, horaires, pauses : une session préparée se joue mieux.', [
-            'Commencez avec une ou deux tables : multiplier les tables trop tôt fait baisser la qualité des décisions.',
-            'Fixez à l’avance votre budget et votre heure de fin, et respectez-les quelle que soit l’issue.',
-            'Notez les mains difficiles pour les revoir à froid ou les partager sur le forum.',
-        ]],
-    ];
 
-    /**
-     * @var list<array{string, string, string, list<string>}>
-     */
-    private const INTERNATIONAL_ARTICLES = [
-        ['Tournois', 'Les grandes séries internationales : comment s’y préparer', 'Structures longues, field immense, fatigue : nos conseils avant de s’inscrire à un festival à l’étranger.', [
-            'Les festivals internationaux proposent des structures plus lentes et des fields très larges. La préparation physique et l’organisation comptent autant que la technique.',
-            'Prévoyez votre budget (inscriptions, voyage, hébergement), un planning de repos et des objectifs réalistes.',
-        ]],
-        ['Actualité', 'Jouer à l’étranger : ce qui change d’un pays à l’autre', 'Règles de maison, langue de table, pourboires : les différences à connaître avant de s’asseoir.', [
-            'Chaque casino applique ses propres règles de maison : annonce des mises, gestion des all-in, temps de réflexion.',
-            'Renseignez-vous aussi sur la législation locale et la fiscalité des gains avant de partir.',
-        ]],
-        ['Stratégie', 'Ce que les meilleurs joueurs du monde font différemment', 'Préparation, révision, gestion des émotions : des habitudes accessibles à tous.', [
-            'Les joueurs les plus réguliers partagent des routines : échauffement avant session, révision des mains clés, pauses programmées.',
-            'Rien de magique : c’est la constance de ces habitudes qui fait la différence sur le long terme.',
-        ]],
-    ];
 
-    /**
-     * Contenu éditorial de démonstration
-     *
-     * @var list<array{string, string, string, list<string>}>
-     */
-    private const ARTICLES = [
-        ['Stratégie', 'Position au poker : pourquoi le bouton change tout', 'Jouer en dernier, c’est jouer avec plus d’informations. Nos conseils pour exploiter la position.', [
-            'Au Texas Hold’em, la position désigne l’ordre de parole. Le joueur au bouton parle en dernier après le flop : il voit ce que font ses adversaires avant de décider.',
-            'Concrètement, ouvrez une sélection de mains plus large au bouton et au cut-off, et resserrez-la sous le pistolet. Hors de position, privilégiez les mains qui jouent bien seules.',
-            'Exercice : sur vos dix prochaines sessions, notez votre résultat par position. La différence vous convaincra vite.',
-        ]],
-        ['Débutant', 'Les 5 erreurs les plus fréquentes des nouveaux joueurs', 'Trop de mains jouées, tapis mal gérés… Apprenez à les repérer et à les corriger.', [
-            'Jouer trop de mains, payer sans plan, ignorer la position, bluffer des joueurs qui ne se couchent jamais, et jouer au-dessus de sa bankroll : ces cinq erreurs coûtent cher.',
-            'La bonne nouvelle : elles se corrigent toutes avec de la discipline. Fixez-vous une liste de mains de départ et tenez-la.',
-        ]],
-        ['Tournois', 'Gérer son tapis en tournoi : la règle des blinds', 'Combien de grosses blindes vous reste-t-il ? Cette question guide toutes vos décisions.', [
-            'Au-delà de 40 grosses blindes, vous avez de la marge pour manœuvrer. Entre 15 et 25, les relances et les tapis deviennent vos meilleures armes.',
-            'Sous 10 grosses blindes, c’est le mode « tapis ou couché » : chaque main doit être une décision franche.',
-        ]],
-        ['Mental', 'Le tilt : le reconnaître avant qu’il ne vous coûte cher', 'Agacement, impatience, envie de se refaire : les signaux d’alerte et comment réagir.', [
-            'Le tilt, c’est jouer sous le coup de l’émotion. Il arrive après un bad beat, une série de pertes, ou simplement la fatigue.',
-            'Fixez-vous des limites de pertes et de temps, faites des pauses, et rappelez-vous que le poker se joue sur le long terme.',
-        ]],
-        ['Communauté', 'Le forum d’entraide ouvre bientôt ses portes', 'Analyses de mains, questions de débutants, retours de tournois : un espace pour progresser ensemble.', [
-            'Le forum arrive très prochainement. Vous pourrez y poster vos mains, demander conseil et partager vos expériences.',
-            'Créez votre compte dès maintenant pour être prêt le jour de l’ouverture.',
-        ]],
-    ];
 
     /**
      * Vidéos de démonstration : uniquement des vidéos sous licence Creative Commons vérifiée

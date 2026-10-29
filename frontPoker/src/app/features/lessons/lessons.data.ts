@@ -105,9 +105,15 @@ export interface Lesson {
 }
 
 // Contenu ------------------------------------------------------------------------
+// Les fichiers de niveau n'importent que des types depuis ce fichier : pas de dépendance circulaire à l'exécution
+import { DEBUTANT_LESSONS } from './data/debutant.lessons';
+import { INTERMEDIAIRE_LESSONS } from './data/intermediaire.lessons';
+import { EXPERT_LESSONS } from './data/expert.lessons';
+
 const L1_BOARD: CardCode[] = ['Ts', '7h', '2s', '9d', 'Kc'];
 
-export const LESSONS: Lesson[] = [
+/** 5 leçons fondatrices ; les autres sont dans data/*.lessons.ts (15 par niveau au total) */
+const CORE_LESSONS: Lesson[] = [
   // 1 ----------------------------------------------------------------------------
   {
     slug: 'regles-et-combinaisons',
@@ -229,6 +235,20 @@ export const LESSONS: Lesson[] = [
         options: ['D-R-A-2-3', 'A-2-3-4-5', 'R-A-2-3-4'],
         answer: 1,
         explanation: "A-2-3-4-5 (« la roue ») est la plus petite quinte : l'As y joue le rôle de carte basse. En revanche, une suite ne peut pas passer de l'As au 2 : D-R-A-2-3 et R-A-2-3-4 ne sont pas des quintes.",
+      },
+      {
+        question: 'Avant le flop, quel joueur parle en premier ?',
+        options: ['La petite blinde', 'Le joueur assis à gauche de la grosse blinde', 'Le bouton'],
+        answer: 1,
+        explanation:
+          "Avant le flop, les blindes ont déjà misé : la parole commence au joueur situé à gauche de la grosse blinde (« sous le pistolet »). Après le flop, c'est le premier joueur encore en jeu à gauche du bouton qui parle.",
+      },
+      {
+        question: 'Combien de cartes compose la main retenue à l’abattage ?',
+        options: ['Vos deux cartes uniquement', 'Les cinq meilleures cartes parmi vos deux cartes et les cinq du tableau', 'Les sept cartes'],
+        answer: 1,
+        explanation:
+          "Chaque joueur forme la meilleure combinaison de cinq cartes parmi les sept disponibles (deux privatives + cinq communes). Il peut utiliser deux, une ou même aucune de ses cartes.",
       },
     ],
   },
@@ -372,6 +392,20 @@ export const LESSONS: Lesson[] = [
         answer: 1,
         explanation: "Une décision se juge au moment où on la prend. Roi-7 dépareillé en première position perd de l'argent sur le long terme, même si le tableau l'aurait parfois aidé.",
       },
+      {
+        question: 'Vous parlez en premier à une table de 6 joueurs. Laquelle de ces mains est la plus solide à ouvrir ?',
+        options: ['Valet-4 assortis', 'Paire de Dames', 'Roi-8 dépareillés', '7-6 dépareillés'],
+        answer: 1,
+        explanation:
+          'Sous le pistolet, cinq joueurs parlent encore après vous : il faut une sélection serrée. Une paire de Dames fait partie des meilleures mains de départ ; les trois autres sont des mains à jeter dans cette position.',
+      },
+      {
+        question: 'Tout le monde se couche jusqu’à vous, au bouton, avec Roi-10 dépareillés. Quelle action est la plus logique ?',
+        options: ['Se coucher', 'Suivre la grosse blinde', 'Relancer'],
+        answer: 2,
+        explanation:
+          "Au bouton, seules les deux blindes restent à parler et vous aurez la position après le flop. Roi-10 est assez fort pour relancer : vous pouvez remporter les blindes tout de suite ou jouer le coup avec l'avantage de parler en dernier.",
+      },
     ],
   },
 
@@ -493,6 +527,30 @@ export const LESSONS: Lesson[] = [
         ],
         answer: 1,
         explanation: "Ces mains touchent rarement une grosse combinaison ; elles ne sont rentables que si vous pouvez alors gagner un gros pot, ce qu'un tapis court ne permet pas.",
+      },
+      {
+        question: 'Que désigne le « limp » ?',
+        options: [
+          'Relancer au double de la grosse blinde',
+          'Entrer dans le coup en suivant simplement la grosse blinde, sans relancer',
+          'Se coucher sans regarder ses cartes',
+          'Miser tout son tapis',
+        ],
+        answer: 1,
+        explanation:
+          "Limper, c'est payer juste la grosse blinde quand personne n'a relancé. Cela laisse les blindes voir le flop à bon prix et vous prive de la possibilité de gagner le coup tout de suite : la relance est en général préférable.",
+      },
+      {
+        question: 'Un joueur très serré relance sous le pistolet. Au cutoff, vous avez As-Valet dépareillés. Quel est le principal danger ?',
+        options: [
+          'Votre main est souvent dominée par As-Roi ou As-Dame',
+          'As-Valet perd contre toutes les paires',
+          'Vous serez hors de position après le flop',
+          'Aucun : As-Valet est toujours une relance',
+        ],
+        answer: 0,
+        explanation:
+          "Face à la range étroite d'un joueur serré, As-Valet partage souvent l'As avec une main au meilleur kicker (AK, AQ). Quand un As tombe, vous gagnez peu et perdez gros : se coucher ou simplement suivre est souvent plus prudent.",
       },
     ],
   },
@@ -622,6 +680,25 @@ export const LESSONS: Lesson[] = [
         ],
         answer: 1,
         explanation: "À la bulle, le prochain joueur éliminé est le dernier à ne rien recevoir. La pression psychologique y est maximale.",
+      },
+      {
+        question: 'Qu’est-ce qu’une ante en tournoi ?',
+        options: [
+          'Une mise obligatoire supplémentaire qui grossit le pot à chaque main',
+          'Le droit d’entrée du tournoi',
+          'Une relance minimale imposée',
+          'Le tapis de départ',
+        ],
+        answer: 0,
+        explanation:
+          "L'ante s'ajoute aux blindes à partir d'un certain niveau. Payée par chaque joueur ou par la grosse blinde seule (« big blind ante »), elle augmente le pot de départ et pousse à jouer plus de coups.",
+      },
+      {
+        question: 'Votre tapis reste à 30 000 jetons et la grosse blinde passe de 1 000 à 1 500. Combien de grosses blindes vous reste-t-il ?',
+        options: ['30', '25', '20', '15'],
+        answer: 2,
+        explanation:
+          "30 000 / 1 500 = 20 grosses blindes, contre 30 au niveau précédent. Sans gagner de coup, votre tapis « fond » à chaque niveau : c'est pourquoi on raisonne en grosses blindes plutôt qu'en jetons.",
       },
     ],
   },
@@ -769,9 +846,35 @@ export const LESSONS: Lesson[] = [
         answer: 1,
         explanation: "Chercher à se refaire est un signal d'alerte classique. S'arrêter et en parler est la bonne réponse ; Joueurs Info Service est joignable au 09 74 75 13 13 (appel non surtaxé).",
       },
+      {
+        question: 'Vous êtes positif sur vos 50 derniers tournois. Que pouvez-vous en conclure ?',
+        options: [
+          'Que vous êtes un joueur gagnant à long terme',
+          'Pas grand-chose : 50 tournois sont un échantillon trop petit face à la variance',
+          'Qu’il faut monter de limite immédiatement',
+          'Que votre stratégie n’a plus besoin d’être revue',
+        ],
+        answer: 1,
+        explanation:
+          "En tournoi, quelques grosses places peuvent faire tout le résultat. Il faut des centaines, voire des milliers de tournois pour mesurer un niveau réel : jugez-vous d'abord sur la qualité de vos décisions.",
+      },
+      {
+        question: 'Quelle habitude de travail fait le plus progresser entre les sessions ?',
+        options: [
+          'Rejouer de mémoire uniquement les coups gagnés',
+          'Revoir régulièrement ses mains marquantes avec des notes, puis en discuter',
+          'Augmenter le nombre de tables jouées',
+          'Changer de stratégie après chaque session perdante',
+        ],
+        answer: 1,
+        explanation:
+          "La revue structurée des mains difficiles (gagnées ou perdues), notée et partagée, permet de repérer ses erreurs récurrentes. Le forum de PokerVitrine est fait pour ça.",
+      },
     ],
   },
 ];
+
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...DEBUTANT_LESSONS, ...INTERMEDIAIRE_LESSONS, ...EXPERT_LESSONS];
 
 export function findLesson(slug: string): Lesson | undefined {
   return LESSONS.find((l) => l.slug === slug);
