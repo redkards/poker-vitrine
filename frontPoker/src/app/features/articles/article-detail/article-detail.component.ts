@@ -1,7 +1,7 @@
 import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../core/seo/seo.service';
 import { RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api.service';
 import { Article } from '../../../core/api/content.models';
@@ -19,8 +19,7 @@ import { ContentService } from '../../../core/api/content.service';
 })
 export class ArticleDetailComponent {
   private readonly content = inject(ContentService);
-  private readonly title = inject(Title);
-  private readonly meta = inject(Meta);
+  private readonly seo = inject(SeoService);
 
   readonly slug = input.required<string>();
 
@@ -40,13 +39,12 @@ export class ArticleDetailComponent {
     this.content.getArticle(slug).subscribe({
       next: (article) => {
         this.article.set(article);
-        this.title.setTitle(`${article.title} — Poker Winners`);
-        this.meta.updateTag({ name: 'description', content: article.excerpt });
+        this.seo.update({ title: `${article.title} — Poker Winners`, description: article.excerpt, type: 'article' });
       },
       error: (err: unknown) => {
         if (err instanceof HttpErrorResponse && err.status === 404) {
           this.notFound.set(true);
-          this.title.setTitle('Article introuvable — Poker Winners');
+          this.seo.update({ title: 'Article introuvable — Poker Winners' });
           return;
         }
         this.error.set(apiErrorMessage(err, "Impossible de charger l'article."));

@@ -129,7 +129,12 @@
                 }
                 <h3><a [routerLink]="['/forum/sujet', topic.id]">{{ topic.title }}</a></h3>
                 <p class="topic__by">
-                  par <strong>{{ topic.author.pseudo }}</strong>
+                  par
+                  @if (hasProfile(topic.author.pseudo)) {
+                    <a class="pseudo-link" [routerLink]="['/membres', topic.author.pseudo]"><strong>{{ topic.author.pseudo }}</strong></a>
+                  } @else {
+                    <strong>{{ topic.author.pseudo }}</strong>
+                  }
                   @if (topic.author.role; as role) {
                     <span class="role-badge" [attr.data-role]="role">{{ role }}</span>
                   }

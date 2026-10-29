@@ -25,6 +25,22 @@
       }
     </nav>
 
+    <form class="header__search" role="search" (submit)="search($event, searchInput)">
+      <label for="header-search" class="pv-sr-only">Rechercher sur le site</label>
+      <input
+        #searchInput
+        id="header-search"
+        class="header__search-input"
+        type="search"
+        placeholder="Rechercher…"
+        maxlength="100"
+        autocomplete="off"
+      />
+      <button type="submit" class="header__search-btn" aria-label="Rechercher" title="Rechercher">
+        <span class="header__loupe" aria-hidden="true"></span>
+      </button>
+    </form>
+
     <div class="header__actions">
       @if (auth.user(); as user) {
         <a routerLink="/mon-espace" class="pv-btn pv-btn--ghost header__user">

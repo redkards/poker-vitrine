@@ -1,0 +1,114 @@
+:host {
+  display: block;
+}
+
+.report__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--pv-muted);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: color 0.18s, background-color 0.18s;
+
+  &:hover {
+    background: var(--pv-red-soft);
+    color: var(--pv-red);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--pv-focus);
+  }
+}
+
+/* Petit drapeau dessiné en CSS */
+.report__flag {
+  position: relative;
+  width: 10px;
+  height: 12px;
+  border-left: 2px solid currentColor;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 6px;
+    background: currentColor;
+  }
+}
+
+.report {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--pv-line);
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-surface);
+  text-align: left;
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+}
+
+.report__reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+}
+
+.report__reason {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+
+  input {
+    accent-color: var(--pv-red);
+  }
+}
+
+.report__optional {
+  color: var(--pv-muted);
+  font-weight: 400;
+}
+
+.report__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.report__done {
+  margin: 0;
+  color: var(--pv-success);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 560px) {
+  .report__reasons {
+    flex-direction: column;
+  }
+
+  .report__actions .pv-btn {
+    flex: 1;
+  }
+}

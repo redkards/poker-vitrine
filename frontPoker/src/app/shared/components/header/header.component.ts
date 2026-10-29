@@ -14,6 +14,7 @@ import { LogoComponent } from '../logo/logo.component';
 })
 export class HeaderComponent {
   protected readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
   protected readonly menuOpen = signal(false);
 
   protected readonly links = [
@@ -26,12 +27,21 @@ export class HeaderComponent {
   ];
 
   constructor() {
-    inject(Router)
+    this.router
       .events.pipe(
         filter((e) => e instanceof NavigationEnd),
         takeUntilDestroyed(),
       )
       .subscribe(() => this.menuOpen.set(false));
+  }
+
+  /** Envoie vers /recherche?q= (page de recherche vide si rien n'est saisi) */
+  protected search(event: Event, input: HTMLInputElement): void {
+    event.preventDefault();
+    const q = input.value.replace(/\s+/g, ' ').trim();
+    input.value = '';
+    input.blur();
+    void this.router.navigate(['/recherche'], { queryParams: q ? { q } : {} });
   }
 
   protected toggleMenu(): void {

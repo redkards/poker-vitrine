@@ -68,3 +68,23 @@ export const FORUM_LIMITS = {
   contentMin: 2,
   contentMax: 10000,
 } as const;
+
+/** Motifs de signalement (ReportReason côté API) */
+export type ReportReason = 'spam' | 'insulte' | 'hors_sujet' | 'autre';
+
+export const REPORT_REASONS: ReadonlyArray<{ value: ReportReason; label: string }> = [
+  { value: 'spam', label: 'Spam / publicité' },
+  { value: 'insulte', label: 'Insulte / propos irrespectueux' },
+  { value: 'hors_sujet', label: 'Hors sujet' },
+  { value: 'autre', label: 'Autre' },
+];
+
+export const REPORT_COMMENT_MAX = 500;
+
+export interface ForumPostReport {
+  id: number;
+  postId: number;
+  reason: ReportReason;
+  createdAt: string;
+  message: string;
+}

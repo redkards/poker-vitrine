@@ -1,5 +1,5 @@
 import { Component, ElementRef, computed, effect, inject, input, linkedSignal, untracked, viewChild, ChangeDetectionStrategy } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { SeoService } from '../../../core/seo/seo.service';
 import { RouterLink } from '@angular/router';
 import { findLesson } from '../lessons.data';
 import { LessonProgressService } from '../lesson-progress.service';
@@ -18,7 +18,7 @@ import { LessonQuizComponent } from '../components/lesson-quiz.component';
 })
 export class LessonDetailComponent {
   private readonly progress = inject(LessonProgressService);
-  private readonly title = inject(Title);
+  private readonly seo = inject(SeoService);
 
   readonly slug = input.required<string>();
 
@@ -59,7 +59,11 @@ export class LessonDetailComponent {
   constructor() {
     effect(() => {
       const lesson = this.lesson();
-      this.title.setTitle(lesson ? `${lesson.title} — Leçons Poker Winners` : 'Leçon introuvable — Poker Winners');
+      this.seo.update(
+        lesson
+          ? { title: `${lesson.title} — Leçons Poker Winners`, description: lesson.summary, type: 'article' }
+          : { title: 'Leçon introuvable — Poker Winners' },
+      );
     });
   }
 

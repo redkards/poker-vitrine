@@ -32,7 +32,13 @@
           }
           <h1>{{ t.title }}</h1>
           <p class="head__meta">
-            Ouvert par <strong>{{ t.author.pseudo }}</strong> le
+            Ouvert par
+            @if (hasProfile(t.author.pseudo)) {
+              <a class="pseudo-link" [routerLink]="['/membres', t.author.pseudo]"><strong>{{ t.author.pseudo }}</strong></a>
+            } @else {
+              <strong>{{ t.author.pseudo }}</strong>
+            }
+            le
             <time [attr.datetime]="t.createdAt">{{ t.createdAt | date: "d MMMM y 'à' HH:mm" }}</time>
             · {{ total() }} message{{ total() > 1 ? 's' : '' }}
           </p>
@@ -71,7 +77,11 @@
                 <header class="post__head">
                   <span class="post__avatar" aria-hidden="true">{{ post.author.pseudo.charAt(0).toUpperCase() }}</span>
                   <div class="post__who">
-                    <strong>{{ post.author.pseudo }}</strong>
+                    @if (hasProfile(post.author.pseudo)) {
+                      <a class="pseudo-link" [routerLink]="['/membres', post.author.pseudo]"><strong>{{ post.author.pseudo }}</strong></a>
+                    } @else {
+                      <strong>{{ post.author.pseudo }}</strong>
+                    }
                     @if (post.author.role; as role) {
                       <span class="role-badge" [attr.data-role]="role">{{ role }}</span>
                     }
@@ -86,6 +96,11 @@
                 } @else {
                   <!-- Texte brut : interpolation uniquement, jamais innerHTML -->
                   <p class="post__content">{{ post.content }}</p>
+                }
+                @if (canReport(post)) {
+                  <footer class="post__foot">
+                    <app-report-post [postId]="post.id" />
+                  </footer>
                 }
               </article>
             </li>

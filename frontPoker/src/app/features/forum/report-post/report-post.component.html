@@ -1,0 +1,56 @@
+@switch (state()) {
+  @case ('idle') {
+    <button #toggle type="button" class="report__toggle" (click)="open()">
+      <span class="report__flag" aria-hidden="true"></span>Signaler
+    </button>
+  }
+  @case ('done') {
+    <p class="report__done" role="status">{{ confirmation() }}</p>
+  }
+  @case ('open') {
+    <form class="report" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <fieldset>
+        <legend>Signaler ce message à la modération</legend>
+        <div class="report__reasons">
+          @for (r of reasons; track r.value; let first = $first) {
+            <label class="report__reason">
+              @if (first) {
+                <input #firstReason type="radio" formControlName="reason" [value]="r.value" />
+              } @else {
+                <input type="radio" formControlName="reason" [value]="r.value" />
+              }
+              {{ r.label }}
+            </label>
+          }
+        </div>
+        @if (form.controls.reason.touched && form.controls.reason.invalid) {
+          <p class="pv-error">Choisissez un motif.</p>
+        }
+      </fieldset>
+
+      <div class="pv-field">
+        <label [for]="'report-comment-' + postId()">Commentaire <span class="report__optional">(facultatif)</span></label>
+        <textarea
+          [id]="'report-comment-' + postId()"
+          class="pv-input"
+          formControlName="comment"
+          rows="3"
+          [attr.maxlength]="commentMax"
+          placeholder="Précisez si besoin ce qui pose problème."
+        ></textarea>
+        <p class="pv-hint">{{ form.controls.comment.value.length }} / {{ commentMax }}</p>
+      </div>
+
+      @if (error(); as message) {
+        <p class="pv-alert pv-alert--error" role="alert">{{ message }}</p>
+      }
+
+      <div class="report__actions">
+        <button type="button" class="pv-btn pv-btn--ghost" (click)="cancel()">Annuler</button>
+        <button type="submit" class="pv-btn pv-btn--primary" [disabled]="sending()">
+          {{ sending() ? 'Envoi…' : 'Envoyer le signalement' }}
+        </button>
+      </div>
+    </form>
+  }
+}

@@ -2,7 +2,7 @@ import { Component, Injector, afterNextRender, computed, effect, inject, input, 
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
+import { SeoService } from '../../../core/seo/seo.service';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { apiErrorMessage, apiViolations } from '../../../core/api/api.service';
@@ -10,13 +10,15 @@ import { FORUM_LIMITS, ForumPost, ForumTopicDetail } from '../../../core/api/for
 import { ForumService } from '../../../core/api/forum.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { hasPublicProfile } from '../../../core/api/member.models';
+import { ReportPostComponent } from '../report-post/report-post.component';
 
 /**
  * UC3/UC7 — Fil d'un sujet (/forum/sujet/:id?page=), réponse et abonnement
  */
 @Component({
   selector: 'app-forum-topic',
-  imports: [RouterLink, DatePipe, ReactiveFormsModule, PaginationComponent],
+  imports: [RouterLink, DatePipe, ReactiveFormsModule, PaginationComponent, ReportPostComponent],
   templateUrl: './forum-topic.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './forum-topic.component.scss',
@@ -24,7 +26,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 export class ForumTopicComponent {
   private readonly forum = inject(ForumService);
   private readonly router = inject(Router);
-  private readonly title = inject(Title);
+  private readonly seo = inject(SeoService);
   private readonly injector = inject(Injector);
   protected readonly auth = inject(AuthService);
 
@@ -73,6 +75,16 @@ export class ForumTopicComponent {
   /** Le premier message (ouverture du sujet) n'existe qu'en page 1 */
   protected isOpening(index: number): boolean {
     return this.currentPage() === 1 && index === 0;
+  }
+
+  protected hasProfile(pseudo: string): boolean {
+    return hasPublicProfile(pseudo);
+  }
+
+  /** Signalement : membre connecté, message visible, et pas son propre message */
+  protected canReport(post: ForumPost): boolean {
+    const me = this.auth.user();
+    return !!me && !post.isModerated && post.content !== null && post.author.pseudo !== me.pseudo;
   }
 
   protected goToPage(page: number): void {
@@ -188,7 +200,13 @@ export class ForumTopicComponent {
         this.total.set(result.total);
         this.limit.set(result.limit || 20);
         this.loading.set(false);
-        this.title.setTitle(`${result.topic.title} — Forum — Poker Winners`);
+        this.seo.update({
+          title: `${result.topic.title} — Forum — Poker Winners`,
+          description:
+            (page === 1 ? result.items[0]?.content : null) ||
+            `Discussion « ${result.topic.title} » dans la catégorie ${result.topic.category.name} du forum poker Poker Winners.`,
+          type: 'article',
+        });
         this.focusNewPost();
       },
       error: (err: unknown) => {
@@ -206,7 +224,7 @@ export class ForumTopicComponent {
     this.loading.set(false);
     this.topic.set(null);
     this.notFound.set(true);
-    this.title.setTitle('Sujet introuvable — Poker Winners');
+    this.seo.update({ title: 'Sujet introuvable — Poker Winners' });
   }
 
   /** Après publication : amène le focus (et la vue) sur le nouveau message */

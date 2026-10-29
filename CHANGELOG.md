@@ -19,6 +19,15 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
   et file de modération « Signalements » dans le back-office avec l'action « Marquer résolu ».
 - Recherche dans les actualités publiées et le forum (`GET /api/search?q=`, 2 à 100 caractères).
 - Profil public d'un membre (`GET /api/members/{pseudo}`) : pseudo, date d'inscription, nombre de messages.
+- Front : page `/recherche` (saisie avec délai, 2 caractères minimum, résultats groupés Actualités / Forum,
+  état vide) et champ de recherche avec loupe dans l'en-tête.
+- Front : page de profil public `/membres/:pseudo` ; les pseudos du forum (sujets, messages, recherche) y mènent.
+- Front : bouton « Signaler » sur les messages du forum (membre connecté, hors ses propres messages) avec
+  choix du motif, commentaire facultatif, confirmation et gestion des erreurs 409 / 429.
+- Front : SEO par route (`SeoService` + `SeoTitleStrategy`) : titre, meta description et Open Graph
+  (`og:title`, `og:description`, `og:type`) ; les pages article, vidéo, leçon, sujet, catégorie et profil
+  les complètent avec leur contenu. `meta robots noindex` conservé pour la bêta.
+- Front : tests Jasmine des services recherche, membres, signalement et SEO (`npm run test:ci`, Chrome headless).
 
 ## [0.5.0] — 2026-10-29
 

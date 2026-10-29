@@ -1,0 +1,104 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Trouver un article ou une discussion</span>
+  <h1>Recherche</h1>
+  <p>Cherchez une main, un tournoi, une notion de stratégie : nous parcourons les actualités et le forum.</p>
+
+  <form class="search" role="search" (submit)="$event.preventDefault()">
+    <label for="search-input" class="pv-sr-only">Rechercher sur Poker Winners</label>
+    <span class="search__icon" aria-hidden="true"></span>
+    <input
+      id="search-input"
+      class="pv-input search__input"
+      type="search"
+      autocomplete="off"
+      placeholder="Ex. : 3-bet, bankroll, WSOP…"
+      [value]="term()"
+      [attr.maxlength]="limits.max"
+      aria-describedby="search-hint"
+      (input)="onInput($event)"
+    />
+  </form>
+  <p class="pv-hint" id="search-hint">
+    @if (tooShort()) {
+      Saisissez au moins {{ limits.min }} caractères.
+    } @else {
+      Entre {{ limits.min }} et {{ limits.max }} caractères ; les résultats s'affichent pendant la frappe.
+    }
+  </p>
+</section>
+
+<section class="pv-container results" aria-live="polite" [attr.aria-busy]="loading()">
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (loading()) {
+    <p class="state" role="status">Recherche en cours…</p>
+  } @else if (results(); as r) {
+    @if (isEmpty(r)) {
+      <div class="empty">
+        <h2>Aucun résultat pour « {{ r.query }} »</h2>
+        <p>Essayez un autre mot-clé, une orthographe différente ou un terme plus général.</p>
+        <div class="empty__actions">
+          <a routerLink="/actualites" class="pv-btn pv-btn--outline">Voir les actualités</a>
+          <a routerLink="/forum" class="pv-btn pv-btn--ghost">Parcourir le forum</a>
+        </div>
+      </div>
+    } @else {
+      <div class="groups">
+        <section class="group" aria-labelledby="group-articles">
+          <h2 id="group-articles">Actualités <span class="group__count">{{ r.articles.length }}</span></h2>
+          @if (r.articles.length) {
+            <ul class="list">
+              @for (a of r.articles; track a.id) {
+                <li class="item">
+                  <a class="item__title" [routerLink]="['/actualites', a.slug]">{{ a.title }}</a>
+                  @if (a.excerpt) {
+                    <p class="item__excerpt">{{ a.excerpt }}</p>
+                  }
+                  <p class="item__meta">
+                    @if (a.category) {
+                      <span>{{ a.category }}</span> ·
+                    }
+                    @if (a.publishedAt) {
+                      <time [attr.datetime]="a.publishedAt">{{ a.publishedAt | date: 'd MMMM y' }}</time>
+                    }
+                  </p>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="group__empty">Aucune actualité ne correspond.</p>
+          }
+        </section>
+
+        <section class="group" aria-labelledby="group-topics">
+          <h2 id="group-topics">Forum <span class="group__count">{{ r.topics.length }}</span></h2>
+          @if (r.topics.length) {
+            <ul class="list">
+              @for (t of r.topics; track t.id) {
+                <li class="item">
+                  <a class="item__title" [routerLink]="['/forum/sujet', t.id]">{{ t.title }}</a>
+                  <p class="item__meta">
+                    @if (t.category.name) {
+                      <span>{{ t.category.name }}</span> ·
+                    }
+                    par
+                    @if (hasProfile(t.author.pseudo)) {
+                      <a class="item__author" [routerLink]="['/membres', t.author.pseudo]">{{ t.author.pseudo }}</a>
+                    } @else {
+                      <span>{{ t.author.pseudo }}</span>
+                    }
+                    @if (t.lastPostAt) {
+                      · dernier message le <time [attr.datetime]="t.lastPostAt">{{ t.lastPostAt | date: 'd MMM y' }}</time>
+                    }
+                  </p>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="group__empty">Aucun sujet du forum ne correspond.</p>
+          }
+        </section>
+      </div>
+    }
+  }
+</section>

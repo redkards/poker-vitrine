@@ -1,7 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { ForumCategory, ForumCategoryPage, ForumPost, ForumSubscription, ForumTopic, ForumTopicPage } from './forum.models';
+import {
+  ForumCategory,
+  ForumCategoryPage,
+  ForumPost,
+  ForumPostReport,
+  ForumSubscription,
+  ForumTopic,
+  ForumTopicPage,
+  ReportReason,
+} from './forum.models';
 
 /**
  * Forum communautaire : lecture publique, publication réservée aux membres (Sprint 3).
@@ -36,5 +45,11 @@ export class ForumService {
 
   unsubscribe(topicId: number): Observable<ForumSubscription> {
     return this.api.delete<ForumSubscription>(`forum/topics/${topicId}/subscription`);
+  }
+
+  /** Signale un message à la modération (membre connecté, pas son propre message) */
+  reportPost(postId: number, reason: ReportReason, comment?: string | null): Observable<ForumPostReport> {
+    const trimmed = comment?.trim();
+    return this.api.post<ForumPostReport>(`forum/posts/${postId}/report`, { reason, comment: trimmed ? trimmed : null });
   }
 }

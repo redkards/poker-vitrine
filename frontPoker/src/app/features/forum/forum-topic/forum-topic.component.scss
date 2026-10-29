@@ -204,3 +204,26 @@
 .alert-top {
   margin-top: 1.5rem;
 }
+
+.pseudo-link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--pv-red);
+    text-decoration: underline;
+  }
+}
+
+.post__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 0.75rem;
+
+  app-report-post {
+    width: 100%;
+    text-align: right;
+  }
+}

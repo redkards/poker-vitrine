@@ -1,7 +1,7 @@
 import { Component, ElementRef, afterNextRender, computed, effect, inject, Injector, input, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
+import { SeoService } from '../../../core/seo/seo.service';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { apiErrorMessage, apiViolations } from '../../../core/api/api.service';
@@ -10,6 +10,7 @@ import { ForumService } from '../../../core/api/forum.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { ForumDatePipe } from '../forum-date.pipe';
+import { hasPublicProfile } from '../../../core/api/member.models';
 
 /**
  * UC3/UC7 — Sujets d'une catégorie (/forum/:slug?page=) et création d'un sujet
@@ -24,7 +25,7 @@ import { ForumDatePipe } from '../forum-date.pipe';
 export class ForumCategoryComponent {
   private readonly forum = inject(ForumService);
   private readonly router = inject(Router);
-  private readonly title = inject(Title);
+  private readonly seo = inject(SeoService);
   private readonly injector = inject(Injector);
   protected readonly auth = inject(AuthService);
 
@@ -65,6 +66,10 @@ export class ForumCategoryComponent {
   /** URL courante, pour revenir ici après connexion */
   protected get returnUrl(): string {
     return this.router.url;
+  }
+
+  protected hasProfile(pseudo: string): boolean {
+    return hasPublicProfile(pseudo);
   }
 
   protected goToPage(page: number): void {
@@ -149,14 +154,17 @@ export class ForumCategoryComponent {
         this.pages.set(result.pages);
         this.total.set(result.total);
         this.loading.set(false);
-        this.title.setTitle(`${result.category.name} — Forum — Poker Winners`);
+        this.seo.update({
+          title: `${result.category.name} — Forum — Poker Winners`,
+          description: result.category.description || `Les sujets de la catégorie « ${result.category.name} » du forum poker Poker Winners.`,
+        });
       },
       error: (err: unknown) => {
         this.loading.set(false);
         if (err instanceof HttpErrorResponse && err.status === 404) {
           this.notFound.set(true);
           this.category.set(null);
-          this.title.setTitle('Catégorie introuvable — Poker Winners');
+          this.seo.update({ title: 'Catégorie introuvable — Poker Winners' });
           return;
         }
         this.error.set(apiErrorMessage(err, 'Impossible de charger les sujets.'));

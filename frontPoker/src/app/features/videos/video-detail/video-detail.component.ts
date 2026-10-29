@@ -1,7 +1,7 @@
 import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../core/seo/seo.service';
 import { RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api.service';
 import { Video } from '../../../core/api/content.models';
@@ -124,8 +124,7 @@ import { YoutubePlayerComponent } from '../../../shared/components/youtube-playe
 })
 export class VideoDetailComponent {
   private readonly content = inject(ContentService);
-  private readonly title = inject(Title);
-  private readonly meta = inject(Meta);
+  private readonly seo = inject(SeoService);
 
   readonly id = input.required<string>();
 
@@ -166,10 +165,11 @@ export class VideoDetailComponent {
         if (this.auth.isLoggedIn()) {
           this.account.getFavorites().subscribe((list) => this.isFavorite.set(list.some((v) => v.id === video.id)));
         }
-        this.title.setTitle(`${video.title} — Vidéos Poker Winners`);
-        if (video.description) {
-          this.meta.updateTag({ name: 'description', content: video.description });
-        }
+        this.seo.update({
+          title: `${video.title} — Vidéos Poker Winners`,
+          description: video.description || `Vidéo pédagogique de poker : ${video.title}.`,
+          type: 'video.other',
+        });
       },
       error: (err: unknown) => {
         if (err instanceof HttpErrorResponse && err.status === 404) {

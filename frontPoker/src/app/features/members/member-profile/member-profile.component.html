@@ -1,0 +1,39 @@
+<div class="pv-container page">
+  <a routerLink="/forum" class="back-link">← Forum</a>
+
+  @if (notFound()) {
+    <section class="state">
+      <h1>Membre introuvable</h1>
+      <p>Ce profil n'existe pas, n'est pas encore activé ou a été supprimé.</p>
+      <a routerLink="/forum" class="pv-btn pv-btn--primary">Retour au forum <span class="pv-arrow" aria-hidden="true">→</span></a>
+    </section>
+  } @else if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (member(); as m) {
+    <article class="card" aria-labelledby="member-name">
+      <span class="card__avatar" aria-hidden="true">{{ m.pseudo.charAt(0).toUpperCase() }}</span>
+      <div class="card__body">
+        <span class="pv-eyebrow">Membre de la communauté</span>
+        <h1 id="member-name">{{ m.pseudo }}</h1>
+        <dl class="stats">
+          <div class="stat">
+            <dt>Membre depuis</dt>
+            <dd>
+              @if (m.createdAt) {
+                <time [attr.datetime]="m.createdAt">{{ m.createdAt | date: 'MMMM y' }}</time>
+              } @else {
+                —
+              }
+            </dd>
+          </div>
+          <div class="stat">
+            <dt>Messages sur le forum</dt>
+            <dd>{{ m.postCount }}</dd>
+          </div>
+        </dl>
+      </div>
+    </article>
+  } @else if (loading()) {
+    <p class="state__loading" role="status">Chargement du profil…</p>
+  }
+</div>
