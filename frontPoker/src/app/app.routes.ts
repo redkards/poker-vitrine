@@ -31,6 +31,12 @@ export const routes: Routes = [
     title: 'Mon espace — PokerVitrine',
   },
   {
+    // Lien reçu par email pour confirmer la suppression du compte (RGPD)
+    path: 'suppression-compte',
+    loadComponent: () => import('./features/profile/account-deletion/account-deletion.component').then((m) => m.AccountDeletionComponent),
+    title: 'Suppression du compte — PokerVitrine',
+  },
+  {
     path: 'actualites',
     loadComponent: () => import('./features/articles/article-list/article-list.component').then((m) => m.ArticleListComponent),
     title: 'Actualités — PokerVitrine',
@@ -64,18 +70,21 @@ export const routes: Routes = [
     loadComponent: () => import('./features/forum/forum-category/forum-category.component').then((m) => m.ForumCategoryComponent),
     title: 'Forum — PokerVitrine',
   },
-  // Contenus livrés aux sprints suivants
-  ...(
-    [
-      ['cgu', "Conditions générales d'utilisation", 'Sprint 4'],
-      ['confidentialite', 'Politique de confidentialité', 'Sprint 4'],
-      ['mentions-legales', 'Mentions légales', 'Sprint 4'],
-    ] as const
-  ).map(([path, heading, sprint]) => ({
-    path,
-    loadComponent: () => import('./shared/components/coming-soon/coming-soon.component').then((m) => m.ComingSoonComponent),
-    data: { heading, sprint },
-    title: `${heading} — PokerVitrine`,
-  })),
+  // Pages légales
+  {
+    path: 'cgu',
+    loadComponent: () => import('./features/legal/cgu/cgu.component').then((m) => m.CguComponent),
+    title: "Conditions générales d'utilisation — PokerVitrine",
+  },
+  {
+    path: 'confidentialite',
+    loadComponent: () => import('./features/legal/confidentialite/confidentialite.component').then((m) => m.ConfidentialiteComponent),
+    title: 'Politique de confidentialité — PokerVitrine',
+  },
+  {
+    path: 'mentions-legales',
+    loadComponent: () => import('./features/legal/mentions-legales/mentions-legales.component').then((m) => m.MentionsLegalesComponent),
+    title: 'Mentions légales — PokerVitrine',
+  },
   { path: '**', redirectTo: '' },
 ];

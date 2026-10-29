@@ -1,0 +1,123 @@
+<!-- Modèle à faire relire par un professionnel du droit avant mise en ligne -->
+<div class="pv-container">
+  <header class="page-head">
+    <span class="pv-eyebrow">Informations légales</span>
+    <h1>Mentions légales</h1>
+    <p class="legal__updated">Dernière mise à jour : {{ legal.lastUpdate }}</p>
+  </header>
+
+  <article class="legal">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">Sommaire</h2>
+      <ol>
+        @for (s of sections; track s.id) {
+          <li><a [attr.href]="'/mentions-legales#' + s.id" (click)="scrollTo($event, s.id)">{{ s.label }}</a></li>
+        }
+      </ol>
+    </nav>
+
+    <p>
+      Conformément à l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique
+      (LCEN), les utilisateurs du site PokerVitrine sont informés de l'identité des différents intervenants dans le
+      cadre de sa réalisation et de son suivi.
+    </p>
+
+    <h2 id="editeur" tabindex="-1">1. Éditeur du site</h2>
+    <p>Le site PokerVitrine est édité par :</p>
+    <dl>
+      <dt>Nom ou raison sociale</dt>
+      <dd [class.todo]="pending(legal.editor.name)">{{ legal.editor.name }}</dd>
+      <dt>Statut</dt>
+      <dd [class.todo]="pending(legal.editor.status)">{{ legal.editor.status }}</dd>
+      <dt>Adresse</dt>
+      <dd [class.todo]="pending(legal.editor.address)">{{ legal.editor.address }}</dd>
+      <dt>Email</dt>
+      <dd [class.todo]="pending(legal.editor.email)">{{ legal.editor.email }}</dd>
+      <dt>Téléphone</dt>
+      <dd [class.todo]="pending(legal.editor.phone)">{{ legal.editor.phone }}</dd>
+      <dt>SIRET</dt>
+      <dd [class.todo]="pending(legal.editor.siret)">{{ legal.editor.siret }}</dd>
+    </dl>
+
+    <h2 id="directeur" tabindex="-1">2. Directeur de la publication</h2>
+    <p>
+      Le directeur de la publication est
+      <span [class.todo]="pending(legal.publicationDirector)">{{ legal.publicationDirector }}</span>.
+    </p>
+
+    <h2 id="hebergeur" tabindex="-1">3. Hébergeur</h2>
+    <p>Le site, sa base de données et l'envoi des emails sont hébergés par :</p>
+    <dl>
+      <dt>Hébergeur</dt>
+      <dd>{{ legal.host.name }}</dd>
+      <dt>Adresse</dt>
+      <dd [class.todo]="pending(legal.host.address)">{{ legal.host.address }}</dd>
+      <dt>Téléphone</dt>
+      <dd [class.todo]="pending(legal.host.phone)">{{ legal.host.phone }}</dd>
+      <dt>SIREN</dt>
+      <dd [class.todo]="pending(legal.host.siren)">{{ legal.host.siren }}</dd>
+    </dl>
+
+    <h2 id="propriete" tabindex="-1">4. Propriété intellectuelle</h2>
+    <p>
+      La structure du site, sa charte graphique, son logo, ses textes (notamment les actualités) et l'ensemble des
+      éléments qui le composent, hors contenus mentionnés ci-dessous, sont la propriété de l'éditeur ou font l'objet
+      d'une autorisation d'utilisation. Toute reproduction, représentation, modification ou exploitation, totale ou
+      partielle, sans autorisation écrite préalable de l'éditeur est interdite et peut constituer une contrefaçon
+      sanctionnée par le Code de la propriété intellectuelle.
+    </p>
+    <h3>Vidéos YouTube</h3>
+    <p>
+      Les vidéos pédagogiques présentées sur le site sont hébergées par YouTube et intégrées au moyen du lecteur
+      officiel de la plateforme. Elles restent la propriété exclusive de leurs auteurs, notamment des chaînes
+      <strong>Kill Tilt</strong> et <strong>zChance44</strong>. PokerVitrine ne revendique aucun droit sur ces
+      vidéos et se borne à les référencer ; tout ayant droit souhaitant le retrait d'une vidéo peut écrire à
+      l'adresse de contact indiquée ci-dessus.
+    </p>
+    <h3>Contenus publiés par les membres</h3>
+    <p>
+      Les sujets et messages publiés sur le forum restent la propriété de leurs auteurs, dans les conditions prévues
+      par les <a routerLink="/cgu">conditions générales d'utilisation</a>.
+    </p>
+
+    <h2 id="responsabilite" tabindex="-1">5. Responsabilité</h2>
+    <p>
+      L'éditeur s'efforce de fournir des informations exactes et à jour, mais ne peut garantir l'exactitude,
+      l'exhaustivité ni l'actualité des contenus diffusés. Les conseils et analyses présentés sur le site, y compris
+      dans les vidéos et sur le forum, ont une vocation exclusivement pédagogique et ne constituent en aucun cas une
+      incitation à jouer.
+    </p>
+    <p>
+      Les messages du forum sont publiés sous la seule responsabilité de leurs auteurs. En sa qualité d'hébergeur de
+      ces contenus, l'éditeur s'engage à retirer promptement tout contenu manifestement illicite qui lui serait
+      signalé à l'adresse de contact.
+    </p>
+    <p>
+      Le site peut contenir des liens vers des sites tiers (dont YouTube). L'éditeur n'exerce aucun contrôle sur ces
+      sites et décline toute responsabilité quant à leur contenu et à leurs pratiques. L'éditeur ne saurait non plus
+      être tenu responsable d'une interruption momentanée du service, notamment pour maintenance.
+    </p>
+
+    <h2 id="jeu-responsable" tabindex="-1">6. Jeu responsable</h2>
+    <p>
+      PokerVitrine est un site communautaire et pédagogique consacré au poker. Il ne propose aucun jeu d'argent,
+      aucune mise ni aucun pari. Le site est réservé aux personnes majeures.
+    </p>
+    <p>
+      Le jeu comporte des risques : endettement, dépendance… Si vous ou l'un de vos proches rencontrez des
+      difficultés, contactez <strong>Joueurs Info Service : 09 74 75 13 13</strong> (appel non surtaxé).
+    </p>
+
+    <h2 id="autres" tabindex="-1">7. Données personnelles et CGU</h2>
+    <p>
+      Le traitement de vos données personnelles est décrit dans la
+      <a routerLink="/confidentialite">politique de confidentialité</a>. L'utilisation du site et de l'espace membre
+      est régie par les <a routerLink="/cgu">conditions générales d'utilisation</a>.
+    </p>
+
+    <p class="legal__see">
+      Voir aussi : <a routerLink="/confidentialite">Politique de confidentialité</a> ·
+      <a routerLink="/cgu">Conditions générales d'utilisation</a>
+    </p>
+  </article>
+</div>

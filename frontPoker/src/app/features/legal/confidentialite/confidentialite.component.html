@@ -1,0 +1,246 @@
+<!-- Modèle à faire relire par un professionnel du droit avant mise en ligne -->
+<div class="pv-container">
+  <header class="page-head">
+    <span class="pv-eyebrow">Informations légales</span>
+    <h1>Politique de confidentialité</h1>
+    <p class="legal__updated">Dernière mise à jour : {{ legal.lastUpdate }}</p>
+  </header>
+
+  <article class="legal">
+    <aside class="brief" aria-labelledby="brief-title">
+      <h2 id="brief-title">En bref</h2>
+      <ul>
+        <li>Pour créer un compte, nous ne demandons que trois choses : un pseudo (public), un email et un mot de passe.</li>
+        <li>Nous ne vendons ni ne partageons vos données, et nous n'utilisons ni publicité ciblée ni outil de mesure d'audience.</li>
+        <li>Les vidéos YouTube ne se chargent que si vous cliquez sur « lire » : avant, aucune connexion à YouTube.</li>
+        <li>Depuis « Mon espace », vous pouvez à tout moment exporter vos données, les modifier ou supprimer votre compte.</li>
+        <li>Un compte inactif pendant 3 ans est anonymisé automatiquement.</li>
+      </ul>
+    </aside>
+
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">Sommaire</h2>
+      <ol>
+        @for (s of sections; track s.id) {
+          <li><a [attr.href]="'/confidentialite#' + s.id" (click)="scrollTo($event, s.id)">{{ s.label }}</a></li>
+        }
+      </ol>
+    </nav>
+
+    <p>
+      La présente politique explique quelles données personnelles le site PokerVitrine collecte, pourquoi, combien de
+      temps elles sont conservées et comment exercer vos droits, conformément au règlement (UE) 2016/679 (RGPD) et à
+      la loi n° 78-17 du 6 janvier 1978 modifiée (« Informatique et Libertés »).
+    </p>
+
+    <h2 id="responsable" tabindex="-1">1. Responsable du traitement</h2>
+    <p>Le responsable du traitement des données est l'éditeur du site :</p>
+    <dl>
+      <dt>Identité</dt>
+      <dd [class.todo]="pending(legal.editor.name)">{{ legal.editor.name }}</dd>
+      <dt>Adresse</dt>
+      <dd [class.todo]="pending(legal.editor.address)">{{ legal.editor.address }}</dd>
+      <dt>Contact RGPD</dt>
+      <dd [class.todo]="pending(legal.editor.privacyEmail)">{{ legal.editor.privacyEmail }}</dd>
+    </dl>
+
+    <h2 id="donnees" tabindex="-1">2. Données collectées et finalités</h2>
+    <p>
+      Nous appliquons le principe de minimisation : seules les données strictement nécessaires au fonctionnement du
+      site sont collectées. La simple consultation des actualités, des vidéos et du forum ne nécessite aucun compte.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <caption class="pv-sr-only">Données traitées, finalités, bases légales et durées de conservation</caption>
+        <thead>
+          <tr>
+            <th scope="col">Donnée</th>
+            <th scope="col">Finalité</th>
+            <th scope="col">Base légale</th>
+            <th scope="col">Durée de conservation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pseudo (public)</td>
+            <td>Identifier le membre sur le site et sur le forum</td>
+            <td>Exécution du contrat</td>
+            <td>Jusqu'à la suppression du compte, ou 3 ans d'inactivité</td>
+          </tr>
+          <tr>
+            <td>Adresse email</td>
+            <td>Connexion, vérification du compte, emails de service et de notification</td>
+            <td>Exécution du contrat</td>
+            <td>Jusqu'à la suppression du compte, ou 3 ans d'inactivité</td>
+          </tr>
+          <tr>
+            <td>Mot de passe (haché, jamais stocké en clair)</td>
+            <td>Sécuriser l'accès au compte</td>
+            <td>Exécution du contrat</td>
+            <td>Jusqu'à la suppression du compte, ou 3 ans d'inactivité</td>
+          </tr>
+          <tr>
+            <td>Preuve d'acceptation des CGU : version acceptée, date</td>
+            <td>Prouver le consentement donné à l'inscription</td>
+            <td>Consentement</td>
+            <td>Pendant la durée de vie du compte</td>
+          </tr>
+          <tr>
+            <td>Adresse IP au moment de l'acceptation des CGU</td>
+            <td>Compléter la preuve du consentement</td>
+            <td>Consentement</td>
+            <td>90 jours maximum, puis effacement automatique</td>
+          </tr>
+          <tr>
+            <td>Sujets et messages publiés sur le forum (publics)</td>
+            <td>Permettre l'entraide entre membres</td>
+            <td>Exécution du contrat</td>
+            <td>Tant que le contenu est en ligne ; après suppression du compte, ils restent visibles sous le nom « Utilisateur supprimé »</td>
+          </tr>
+          <tr>
+            <td>Abonnements aux sujets du forum</td>
+            <td>Vous prévenir par email des nouvelles réponses</td>
+            <td>Exécution du contrat</td>
+            <td>Jusqu'au désabonnement ou à la suppression du compte</td>
+          </tr>
+          <tr>
+            <td>Vidéos favorites (privées)</td>
+            <td>Retrouver vos vidéos dans « Mon espace »</td>
+            <td>Exécution du contrat</td>
+            <td>Jusqu'à leur retrait ou à la suppression du compte</td>
+          </tr>
+          <tr>
+            <td>Jetons de connexion</td>
+            <td>Maintenir votre session ouverte</td>
+            <td>Exécution du contrat</td>
+            <td>1 heure (jeton d'accès) et 7 jours maximum (jeton de rafraîchissement)</td>
+          </tr>
+          <tr>
+            <td>Données techniques de sécurité (tentatives de connexion, journaux)</td>
+            <td>Protéger les comptes et le site contre les abus</td>
+            <td>Intérêt légitime</td>
+            <td>Durée limitée au strict nécessaire à la sécurité du service</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="bases-legales" tabindex="-1">3. Bases légales</h2>
+    <ul>
+      <li>
+        <strong>Exécution du contrat</strong> (art. 6.1.b du RGPD) : la création et la gestion de votre compte, la
+        publication sur le forum, les notifications des sujets suivis et vos favoris sont nécessaires pour vous
+        fournir le service décrit dans les <a routerLink="/cgu">CGU</a>.
+      </li>
+      <li>
+        <strong>Consentement</strong> (art. 6.1.a) : vous acceptez les CGU lors de l'inscription, et vous choisissez
+        de lancer une vidéo YouTube, ce qui déclenche une connexion aux serveurs de Google.
+      </li>
+      <li>
+        <strong>Intérêt légitime</strong> (art. 6.1.f) : assurer la sécurité du site (limitation des tentatives de
+        connexion, journaux techniques) et modérer le forum.
+      </li>
+    </ul>
+
+    <h2 id="durees" tabindex="-1">4. Durées de conservation</h2>
+    <ul>
+      <li><strong>Compte</strong> : conservé tant que vous l'utilisez ; un compte inactif depuis 3 ans est anonymisé automatiquement.</li>
+      <li><strong>Adresse IP liée au consentement</strong> : 90 jours maximum, puis effacement automatique.</li>
+      <li><strong>Jetons de connexion</strong> : 7 jours maximum.</li>
+      <li><strong>Lien de vérification de l'email</strong> : valable 24 heures.</li>
+      <li>
+        <strong>Messages du forum</strong> : ils restent publiés après la suppression du compte, sous le nom anonyme
+        « Utilisateur supprimé », afin de préserver la lisibilité des discussions.
+      </li>
+    </ul>
+
+    <h2 id="destinataires" tabindex="-1">5. Destinataires</h2>
+    <p>
+      Vos données sont accessibles uniquement à l'éditeur du site et, pour les besoins techniques, à notre
+      sous-traitant <strong>{{ legal.host.name }}</strong>, hébergeur situé en France, qui héberge le site, la base
+      de données et assure l'envoi des emails.
+    </p>
+    <p>
+      Votre pseudo et les contenus que vous publiez sur le forum sont visibles par tous les visiteurs. Votre email,
+      vos favoris et vos abonnements ne sont jamais rendus publics.
+    </p>
+    <p>
+      Nous ne vendons, ne louons et ne cédons aucune donnée. Aucun transfert hors de l'Union européenne n'est
+      effectué de notre fait. Seul le lancement volontaire d'une vidéo YouTube entraîne une connexion aux services de
+      Google (voir la section <a href="/confidentialite#cookies" (click)="scrollTo($event, 'cookies')">Cookies et stockage local</a>).
+    </p>
+
+    <h2 id="droits" tabindex="-1">6. Vos droits et comment les exercer</h2>
+    <p>Vous disposez des droits suivants sur vos données :</p>
+    <ul>
+      <li>
+        <strong>Accès et portabilité</strong> : dans « Mon espace », le bouton « Exporter mes données » vous permet de
+        télécharger l'ensemble de vos données dans un fichier JSON.
+      </li>
+      <li><strong>Rectification</strong> : vous pouvez modifier votre pseudo et votre mot de passe dans « Mon espace ».</li>
+      <li>
+        <strong>Effacement</strong> : le bouton « Supprimer mon compte » de « Mon espace » lance la suppression, que
+        vous confirmez par email. Vos données personnelles sont alors anonymisées immédiatement : le pseudo est
+        remplacé par « Utilisateur supprimé » et l'email est effacé. Vos messages du forum restent visibles sous ce
+        nom anonyme.
+      </li>
+      <li>
+        <strong>Opposition et limitation</strong> : écrivez au contact RGPD :
+        <span [class.todo]="pending(legal.editor.privacyEmail)">{{ legal.editor.privacyEmail }}</span>.
+      </li>
+      <li>
+        <strong>Notifications</strong> : vous pouvez vous désabonner d'un sujet du forum à tout moment depuis ce sujet.
+      </li>
+    </ul>
+    <p>
+      Nous répondons à toute demande dans un délai d'un mois. Une preuve d'identité peut vous être demandée en cas de
+      doute raisonnable sur l'auteur de la demande.
+    </p>
+
+    <h2 id="cnil" tabindex="-1">7. Réclamation auprès de la CNIL</h2>
+    <p>
+      Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez introduire une
+      réclamation auprès de la Commission nationale de l'informatique et des libertés (CNIL) sur
+      <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>.
+    </p>
+
+    <h2 id="cookies" tabindex="-1">8. Cookies et stockage local</h2>
+    <h3>Ce que nous utilisons</h3>
+    <p>
+      Lorsque vous êtes connecté, le site enregistre dans le stockage local (localStorage) de votre navigateur un
+      jeton d'authentification (valable 1 heure) et un jeton de rafraîchissement (valable 7 jours maximum). Ces
+      éléments sont strictement nécessaires au fonctionnement de votre espace membre et cessent d'être valables à
+      leur expiration. Ils sont exemptés de consentement, c'est pourquoi le site n'affiche pas de
+      bandeau cookies.
+    </p>
+    <h3>Ce que nous n'utilisons pas</h3>
+    <p>Aucun cookie publicitaire, aucun outil de mesure d'audience ou d'analytics, aucun traceur de réseau social.</p>
+    <h3>Vidéos YouTube</h3>
+    <p>
+      Les vidéos sont affichées sous forme d'aperçu : aucune connexion à YouTube n'a lieu tant que vous ne cliquez
+      pas sur « lire ». La lecture se fait ensuite via le domaine youtube-nocookie.com (mode de confidentialité
+      renforcée). À partir de ce clic, la politique de confidentialité de Google s'applique et des données peuvent
+      être transférées hors de l'Union européenne par Google.
+    </p>
+
+    <h2 id="securite" tabindex="-1">9. Sécurité</h2>
+    <ul>
+      <li>Toutes les communications avec le site sont chiffrées (HTTPS).</li>
+      <li>Les mots de passe sont hachés avec l'algorithme argon2id et ne sont jamais stockés en clair.</li>
+      <li>Les tentatives de connexion sont limitées pour empêcher les attaques par force brute.</li>
+      <li>La vérification de l'adresse email est obligatoire à l'inscription.</li>
+    </ul>
+
+    <h2 id="modifications" tabindex="-1">10. Modification de la politique</h2>
+    <p>
+      Cette politique peut être mise à jour pour refléter l'évolution du site ou de la réglementation. La date de
+      dernière mise à jour figure en haut de cette page.
+    </p>
+    <p class="legal__updated">Dernière mise à jour : {{ legal.lastUpdate }}</p>
+
+    <p class="legal__see">
+      Voir aussi : <a routerLink="/mentions-legales">Mentions légales</a> ·
+      <a routerLink="/cgu">Conditions générales d'utilisation</a>
+    </p>
+  </article>
+</div>

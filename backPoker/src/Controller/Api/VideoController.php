@@ -2,13 +2,20 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\User;
+use App\Entity\VideoFavorite;
 use App\Enum\VideoLevel;
+use App\Repository\VideoFavoriteRepository;
 use App\Repository\VideoRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * UC2 — Consulter les vidéos (public, lecture seule)
@@ -57,5 +64,28 @@ class VideoController extends AbstractController
         }
 
         return $this->json($video, context: ['groups' => ['video:read']]);
+    }
+
+    /**
+     * UC8 — Ajouter (POST) ou retirer (DELETE) une vidéo de ses favoris
+     */
+    #[Route('/{id}/favorite', name: 'api_video_favorite', requirements: ['id' => '\d+'], methods: ['POST', 'DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function favorite(int $id, Request $request, #[CurrentUser] User $user, VideoFavoriteRepository $favorites, EntityManagerInterface $em): JsonResponse
+    {
+        $video = $this->videos->findOnePublished($id);
+        if (!$video) {
+            return $this->json(['message' => 'Vidéo introuvable.'], Response::HTTP_NOT_FOUND);
+        }
+
+        $favorite = $favorites->findOneFor($user, $video);
+        if ($request->isMethod('POST') && !$favorite) {
+            $em->persist(new VideoFavorite($user, $video));
+        } elseif ($request->isMethod('DELETE') && $favorite) {
+            $em->remove($favorite);
+        }
+        $em->flush();
+
+        return $this->json(['isFavorite' => $request->isMethod('POST')]);
     }
 }

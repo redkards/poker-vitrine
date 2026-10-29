@@ -1,0 +1,186 @@
+<!-- Modèle à faire relire par un professionnel du droit avant mise en ligne -->
+<div class="pv-container">
+  <header class="page-head">
+    <span class="pv-eyebrow">Informations légales</span>
+    <h1>Conditions générales d'utilisation</h1>
+    <p class="legal__updated">Version {{ legal.cguVersion }} · Dernière mise à jour : {{ legal.lastUpdate }}</p>
+  </header>
+
+  <article class="legal">
+    <nav class="toc" aria-labelledby="toc-title">
+      <h2 id="toc-title">Sommaire</h2>
+      <ol>
+        @for (s of sections; track s.id) {
+          <li><a [attr.href]="'/cgu#' + s.id" (click)="scrollTo($event, s.id)">{{ s.label }}</a></li>
+        }
+      </ol>
+    </nav>
+
+    <h2 id="objet" tabindex="-1">1. Objet</h2>
+    <p>
+      Les présentes conditions générales d'utilisation (« CGU ») définissent les règles d'accès et d'utilisation du
+      site PokerVitrine, plateforme communautaire francophone consacrée au poker, qui propose des actualités, un
+      forum d'entraide, des vidéos pédagogiques et un espace membre. Le site est édité par
+      <span [class.todo]="pending(legal.editor.name)">{{ legal.editor.name }}</span> (voir les
+      <a routerLink="/mentions-legales">mentions légales</a>).
+    </p>
+    <p>
+      PokerVitrine ne propose aucun jeu d'argent, aucune mise, aucun pari et aucune vente. L'utilisation du site
+      implique l'acceptation pleine et entière des présentes CGU.
+    </p>
+
+    <h2 id="acces" tabindex="-1">2. Accès au site</h2>
+    <p>
+      Le site traitant du poker, jeu d'argent, il est <strong>réservé aux personnes majeures</strong> (18 ans
+      révolus). En créant un compte, vous certifiez être majeur.
+    </p>
+    <p>
+      L'accès au site et l'inscription sont <strong>gratuits</strong>. La consultation des actualités, des vidéos et
+      du forum est libre ; la publication sur le forum, l'abonnement aux sujets et la gestion de vidéos favorites
+      nécessitent un compte. Les frais d'accès à Internet restent à la charge de l'utilisateur. L'éditeur peut
+      suspendre l'accès au site, notamment pour maintenance, sans que sa responsabilité puisse être engagée.
+    </p>
+
+    <h2 id="compte" tabindex="-1">3. Inscription et compte</h2>
+    <ul>
+      <li>
+        L'inscription requiert un pseudo, une adresse email et un mot de passe. Vous vous engagez à fournir une
+        adresse email exacte dont vous êtes titulaire.
+      </li>
+      <li>
+        Le pseudo est public : il ne doit pas porter atteinte aux droits de tiers, usurper l'identité d'une autre
+        personne ni être injurieux ou trompeur.
+      </li>
+      <li>
+        La vérification de l'adresse email est obligatoire : un lien, valable 24 heures, vous est envoyé pour activer
+        votre compte.
+      </li>
+      <li>
+        Vous êtes responsable de la confidentialité de votre mot de passe et de toute activité réalisée depuis votre
+        compte. Choisissez un mot de passe robuste, que vous n'utilisez pas ailleurs, et prévenez-nous sans délai en
+        cas d'utilisation non autorisée.
+      </li>
+      <li>Un compte est personnel : il ne peut être ni vendu, ni échangé, ni prêté, ni cédé.</li>
+      <li>
+        L'acceptation des présentes CGU est obligatoire pour créer un compte. La version acceptée et sa date sont
+        enregistrées (voir la <a routerLink="/confidentialite">politique de confidentialité</a>).
+      </li>
+    </ul>
+
+    <h2 id="forum" tabindex="-1">4. Règles du forum</h2>
+    <p>Le forum est un espace d'entraide. En y publiant, vous vous engagez à :</p>
+    <ul>
+      <li>respecter les autres membres, rester courtois et bienveillant, y compris en cas de désaccord ;</li>
+      <li>
+        ne publier aucun contenu illicite, haineux, discriminatoire, violent, pornographique, harcelant, injurieux
+        ou diffamatoire, ni aucun contenu portant atteinte à la vie privée ou aux droits de tiers (droit d'auteur,
+        droit à l'image, marques) ;
+      </li>
+      <li>
+        ne publier aucune publicité, aucun message commercial ou de parrainage, aucun spam, ni aucun lien vers des
+        sites de jeux d'argent non agréés par l'Autorité nationale des jeux (ANJ) ;
+      </li>
+      <li>ne pas proposer la vente, l'achat ou l'échange de comptes, que ce soit sur ce site ou sur des sites de jeu ;</li>
+      <li>ne pas inciter au jeu excessif ni présenter le poker comme un moyen de gagner sa vie sans risque ;</li>
+      <li>publier dans la catégorie appropriée et éviter les messages hors sujet ou répétés.</li>
+    </ul>
+    <p>
+      Vous pouvez suivre un sujet pour être prévenu par email des nouvelles réponses, et vous en désabonner à tout
+      moment depuis ce sujet.
+    </p>
+
+    <h2 id="moderation" tabindex="-1">5. Modération</h2>
+    <p>
+      L'équipe de modération veille au respect des présentes règles. Sans préavis et selon la gravité du
+      manquement, elle peut :
+    </p>
+    <ul>
+      <li>masquer un message ;</li>
+      <li>verrouiller un sujet pour empêcher de nouvelles réponses ;</li>
+      <li>suspendre, temporairement ou définitivement, le compte d'un membre.</li>
+    </ul>
+    <p>
+      Tout contenu manifestement illicite peut être signalé à l'adresse de contact indiquée à la fin de ces CGU ; il
+      sera retiré promptement.
+    </p>
+
+    <h2 id="contenus" tabindex="-1">6. Propriété des contenus publiés</h2>
+    <p>
+      Vous restez l'auteur et le titulaire des droits sur les sujets et messages que vous publiez. En les publiant,
+      vous accordez à l'éditeur une licence <strong>non exclusive</strong> et gratuite d'afficher, de reproduire et
+      de conserver ces contenus sur le site, pour les besoins de son fonctionnement, pour le monde entier et pour la
+      durée de protection des droits. Cette licence permet notamment de maintenir vos messages visibles, sous un nom
+      anonyme, après la suppression de votre compte, afin de préserver la cohérence des discussions.
+    </p>
+    <p>
+      Vous garantissez disposer des droits nécessaires sur ce que vous publiez. Les éléments propres au site et les
+      vidéos intégrées sont protégés dans les conditions décrites dans les
+      <a routerLink="/mentions-legales">mentions légales</a>.
+    </p>
+
+    <h2 id="responsabilite" tabindex="-1">7. Responsabilité</h2>
+    <p>
+      Chaque membre est seul responsable des contenus qu'il publie et de l'usage qu'il fait du site. Les conseils,
+      analyses et vidéos présentés sur PokerVitrine ont une vocation exclusivement pédagogique : ils ne garantissent
+      aucun résultat et ne constituent pas une incitation à jouer.
+    </p>
+    <p>
+      L'éditeur met tout en œuvre pour assurer le bon fonctionnement du site mais ne peut garantir qu'il sera exempt
+      d'erreurs ou d'interruptions. Il ne saurait être tenu responsable des contenus des sites tiers vers lesquels
+      renvoient des liens, ni des pertes subies par un utilisateur à l'occasion de parties jouées hors du site.
+    </p>
+
+    <h2 id="jeu-responsable" tabindex="-1">8. Jeu responsable</h2>
+    <p>
+      Le jeu comporte des risques : endettement, dépendance, isolement… Fixez-vous des limites de temps et
+      d'argent, ne cherchez pas à « vous refaire » et ne jouez que sur des sites agréés par l'ANJ. Si vous ou l'un de
+      vos proches rencontrez des difficultés, contactez <strong>Joueurs Info Service : 09 74 75 13 13</strong>
+      (appel non surtaxé).
+    </p>
+
+    <h2 id="donnees" tabindex="-1">9. Données personnelles</h2>
+    <p>
+      Les traitements de données personnelles réalisés dans le cadre du site, leurs finalités, leurs durées de
+      conservation et vos droits sont détaillés dans la
+      <a routerLink="/confidentialite">politique de confidentialité</a>.
+    </p>
+
+    <h2 id="suppression" tabindex="-1">10. Suppression du compte</h2>
+    <p>
+      Vous pouvez supprimer votre compte à tout moment depuis « Mon espace », avec le bouton « Supprimer mon
+      compte ». La suppression est confirmée par email. Vos données personnelles sont alors anonymisées
+      immédiatement : votre pseudo est remplacé par « Utilisateur supprimé » et votre email est effacé. Vos messages
+      du forum restent visibles sous ce nom anonyme.
+    </p>
+    <p>
+      Un compte inactif depuis 3 ans est anonymisé automatiquement. L'éditeur peut également supprimer le compte d'un
+      membre qui enfreint gravement ou de manière répétée les présentes CGU.
+    </p>
+
+    <h2 id="evolution" tabindex="-1">11. Évolution des CGU</h2>
+    <p>
+      Les présentes CGU (version {{ legal.cguVersion }}) peuvent être modifiées pour tenir compte de l'évolution du
+      site ou de la réglementation. Toute nouvelle version porte un nouveau numéro et une nouvelle date, et votre
+      accord vous sera de nouveau demandé pour continuer à utiliser votre compte. Si vous ne l'acceptez pas, vous
+      pouvez supprimer votre compte à tout moment.
+    </p>
+
+    <h2 id="droit" tabindex="-1">12. Droit applicable</h2>
+    <p>
+      Les présentes CGU sont régies par le droit français. En cas de litige, une solution amiable sera recherchée en
+      priorité avant toute action judiciaire. À défaut, les tribunaux français seront compétents, dans les
+      conditions prévues par la loi.
+    </p>
+
+    <h2 id="contact" tabindex="-1">13. Contact</h2>
+    <p>
+      Pour toute question relative aux présentes CGU ou pour signaler un contenu :
+      <span [class.todo]="pending(legal.editor.email)">{{ legal.editor.email }}</span>.
+    </p>
+
+    <p class="legal__see">
+      Voir aussi : <a routerLink="/mentions-legales">Mentions légales</a> ·
+      <a routerLink="/confidentialite">Politique de confidentialité</a>
+    </p>
+  </article>
+</div>

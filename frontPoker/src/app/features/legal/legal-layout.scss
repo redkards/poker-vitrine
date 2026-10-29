@@ -1,0 +1,182 @@
+// Mise en page partagée des pages légales (mentions, confidentialité, CGU)
+
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.page-head {
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.legal__updated {
+  margin: 0;
+  color: var(--pv-muted);
+  font-size: 0.88rem;
+}
+
+.legal {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3.25rem);
+  border-radius: var(--pv-radius-lg);
+  background: var(--pv-card);
+  box-shadow: var(--pv-shadow);
+  font-size: 1rem;
+  line-height: 1.7;
+
+  p,
+  ul {
+    margin: 0 0 1rem;
+  }
+
+  ul {
+    padding-left: 1.3rem;
+  }
+
+  li + li {
+    margin-top: 0.3rem;
+  }
+
+  h2 {
+    margin: 2.5rem 0 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--pv-line);
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    scroll-margin-top: 6rem;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  h3 {
+    margin: 1.6rem 0 0.6rem;
+    font-size: 1.15rem;
+  }
+}
+
+// Sommaire cliquable
+.toc {
+  margin-bottom: 2rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-surface);
+
+  h2 {
+    margin: 0 0 0.6rem;
+    padding: 0;
+    border: 0;
+    font-size: 1.1rem;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.4rem;
+    columns: 2 260px;
+    column-gap: 2rem;
+  }
+
+  li {
+    break-inside: avoid;
+  }
+
+  a {
+    color: var(--pv-ink-soft);
+    font-size: 0.93rem;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--pv-red);
+      text-decoration: underline;
+    }
+  }
+}
+
+// Encadré « En bref »
+.brief {
+  margin-bottom: 2rem;
+  padding: 1.2rem 1.4rem;
+  border-left: 4px solid var(--pv-red);
+  border-radius: var(--pv-radius-sm);
+  background: var(--pv-red-soft);
+
+  h2 {
+    margin: 0 0 0.6rem;
+    padding: 0;
+    border: 0;
+    font-size: 1.2rem;
+  }
+
+  ul {
+    margin: 0;
+  }
+}
+
+// Tableau des traitements (défilement horizontal sur mobile)
+.table-wrap {
+  margin: 0 0 1.2rem;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+th,
+td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--pv-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--pv-surface);
+  font-weight: 700;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: minmax(140px, max-content) 1fr;
+  gap: 0.4rem 1.2rem;
+  margin: 0 0 1rem;
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+
+    dd {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+// Valeur de legal.config.ts restant à renseigner
+.todo {
+  padding: 0 0.25rem;
+  border-radius: 4px;
+  background: var(--pv-warning-soft);
+  color: #7a5200;
+  font-weight: 600;
+}
+
+.legal__see {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--pv-line);
+  color: var(--pv-muted);
+  font-size: 0.92rem;
+}

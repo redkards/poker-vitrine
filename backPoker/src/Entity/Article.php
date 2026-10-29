@@ -212,7 +212,7 @@ class Article
     #[Groups(['article:list', 'article:read'])]
     public function getAuthorPseudo(): ?string
     {
-        return $this->author?->getPseudo();
+        return $this->author && !$this->author->isAnonymized() ? $this->author->getPseudo() : null;
     }
 
     public function __toString(): string

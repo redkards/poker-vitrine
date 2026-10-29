@@ -2,9 +2,14 @@
 
 namespace App\Controller\Api;
 
+use App\Dto\AccountDeletionRequest;
+use App\Dto\PasswordChangeRequest;
+use App\Dto\ProfileUpdateRequest;
 use App\Dto\RegisterRequest;
+use App\Entity\RefreshToken;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\VideoFavoriteRepository;
 use App\Service\GdprService;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -128,7 +133,117 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function me(#[CurrentUser] User $user): JsonResponse
     {
+        return $this->json($this->meData($user));
+    }
+
+    /**
+     * UC6 — Modifier son pseudo
+     */
+    #[Route('/me', name: 'api_me_update', methods: ['PATCH'])]
+    #[IsGranted('ROLE_USER')]
+    public function updateProfile(#[MapRequestPayload] ProfileUpdateRequest $payload, #[CurrentUser] User $user): JsonResponse
+    {
+        $pseudo = trim($payload->pseudo);
+        $existing = $this->users->findOneBy(['pseudo' => $pseudo]);
+        if ($existing && $existing !== $user) {
+            return $this->json(['message' => 'Ce pseudo est déjà utilisé.'], Response::HTTP_CONFLICT);
+        }
+
+        $user->setPseudo($pseudo);
+        $this->em->flush();
+
+        return $this->json($this->meData($user));
+    }
+
+    /**
+     * UC6 — Changer son mot de passe : les autres sessions (refresh tokens) sont révoquées.
+     */
+    #[Route('/me/password', name: 'api_me_password', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function changePassword(
+        #[MapRequestPayload] PasswordChangeRequest $payload,
+        #[CurrentUser] User $user,
+        UserPasswordHasherInterface $hasher,
+    ): JsonResponse {
+        $user->setPassword($hasher->hashPassword($user, $payload->newPassword));
+        $this->em->createQueryBuilder()
+            ->delete(RefreshToken::class, 'r')
+            ->where('r.username = :username')
+            ->setParameter('username', $user->getUserIdentifier())
+            ->getQuery()
+            ->execute();
+        $this->em->flush();
+
+        return $this->json(['message' => 'Mot de passe modifié. Vos autres sessions ont été déconnectées.']);
+    }
+
+    /**
+     * UC13 — Exporter ses données (RGPD, droit d'accès et de portabilité)
+     */
+    #[Route('/me/export', name: 'api_me_export', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function export(#[CurrentUser] User $user, GdprService $gdpr): JsonResponse
+    {
+        $response = $this->json($gdpr->export($user), context: ['json_encode_options' => \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES]);
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="pokervitrine-mes-donnees-%s.json"', date('Y-m-d')));
+        $response->headers->set('Cache-Control', 'no-store');
+
+        return $response;
+    }
+
+    /**
+     * UC14 — Supprimer son compte, étape 1 : mot de passe puis email de confirmation.
+     */
+    #[Route('/me', name: 'api_me_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function requestDeletion(#[MapRequestPayload] AccountDeletionRequest $payload, #[CurrentUser] User $user, GdprService $gdpr): JsonResponse
+    {
+        [$plainToken, $expiresAt] = $gdpr->requestDeletion($user);
+
+        try {
+            $this->mailService->sendAccountDeletionConfirmation($user, $plainToken, $expiresAt);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Echec email de suppression de compte', ['userId' => $user->getId(), 'error' => $e->getMessage()]);
+
+            return $this->json(['message' => "L'email de confirmation n'a pas pu être envoyé, réessayez plus tard."], Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+
         return $this->json([
+            'message' => 'Un email de confirmation vient de vous être envoyé. Le lien est valable 1 heure.',
+        ], Response::HTTP_ACCEPTED);
+    }
+
+    /**
+     * UC14 — étape 2 : lien reçu par email (public : la session peut avoir expiré entre-temps).
+     */
+    #[Route('/account-deletion/confirm', name: 'api_account_deletion_confirm', methods: ['POST'])]
+    public function confirmDeletion(Request $request, GdprService $gdpr): JsonResponse
+    {
+        $token = (string) ($request->toArray()['token'] ?? '');
+
+        if (!$gdpr->confirmDeletion($token)) {
+            return $this->json(['message' => 'Lien de confirmation invalide ou expiré. Recommencez depuis votre espace.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json(['message' => 'Votre compte a été supprimé et vos données personnelles effacées.']);
+    }
+
+    /**
+     * UC8 — Mes vidéos favorites
+     */
+    #[Route('/me/favorites', name: 'api_me_favorites', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function favorites(#[CurrentUser] User $user, VideoFavoriteRepository $favorites): JsonResponse
+    {
+        return $this->json($favorites->findPublishedVideosOf($user), context: ['groups' => ['video:list']]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function meData(User $user): array
+    {
+        return [
             'id' => $user->getId(),
             'email' => $user->getEmail(),
             'pseudo' => $user->getPseudo(),
@@ -137,7 +252,7 @@ class UserController extends AbstractController
             'createdAt' => $user->getCreatedAt()?->format(\DATE_ATOM),
             'lastLoginAt' => $user->getLastLoginAt()?->format(\DATE_ATOM),
             'consentVersion' => $user->getConsentVersion(),
-        ]);
+        ];
     }
 
     /**

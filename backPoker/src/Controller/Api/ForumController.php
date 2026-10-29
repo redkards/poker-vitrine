@@ -12,6 +12,7 @@ use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumPostRepository;
 use App\Repository\ForumTopicRepository;
 use App\Service\ForumService;
+use App\Service\GdprService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -218,8 +219,8 @@ class ForumController extends AbstractController
      */
     private function authorData(?User $user): array
     {
-        if (!$user) {
-            return ['pseudo' => 'Utilisateur supprimé', 'role' => null];
+        if (!$user || $user->isAnonymized()) {
+            return ['pseudo' => GdprService::ANONYMOUS_LABEL, 'role' => null];
         }
 
         $roles = $user->getRoles();

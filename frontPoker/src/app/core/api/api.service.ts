@@ -25,8 +25,18 @@ export class ApiService {
     return this.http.post<T>(this.url(path), body);
   }
 
-  delete<T>(path: string): Observable<T> {
-    return this.http.delete<T>(this.url(path));
+  patch<T>(path: string, body: unknown = {}): Observable<T> {
+    return this.http.patch<T>(this.url(path), body);
+  }
+
+  /** Le corps est facultatif (ex. mot de passe de confirmation pour DELETE /me) */
+  delete<T>(path: string, body?: unknown): Observable<T> {
+    return this.http.delete<T>(this.url(path), body === undefined ? {} : { body });
+  }
+
+  /** Téléchargement d'un fichier (ex. export RGPD) */
+  getBlob(path: string): Observable<Blob> {
+    return this.http.get(this.url(path), { responseType: 'blob' });
   }
 
   isApiUrl(url: string): boolean {

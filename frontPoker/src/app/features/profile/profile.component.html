@@ -1,0 +1,129 @@
+@if (auth.user(); as user) {
+  <section class="pv-container profile">
+    <header class="profile__head">
+      <span class="profile__avatar" aria-hidden="true">{{ user.pseudo.charAt(0).toUpperCase() }}</span>
+      <div>
+        <span class="pv-eyebrow">Mon espace</span>
+        <h1>Bonjour, {{ user.pseudo }}</h1>
+        <p class="profile__meta">
+          Membre depuis le {{ user.createdAt | date: 'd MMMM y' }}
+          @if (user.lastLoginAt) {
+            · dernière connexion le {{ user.lastLoginAt | date: "d MMMM y 'à' HH:mm" }}
+          }
+        </p>
+      </div>
+    </header>
+
+    <div class="profile__grid">
+      <!-- Informations -->
+      <section class="panel" aria-labelledby="pseudo-title">
+        <h2 id="pseudo-title">Mes informations</h2>
+        <dl class="facts">
+          <div><dt>Email</dt><dd>{{ user.email }}</dd></div>
+          <div><dt>CGU acceptées</dt><dd>Version {{ user.consentVersion }}</dd></div>
+        </dl>
+        <form [formGroup]="pseudoForm" (ngSubmit)="savePseudo()" novalidate>
+          <div class="pv-field">
+            <label for="pseudo">Pseudo</label>
+            <input id="pseudo" class="pv-input" formControlName="pseudo" autocomplete="username" />
+            <p class="pv-hint">Visible publiquement sur le forum.</p>
+          </div>
+          @if (pseudoFeedback(); as f) {
+            <div class="pv-alert" [class.pv-alert--success]="f.type === 'success'" [class.pv-alert--error]="f.type === 'error'" role="status">{{ f.text }}</div>
+          }
+          <button type="submit" class="pv-btn pv-btn--primary" [disabled]="busy() === 'pseudo'">Enregistrer</button>
+        </form>
+      </section>
+
+      <!-- Mot de passe -->
+      <section class="panel" aria-labelledby="password-title">
+        <h2 id="password-title">Mot de passe</h2>
+        <form [formGroup]="passwordForm" (ngSubmit)="savePassword()" novalidate>
+          <div class="pv-field">
+            <label for="currentPassword">Mot de passe actuel</label>
+            <input id="currentPassword" class="pv-input" type="password" formControlName="currentPassword" autocomplete="current-password" />
+            @if (passwordErrors()['currentPassword']; as e) {
+              <p class="pv-error">{{ e }}</p>
+            }
+          </div>
+          <div class="pv-field">
+            <label for="newPassword">Nouveau mot de passe</label>
+            <input id="newPassword" class="pv-input" type="password" formControlName="newPassword" autocomplete="new-password" />
+            @if (passwordErrors()['newPassword']; as e) {
+              <p class="pv-error">{{ e }}</p>
+            } @else {
+              <p class="pv-hint">Au moins 8 caractères. Vos autres appareils seront déconnectés.</p>
+            }
+          </div>
+          @if (passwordFeedback(); as f) {
+            <div class="pv-alert" [class.pv-alert--success]="f.type === 'success'" [class.pv-alert--error]="f.type === 'error'" role="status">{{ f.text }}</div>
+          }
+          <button type="submit" class="pv-btn pv-btn--primary" [disabled]="busy() === 'password'">Changer le mot de passe</button>
+        </form>
+      </section>
+
+      <!-- Favoris -->
+      <section class="panel panel--wide" aria-labelledby="favorites-title">
+        <h2 id="favorites-title">Mes vidéos favorites</h2>
+        @if (favorites().length) {
+          <ul class="favorites">
+            @for (video of favorites(); track video.id) {
+              <li>
+                <span class="badge" [attr.data-level]="video.levelValue">{{ video.levelLabel }}</span>
+                <a [routerLink]="['/videos', video.id]">{{ video.title }}</a>
+                <button type="button" class="link-btn favorites__remove" (click)="removeFavorite(video)" [attr.aria-label]="'Retirer ' + video.title + ' des favoris'">
+                  Retirer
+                </button>
+              </li>
+            }
+          </ul>
+        } @else if (favoritesLoaded()) {
+          <p class="muted">
+            Aucune vidéo en favori pour l'instant. Ajoutez-en depuis la page d'une vidéo avec le bouton ♥.
+            <a routerLink="/videos">Voir les vidéos</a>
+          </p>
+        }
+      </section>
+
+      <!-- RGPD -->
+      <section class="panel panel--wide" aria-labelledby="data-title">
+        <h2 id="data-title">Mes données personnelles</h2>
+        <p class="muted">
+          Téléchargez une copie de toutes vos données (compte, consentements, messages du forum, abonnements, favoris) au
+          format JSON. <a routerLink="/confidentialite">Politique de confidentialité</a>
+        </p>
+        @if (exportFeedback(); as f) {
+          <div class="pv-alert" [class.pv-alert--success]="f.type === 'success'" [class.pv-alert--error]="f.type === 'error'" role="status">{{ f.text }}</div>
+        }
+        <button type="button" class="pv-btn pv-btn--outline" [disabled]="busy() === 'export'" (click)="exportData()">
+          {{ busy() === 'export' ? 'Préparation…' : 'Exporter mes données' }}
+        </button>
+
+        <div class="danger">
+          <h3>Supprimer mon compte</h3>
+          <p class="muted">
+            Vos données personnelles seront effacées définitivement. Vos messages du forum resteront visibles sous le nom
+            « Utilisateur supprimé ». Un email de confirmation vous sera envoyé.
+          </p>
+          @if (!showDeletion()) {
+            <button type="button" class="pv-btn pv-btn--ghost danger__open" (click)="showDeletion.set(true)">Je veux supprimer mon compte</button>
+          } @else {
+            <form [formGroup]="deletionForm" (ngSubmit)="requestDeletion()" novalidate>
+              <div class="pv-field">
+                <label for="deletePassword">Confirmez avec votre mot de passe</label>
+                <input id="deletePassword" class="pv-input" type="password" formControlName="password" autocomplete="current-password" />
+              </div>
+              @if (deletionFeedback(); as f) {
+                <div class="pv-alert" [class.pv-alert--success]="f.type === 'success'" [class.pv-alert--error]="f.type === 'error'" role="status">{{ f.text }}</div>
+              }
+              <div class="danger__actions">
+                <button type="submit" class="pv-btn pv-btn--primary" [disabled]="busy() === 'deletion'">Recevoir l'email de confirmation</button>
+                <button type="button" class="pv-btn pv-btn--outline" (click)="showDeletion.set(false)">Annuler</button>
+              </div>
+            </form>
+          }
+        </div>
+      </section>
+    </div>
+  </section>
+}

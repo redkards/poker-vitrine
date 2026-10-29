@@ -70,4 +70,28 @@ class MailService
 
         $this->mailer->send($email);
     }
+
+    /**
+     * UC14 — confirmation de la suppression du compte (lien valable 1 h).
+     *
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
+    public function sendAccountDeletionConfirmation(User $user, string $plainToken, \DateTimeImmutable $expiresAt): void
+    {
+        $link = sprintf('%s/suppression-compte?token=%s', rtrim($this->frontendUrl, '/'), urlencode($plainToken));
+
+        $email = (new TemplatedEmail())
+            ->from(new Address($this->from, 'PokerVitrine'))
+            ->to(new Address((string) $user->getEmail(), (string) $user->getPseudo()))
+            ->subject('Confirmez la suppression de votre compte — PokerVitrine')
+            ->htmlTemplate('emails/account_deletion.html.twig')
+            ->textTemplate('emails/account_deletion.txt.twig')
+            ->context([
+                'pseudo' => $user->getPseudo(),
+                'link' => $link,
+                'expiresAt' => $expiresAt,
+            ]);
+
+        $this->mailer->send($email);
+    }
 }

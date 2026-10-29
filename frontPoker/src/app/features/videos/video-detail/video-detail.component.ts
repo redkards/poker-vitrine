@@ -6,6 +6,8 @@ import { RouterLink } from '@angular/router';
 import { apiErrorMessage } from '../../../core/api/api.service';
 import { Video } from '../../../core/api/content.models';
 import { ContentService } from '../../../core/api/content.service';
+import { AccountService } from '../../../core/api/account.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { YoutubePlayerComponent } from '../../../shared/components/youtube-player/youtube-player.component';
 
 /**
@@ -30,6 +32,20 @@ import { YoutubePlayerComponent } from '../../../shared/components/youtube-playe
             <h1>{{ v.title }}</h1>
             @if (v.description) {
               <p>{{ v.description }}</p>
+            }
+            @if (auth.isLoggedIn()) {
+              <button
+                type="button"
+                class="pv-btn fav"
+                [class.fav--on]="isFavorite()"
+                [attr.aria-pressed]="isFavorite()"
+                (click)="toggleFavorite(v.id)"
+              >
+                <span aria-hidden="true">{{ isFavorite() ? '♥' : '♡' }}</span>
+                {{ isFavorite() ? 'Dans mes favoris' : 'Ajouter à mes favoris' }}
+              </button>
+            } @else {
+              <p class="video__hint"><a routerLink="/connexion">Connectez-vous</a> pour enregistrer cette vidéo dans vos favoris.</p>
             }
           </div>
         </article>
@@ -85,6 +101,24 @@ import { YoutubePlayerComponent } from '../../../shared/components/youtube-playe
       margin-top: 2rem;
       color: var(--pv-muted);
     }
+    .fav {
+      justify-self: start;
+      border-color: var(--pv-line);
+      background: var(--pv-card);
+      color: var(--pv-ink);
+    }
+    .fav span {
+      color: var(--pv-red);
+      font-size: 1.2rem;
+    }
+    .fav--on {
+      border-color: var(--pv-red);
+      background: var(--pv-red-soft);
+    }
+    .video__info .video__hint {
+      color: var(--pv-muted);
+      font-size: 0.9rem;
+    }
   `,
 })
 export class VideoDetailComponent {
@@ -94,9 +128,22 @@ export class VideoDetailComponent {
 
   readonly id = input.required<string>();
 
+  protected readonly auth = inject(AuthService);
+  private readonly account = inject(AccountService);
+
   protected readonly video = signal<Video | null>(null);
   protected readonly notFound = signal(false);
   protected readonly error = signal<string | null>(null);
+  protected readonly isFavorite = signal(false);
+
+  protected toggleFavorite(videoId: number): void {
+    const next = !this.isFavorite();
+    this.isFavorite.set(next);
+    this.account.setFavorite(videoId, next).subscribe({
+      next: (res) => this.isFavorite.set(res.isFavorite),
+      error: () => this.isFavorite.set(!next),
+    });
+  }
 
   constructor() {
     effect(() => this.load(Number(this.id())));
@@ -115,6 +162,9 @@ export class VideoDetailComponent {
     this.content.getVideo(id).subscribe({
       next: (video) => {
         this.video.set(video);
+        if (this.auth.isLoggedIn()) {
+          this.account.getFavorites().subscribe((list) => this.isFavorite.set(list.some((v) => v.id === video.id)));
+        }
         this.title.setTitle(`${video.title} — Vidéos PokerVitrine`);
         if (video.description) {
           this.meta.updateTag({ name: 'description', content: video.description });

@@ -25,7 +25,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    /**
+     * Null une fois le compte anonymisé (RGPD, droit à l'effacement)
+     */
+    #[ORM\Column(length: 180, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
     private ?string $email = null;
@@ -76,6 +79,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $lastLoginAt = null;
 
     /**
+     * Empreinte SHA-256 du jeton de confirmation de suppression envoyé par email (1 h)
+     */
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $deletionToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deletionTokenExpiresAt = null;
+
+    /**
+     * Date d'anonymisation : le compte n'est plus rattaché à une personne
+     */
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $anonymizedAt = null;
+
+    /**
      * @var Collection<int, ConsentLog>
      */
     #[ORM\OneToMany(targetEntity: ConsentLog::class, mappedBy: 'user', orphanRemoval: true)]
@@ -97,9 +115,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
-        $this->email = mb_strtolower(trim($email));
+        $this->email = null === $email ? null : mb_strtolower(trim($email));
 
         return $this;
     }
@@ -236,6 +254,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLoginAt(?\DateTimeImmutable $lastLoginAt): static
     {
         $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    public function getDeletionToken(): ?string
+    {
+        return $this->deletionToken;
+    }
+
+    public function setDeletionToken(?string $deletionToken): static
+    {
+        $this->deletionToken = $deletionToken;
+
+        return $this;
+    }
+
+    public function getDeletionTokenExpiresAt(): ?\DateTimeImmutable
+    {
+        return $this->deletionTokenExpiresAt;
+    }
+
+    public function setDeletionTokenExpiresAt(?\DateTimeImmutable $deletionTokenExpiresAt): static
+    {
+        $this->deletionTokenExpiresAt = $deletionTokenExpiresAt;
+
+        return $this;
+    }
+
+    public function getAnonymizedAt(): ?\DateTimeImmutable
+    {
+        return $this->anonymizedAt;
+    }
+
+    public function isAnonymized(): bool
+    {
+        return null !== $this->anonymizedAt;
+    }
+
+    public function setAnonymizedAt(?\DateTimeImmutable $anonymizedAt): static
+    {
+        $this->anonymizedAt = $anonymizedAt;
 
         return $this;
     }
