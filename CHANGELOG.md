@@ -11,7 +11,12 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+## [0.6.0] — 2026-10-30 — Bêta privée
+
 ### Ajouté
+- Bêta privée en ligne sur https://beta.redkards-dev.fr (mot de passe + noindex), API sur https://api.redkards-dev.fr (o2switch, PHP 8.3, MariaDB 11.4).
+- Commande `app:content:seed` : contenu de base en production (forum, vidéos, actualités, calendrier), sans compte de démo.
+- Angular 19 → 22 (0 vulnérabilité npm).
 - Leçons interactives originales (5 thèmes) et scripts vidéo avec storyboards.
 - Documentation de l'API (OpenAPI, NelmioApiDocBundle) : `/api/doc` et `/api/doc.json`, en développement uniquement.
 - Forum : signalement d'un message par les membres (`POST /api/forum/posts/{id}/report`, motifs spam,
