@@ -63,6 +63,11 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Communauté')->setPermission('ROLE_ADMIN');
         yield MenuItem::linkTo(UserCrudController::class, 'Utilisateurs', 'fa fa-users')->setPermission('ROLE_ADMIN');
 
+        // Boutique v2.0 : gérable en amont de l'ouverture (le site public reste fermé tant que SHOP_ENABLED=0)
+        yield MenuItem::section('Boutique (v2.0)')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(ProductCrudController::class, 'Produits', 'fa fa-box')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(OrderCrudController::class, 'Commandes', 'fa fa-receipt')->setPermission('ROLE_ADMIN');
+
         yield MenuItem::section();
         yield MenuItem::linkToUrl('Voir le site', 'fa fa-arrow-up-right-from-square', $this->frontendUrl);
         yield MenuItem::linkToLogout('Déconnexion', 'fa fa-right-from-bracket');

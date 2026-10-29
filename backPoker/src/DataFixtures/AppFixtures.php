@@ -7,7 +7,10 @@ use App\Entity\ForumCategory;
 use App\Entity\ForumPost;
 use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
+use App\Entity\Product;
 use App\Entity\User;
+use App\Enum\ProductCategory;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Entity\Video;
 use App\Enum\VideoLevel;
 use App\Service\ArticleImporter;
@@ -30,6 +33,7 @@ class AppFixtures extends Fixture
         private readonly GdprService $gdpr,
         private readonly ArticleImporter $importer,
         private readonly TournamentImporter $tournamentImporter,
+        private readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
     ) {
@@ -76,6 +80,8 @@ class AppFixtures extends Fixture
                 ->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 1 + $i * 3))));
         }
 
+        $this->loadShop($manager);
+
         $manager->flush();
 
         // Vraies actualités sourcées (docs/actualites/*.json), absentes d'un déploiement sans le dossier docs
@@ -85,6 +91,38 @@ class AppFixtures extends Fixture
         // Calendrier des tournois vérifié (docs/calendrier/*.json)
         foreach (glob($this->projectDir.'/../docs/calendrier/*.json') ?: [] as $file) {
             $this->tournamentImporter->importFile($file);
+        }
+    }
+
+    /**
+     * Boutique v2.0 : produits de démonstration génériques (aucune marque ni titre réel).
+     */
+    private function loadShop(ObjectManager $manager): void
+    {
+        $products = [
+            ['Les fondamentaux du Texas Hold\'em', ProductCategory::Livre, 2490, 25,
+                'Guide de 240 pages pour débuter : valeur des mains, positions, cotes du pot et premières lignes de jeu, avec exercices corrigés.'],
+            ['Tournois MTT : de la bulle à la table finale', ProductCategory::Livre, 2990, 15,
+                'Gestion du tapis selon les blindes, jeu à la bulle, ICM expliqué simplement et plans de jeu en table finale.'],
+            ['Mental et bankroll : jouer dans la durée', ProductCategory::Livre, 1990, 0,
+                'Variance, tilt, routines de session et règles de gestion de bankroll pour progresser sereinement.'],
+            ['Mallette de 500 jetons céramique 10 g', ProductCategory::Accessoire, 8900, 8,
+                'Mallette aluminium verrouillable, 500 jetons en céramique de 10 g en 6 couleurs, 2 jeux de cartes et un bouton dealer.'],
+            ['Tapis de jeu néoprène 8 joueurs', ProductCategory::Accessoire, 4990, 12,
+                'Tapis 180 × 90 cm en néoprène antidérapant, surface feutrée et emplacements de cartes imprimés. Se roule pour le rangement.'],
+            ['Lot de 2 jeux de cartes 100 % plastique', ProductCategory::Accessoire, 1490, 40,
+                'Cartes lavables et indéformables, index jumbo lisibles de loin, une couleur de dos rouge et une noire.'],
+        ];
+
+        foreach ($products as [$name, $category, $price, $stock, $description]) {
+            $manager->persist((new Product())
+                ->setName($name)
+                ->setSlug($this->slugger->slug($name)->lower()->toString())
+                ->setCategory($category)
+                ->setPriceCents($price)
+                ->setStock($stock)
+                ->setDescription($description)
+                ->setIsPublished(true));
         }
     }
 

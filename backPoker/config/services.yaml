@@ -21,3 +21,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Boutique (v2.0) : prestataire de paiement actif. Factice tant que la boutique est en attente
+    # (aucun appel réseau, la commande reste « en attente »). Pour ouvrir la boutique, pointer vers
+    # App\Service\Payment\StripeCheckoutPaymentProvider (voir docs/boutique/README.md).
+    App\Service\Payment\PaymentProviderInterface: '@App\Service\Payment\FakePaymentProvider'
