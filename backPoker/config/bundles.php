@@ -14,4 +14,6 @@ return [
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
+    // Documentation de l'API (/api/doc) : environnement de dev uniquement
+    Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['dev' => true],
 ];

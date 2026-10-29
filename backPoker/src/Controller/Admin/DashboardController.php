@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Repository\ArticleRepository;
+use App\Repository\ForumPostReportRepository;
 use App\Repository\ForumPostRepository;
 use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
@@ -21,6 +22,7 @@ class DashboardController extends AbstractDashboardController
         private readonly VideoRepository $videos,
         private readonly UserRepository $users,
         private readonly ForumPostRepository $posts,
+        private readonly ForumPostReportRepository $reports,
         #[Autowire(env: 'FRONTEND_URL')]
         private readonly string $frontendUrl,
     ) {
@@ -34,6 +36,7 @@ class DashboardController extends AbstractDashboardController
                 'Vidéos publiées' => $this->videos->countPublished(),
                 'Membres vérifiés' => $this->users->count(['isVerified' => true]),
                 'Messages masqués' => $this->posts->count(['isModerated' => true]),
+                'Signalements à traiter' => $this->reports->countPending(),
             ],
         ]);
     }
@@ -58,6 +61,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Forum');
         yield MenuItem::linkTo(ForumTopicCrudController::class, 'Sujets', 'fa fa-comments');
         yield MenuItem::linkTo(ForumPostCrudController::class, 'Messages', 'fa fa-message');
+        yield MenuItem::linkTo(ForumPostReportCrudController::class, 'Signalements', 'fa fa-flag')
+            ->setBadge($this->reports->countPending() ?: false, 'danger');
         yield MenuItem::linkTo(ForumCategoryCrudController::class, 'Catégories', 'fa fa-folder')->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('Communauté')->setPermission('ROLE_ADMIN');

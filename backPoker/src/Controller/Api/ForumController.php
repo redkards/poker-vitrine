@@ -2,12 +2,14 @@
 
 namespace App\Controller\Api;
 
+use App\Dto\ForumPostReportRequest;
 use App\Dto\ForumPostRequest;
 use App\Dto\ForumTopicRequest;
 use App\Entity\ForumCategory;
 use App\Entity\ForumPost;
 use App\Entity\ForumTopic;
 use App\Entity\User;
+use App\Enum\ReportReason;
 use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumPostRepository;
 use App\Repository\ForumTopicRepository;
@@ -159,13 +161,55 @@ class ForumController extends AbstractController
         return $this->json(['isSubscribed' => $this->forum->isSubscribed($user, $topic)]);
     }
 
-    private function throttle(RateLimiterFactoryInterface $limiter, User $user): ?JsonResponse
+    /**
+     * v1.1 — Signaler un message à la modération. Corps : {"reason": "spam|insulte|hors_sujet|autre", "comment": "…"}.
+     */
+    #[Route('/posts/{id}/report', name: 'api_forum_post_report', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function report(
+        int $id,
+        #[MapRequestPayload] ForumPostReportRequest $payload,
+        #[CurrentUser] User $user,
+        RateLimiterFactoryInterface $forumReportLimiter,
+    ): JsonResponse {
+        $post = $this->posts->find($id);
+        if (!$post) {
+            return $this->json(['message' => 'Message introuvable.'], Response::HTTP_NOT_FOUND);
+        }
+        if ($post->getAuthor()?->getId() === $user->getId()) {
+            return $this->json(['message' => 'Vous ne pouvez pas signaler votre propre message.'], Response::HTTP_FORBIDDEN);
+        }
+        if ($post->isModerated()) {
+            return $this->json(['message' => 'Ce message a déjà été masqué par la modération.'], Response::HTTP_CONFLICT);
+        }
+        if ($this->forum->hasReported($user, $post)) {
+            return $this->json(['message' => 'Vous avez déjà signalé ce message.'], Response::HTTP_CONFLICT);
+        }
+        if ($tooFast = $this->throttle($forumReportLimiter, $user, 'Trop de signalements : réessayez plus tard.')) {
+            return $tooFast;
+        }
+
+        $report = $this->forum->report($post, $user, ReportReason::from($payload->reason), $payload->comment);
+        if (!$report) {
+            return $this->json(['message' => 'Vous avez déjà signalé ce message.'], Response::HTTP_CONFLICT);
+        }
+
+        return $this->json([
+            'id' => $report->getId(),
+            'postId' => $post->getId(),
+            'reason' => $report->getReason()->value,
+            'createdAt' => $report->getCreatedAt()?->format(\DATE_ATOM),
+            'message' => 'Merci, le message a été signalé à l’équipe de modération.',
+        ], Response::HTTP_CREATED);
+    }
+
+    private function throttle(RateLimiterFactoryInterface $limiter, User $user, string $message = 'Vous publiez trop vite : patientez une minute.'): ?JsonResponse
     {
         if ($limiter->create('user-'.$user->getId())->consume()->isAccepted()) {
             return null;
         }
 
-        return $this->json(['message' => 'Vous publiez trop vite : patientez une minute.'], Response::HTTP_TOO_MANY_REQUESTS);
+        return $this->json(['message' => $message], Response::HTTP_TOO_MANY_REQUESTS);
     }
 
     /**

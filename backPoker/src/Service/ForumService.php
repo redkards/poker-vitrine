@@ -4,10 +4,14 @@ namespace App\Service;
 
 use App\Entity\ForumCategory;
 use App\Entity\ForumPost;
+use App\Entity\ForumPostReport;
 use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
 use App\Entity\User;
+use App\Enum\ReportReason;
+use App\Repository\ForumPostReportRepository;
 use App\Repository\ForumSubscriptionRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -20,6 +24,7 @@ class ForumService
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly ForumSubscriptionRepository $subscriptions,
+        private readonly ForumPostReportRepository $reports,
         private readonly MailService $mailService,
         private readonly LoggerInterface $logger,
     ) {
@@ -98,5 +103,31 @@ class ForumService
                 $this->logger->warning('Echec notification forum', ['topicId' => $topic->getId(), 'error' => $e->getMessage()]);
             }
         }
+    }
+
+    public function hasReported(User $user, ForumPost $post): bool
+    {
+        return null !== $this->reports->findOneBy(['post' => $post, 'reporter' => $user]);
+    }
+
+    /**
+     * Enregistre un signalement (file de modération). Renvoie null si le membre l'a déjà signalé
+     * (contrainte d'unicité, y compris en cas de double clic concurrent).
+     */
+    public function report(ForumPost $post, User $reporter, ReportReason $reason, ?string $comment): ?ForumPostReport
+    {
+        if ($this->hasReported($reporter, $post)) {
+            return null;
+        }
+
+        $report = new ForumPostReport($post, $reporter, $reason, $comment);
+        try {
+            $this->em->persist($report);
+            $this->em->flush();
+        } catch (UniqueConstraintViolationException) {
+            return null;
+        }
+
+        return $report;
     }
 }

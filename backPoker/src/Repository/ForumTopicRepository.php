@@ -63,4 +63,26 @@ class ForumTopicRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * Recherche (LIKE paramétré) dans les titres des sujets et le contenu des messages visibles.
+     * Les messages masqués par la modération ne sont jamais pris en compte.
+     *
+     * @return list<ForumTopic>
+     */
+    public function search(string $term, int $limit): array
+    {
+        return $this->createQueryBuilder('t')
+            ->addSelect('c', 'a')
+            ->join('t.category', 'c')
+            ->leftJoin('t.author', 'a')
+            ->where("t.title LIKE :term ESCAPE '!'")
+            ->orWhere(sprintf("EXISTS (SELECT p.id FROM %s p WHERE p.topic = t AND p.isModerated = false AND p.content LIKE :term ESCAPE '!')", ForumPost::class))
+            ->setParameter('term', LikePattern::contains($term))
+            ->orderBy('t.lastPostAt', 'DESC')
+            ->addOrderBy('t.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -5,14 +5,15 @@ documentée dans le [journal des versions](../CHANGELOG.md).
 
 ## v1.0 — Mise en ligne (MVP)
 Objectif : ouvrir le site au public sur **redkards-dev.fr**, après confirmation du propriétaire.
-- Finitions : tests front (Jasmine), balises SEO, documentation de l'API.
+- Finitions : tests front (Jasmine), balises SEO.
+- [x] Documentation de l'API (`/api/doc`, en développement uniquement).
 - Déploiement o2switch : sous-domaine `api.`, HTTPS, MariaDB, emails, crons RGPD, sauvegardes.
 - Mentions légales et politique de confidentialité complétées et relues.
 
 ## v1.1 — Communauté
-- Signalement d'un message du forum par les membres (file de modération).
-- Recherche dans le forum et les actualités.
-- Profil public d'un membre (pseudo, date d'inscription, nombre de messages).
+- [x] Signalement d'un message du forum par les membres (file de modération) — API et back-office prêts, écran front à faire.
+- [x] Recherche dans le forum et les actualités — API prête, écran front à faire.
+- [x] Profil public d'un membre (pseudo, date d'inscription, nombre de messages) — API prête, écran front à faire.
 - Notifications dans le site (en plus des emails).
 
 ## v1.2 — Apprentissage

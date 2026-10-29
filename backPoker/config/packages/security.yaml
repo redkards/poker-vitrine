@@ -20,7 +20,8 @@ security:
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
-            pattern: ^/(_profiler(/|$)|(_wdt|assets|build)/)
+            # (/api/doc et /api/doc.json n'existent qu'en dev : 404 ailleurs)
+            pattern: ^/(_profiler(/|$)|(_wdt|assets|build)/|api/doc(\.json)?$)
             security: false
 
         # POST /api/login {"email": "...", "password": "..."} -> {"token": "...", "refresh_token": "..."}
@@ -75,7 +76,8 @@ security:
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/verify-email, roles: PUBLIC_ACCESS }
         - { path: ^/api/stripe/webhook, roles: PUBLIC_ACCESS }
-        - { path: ^/api/me, roles: ROLE_USER }
+        # (/|$) : ne pas capturer /api/members (profils publics)
+        - { path: ^/api/me(/|$), roles: ROLE_USER }
         - { path: ^/api/gdpr, roles: ROLE_USER }
         - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
         # Moderateurs : forum uniquement (les autres ecrans exigent ROLE_ADMIN dans leurs controleurs)

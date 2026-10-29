@@ -1,0 +1,22 @@
+# Documentation de l'API (OpenAPI 3) : bundle chargé en dev uniquement (voir config/bundles.php),
+# jamais exposé en production. UI : /api/doc — JSON : /api/doc.json
+when@dev:
+    nelmio_api_doc:
+        documentation:
+            info:
+                title: Poker Winners API
+                description: API du site communautaire Poker Winners (actualités, forum, vidéos, calendrier).
+                version: 1.0.0
+            components:
+                securitySchemes:
+                    Bearer:
+                        type: http
+                        scheme: bearer
+                        bearerFormat: JWT
+            security:
+                - Bearer: []
+        areas:
+            default:
+                # Toutes les routes /api, sauf la documentation elle-même
+                path_patterns:
+                    - ^/api(?!/doc(\.json)?$)

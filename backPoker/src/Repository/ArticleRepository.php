@@ -55,6 +55,23 @@ class ArticleRepository extends ServiceEntityRepository
         return (int) $this->published()->select('COUNT(a.id)')->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Recherche simple (LIKE paramétré) dans les actualités publiées : titre, chapô, contenu.
+     *
+     * @return list<Article>
+     */
+    public function searchPublished(string $term, int $limit): array
+    {
+        return $this->published()
+            ->andWhere("a.title LIKE :term ESCAPE '!' OR a.excerpt LIKE :term ESCAPE '!' OR a.content LIKE :term ESCAPE '!'")
+            ->setParameter('term', LikePattern::contains($term))
+            ->orderBy('a.publishedAt', 'DESC')
+            ->addOrderBy('a.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function slugExists(string $slug, ?int $exceptId = null): bool
     {
         $qb = $this->createQueryBuilder('a')

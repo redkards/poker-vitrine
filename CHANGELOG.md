@@ -13,6 +13,12 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ### Ajouté
 - Leçons interactives originales (5 thèmes) et scripts vidéo avec storyboards.
+- Documentation de l'API (OpenAPI, NelmioApiDocBundle) : `/api/doc` et `/api/doc.json`, en développement uniquement.
+- Forum : signalement d'un message par les membres (`POST /api/forum/posts/{id}/report`, motifs spam,
+  insulte, hors sujet, autre ; un seul signalement par membre et par message, pas sur ses propres messages)
+  et file de modération « Signalements » dans le back-office avec l'action « Marquer résolu ».
+- Recherche dans les actualités publiées et le forum (`GET /api/search?q=`, 2 à 100 caractères).
+- Profil public d'un membre (`GET /api/members/{pseudo}`) : pseudo, date d'inscription, nombre de messages.
 
 ## [0.5.0] — 2026-10-29
 
