@@ -11,7 +11,7 @@ export const LEGAL = {
     name: 'Jérémy Duhem',
     /** Ex. : particulier, auto-entrepreneur, SAS au capital de…, association loi 1901 */
     status: 'Particulier',
-    address: '[À COMPLÉTER : adresse postale de l\'éditeur]',
+    address: 'Non publiée (éditeur non professionnel) : coordonnées communiquées à l\'hébergeur, art. 6 III-2 de la LCEN',
     email: '[À COMPLÉTER : email de contact]',
     /** Adresse dédiée aux demandes relatives aux données personnelles */
     privacyEmail: '[À COMPLÉTER : email du contact RGPD]',
