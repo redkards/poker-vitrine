@@ -60,7 +60,7 @@ const COMMON_NOTE =
 export const BEGINNER_CHARTS: RangeChart[] = [
   {
     id: 'debutant-utg',
-    title: 'Sous le pistolet',
+    title: 'Under the Gun (UTG)',
     situation: 'Vous parlez en premier, cinq joueurs agissent après vous. Relancez à environ 2,5 à 3 grosses blindes.',
     actions: [{ key: 'raise', label: 'Relancer', hands: '99+, AJ+, KQ, ATs, KJs' }],
     note: 'Peu de mains, mais jouées de façon décidée. Toutes les autres se couchent.',
@@ -84,7 +84,7 @@ export const BEGINNER_CHARTS: RangeChart[] = [
 export const INTERMEDIATE_CHARTS: RangeChart[] = [
   {
     id: 'intermediaire-utg',
-    title: 'Sous le pistolet (UTG)',
+    title: 'Under the Gun (UTG)',
     situation: 'Table à six, premier à parler. Ouverture à 2,5 BB.',
     actions: [{ key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, KTs+, QTs+, JTs, T9s, ATo+, KQo' }],
     note: COMMON_NOTE,
