@@ -11,6 +11,8 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+## [0.8.0] — 2026-10-30 — Apprendre : tableaux de ranges
+
 ### Ajouté
 - Apprendre : page « Tableaux de ranges » (`/lecons/ranges`, lien depuis la liste des leçons), grille 13 × 13 des
   169 mains par situation, légende en pourcentage des 1 326 combinaisons. Débutant (3 repères d'ouverture) et
@@ -19,6 +21,10 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
   (401 anonyme, 403 `premium_required`, `no-store`) depuis `backPoker/resources/lessons/ranges-expert.json`.
 - Tests : notation des ranges, cohérence avec la leçon « ranges par position » (UTG 15-18 %, CO 25-30 %,
   BTN 40-50 %), aucune main dans deux actions, verrouillage Premium sans appel à l'API.
+
+### Modifié
+- Mentions légales et politique de confidentialité complétées (éditeur particulier, contact
+  `contact.redcard@redkards-dev.fr`, hébergeur o2switch) ; seule la section Premium des CGU reste à rédiger.
 - Ranges recalibrées sur les repères publics : UTG 16,1 %, HJ 20,4 %, CO 27,0 %, BTN 42,1 %, SB 33,9 % ;
   grosse blinde face au bouton : 52 % de défense (repère des solveurs 52-58 %), 3-bet à environ 10 BB.
 
