@@ -105,6 +105,14 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'lecons/ranges',
+    loadComponent: () => import('./features/lessons/ranges/range-charts.component').then((m) => m.RangeChartsComponent),
+    title: 'Tableaux de ranges — Poker Winners',
+    data: {
+      description: 'Tableaux de ranges de poker par position : repères débutants, ouvertures à six joueurs et réponses à une ouverture (Premium).',
+    },
+  },
+  {
     path: 'lecons/:slug',
     loadComponent: () => import('./features/lessons/lesson-detail/lesson-detail.component').then((m) => m.LessonDetailComponent),
     title: 'Leçon — Poker Winners',

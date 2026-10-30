@@ -164,3 +164,43 @@
 .lesson-card--locked .lesson-card__cover {
   filter: saturate(0.6);
 }
+
+.ranges-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.15rem 1rem;
+  max-width: 40rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-dark);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: var(--pv-shadow-sm);
+
+  &:hover {
+    background: var(--pv-dark-2);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--pv-focus);
+  }
+
+  .pv-arrow {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    color: var(--pv-red);
+    font-size: 1.4rem;
+  }
+}
+
+.ranges-link__title {
+  font: 700 1.15rem var(--pv-font-title);
+}
+
+.ranges-link__desc {
+  font-size: 0.9rem;
+  color: rgb(255 255 255 / 0.75);
+}

@@ -1,0 +1,94 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Apprendre · Outils</span>
+  <h1>Tableaux de ranges</h1>
+  <p>
+    Quelles mains jouer, et comment, selon votre place à la table. Chaque case de la grille est une main de départ :
+    les paires sur la diagonale, les mains assorties au-dessus, les mains dépareillées en dessous.
+  </p>
+  <a routerLink="/lecons" class="back">← Toutes les leçons</a>
+</section>
+
+<div class="pv-container ranges">
+  <div class="levels" role="group" aria-label="Niveau">
+    @for (l of levels; track l.level) {
+      <button type="button" class="level-btn" [attr.data-level]="l.level" [attr.aria-pressed]="level() === l.level" (click)="selectLevel(l.level)">
+        {{ l.label }}
+        @if (l.premium) {
+          <span class="premium-badge">
+            @if (l.premium && !auth.user()?.premium) {
+              <span aria-hidden="true">🔒</span>
+            }
+            Premium
+          </span>
+        }
+      </button>
+    }
+  </div>
+  <p class="level-desc">{{ levelInfo().description }}</p>
+
+  @if (locked()) {
+    <div class="locked" role="note">
+      <span class="locked__icon" aria-hidden="true">🔒</span>
+      <span class="premium-badge">Premium</span>
+      <h2>Tableaux Expert réservés aux membres Premium</h2>
+      <p>Trois situations où l'on répond à une ouverture : sur-relancer, payer ou se coucher.</p>
+      <ul class="locked__list">
+        @for (title of expertTitles; track title) {
+          <li>{{ title }}</li>
+        }
+      </ul>
+      <a routerLink="/premium" class="pv-btn pv-btn--primary">Débloquer avec Premium <span class="pv-arrow" aria-hidden="true">→</span></a>
+      @if (!auth.isLoggedIn()) {
+        <p class="locked__login">Déjà abonné ? <a routerLink="/connexion" [queryParams]="{ returnUrl: '/lecons/ranges' }">Connectez-vous</a></p>
+      }
+    </div>
+  } @else if (level() === 'avance' && expertCharts.error()) {
+    <div class="pv-alert pv-alert--error" role="alert">
+      Impossible de charger les tableaux pour le moment.
+      <button type="button" class="pv-btn pv-btn--ghost" (click)="expertCharts.reload()">Réessayer</button>
+    </div>
+  } @else if (chart(); as c) {
+    <div class="charts" role="group" aria-label="Situation">
+      @for (item of charts(); track item.id; let i = $index) {
+        <button type="button" class="chart-btn" [attr.aria-pressed]="i === chartIndex()" (click)="selectChart(i)">{{ item.title }}</button>
+      }
+    </div>
+
+    <article class="chart" [attr.aria-labelledby]="'titre-' + c.id">
+      <header class="chart__head">
+        <h2 [id]="'titre-' + c.id">{{ c.title }}</h2>
+        <p>{{ c.situation }}</p>
+      </header>
+
+      <div class="chart__body">
+        <div class="grid" role="table" [attr.aria-label]="c.title + ' : action pour chacune des 169 mains de départ'">
+          @for (row of rows; track row.rank) {
+            <div class="grid__row" role="row">
+              @for (hand of row.cells; track hand) {
+                <span class="grid__cell" role="cell" [attr.data-action]="actionKey(hand)" [attr.aria-label]="cellLabel(hand)">{{ hand }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <aside class="chart__side">
+          <ul class="legend">
+            @for (item of legend(); track item.key) {
+              <li>
+                <span class="swatch" [attr.data-action]="item.key" aria-hidden="true"></span>
+                <span class="legend__label">{{ item.label }}</span>
+                <span class="legend__pct">{{ formatPercent(item.percent) }}</span>
+              </li>
+            }
+          </ul>
+          <p class="legend__hint">Pourcentage des 1 326 combinaisons de départ.</p>
+          <p class="chart__note">{{ c.note }}</p>
+        </aside>
+      </div>
+    </article>
+  } @else {
+    <p class="loading" aria-live="polite">Chargement des tableaux…</p>
+  }
+
+  <p class="origin">Repères pédagogiques originaux Poker Winners, sans promesse de gains · Le poker est réservé aux personnes majeures.</p>
+</div>

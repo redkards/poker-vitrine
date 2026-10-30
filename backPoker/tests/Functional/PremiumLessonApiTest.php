@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Service\GdprService;
 
 /**
- * Leçons Expert réservées aux membres Premium : GET /api/lessons/expert/{slug}.
+ * Contenus Expert réservés aux membres Premium : GET /api/lessons/expert/{slug} et GET /api/lessons/ranges/expert.
  */
 class PremiumLessonApiTest extends ApiTestCase
 {
@@ -91,6 +91,29 @@ class PremiumLessonApiTest extends ApiTestCase
         self::assertCount(15, $lessons);
         foreach ($lessons as $lesson) {
             self::assertCount(5, $lesson['quiz'], $lesson['slug']);
+        }
+    }
+
+    public function testExpertRangesAreReservedToPremiumMembers(): void
+    {
+        $uri = '/api/lessons/ranges/expert';
+
+        $this->jsonRequest('GET', $uri);
+        self::assertResponseStatusCodeSame(401);
+
+        $data = $this->jsonRequest('GET', $uri, headers: $this->memberAuth('bob'));
+        self::assertResponseStatusCodeSame(403);
+        self::assertSame('premium_required', $data['code']);
+        self::assertStringContainsString('no-store', (string) $this->client->getResponse()->headers->get('Cache-Control'));
+
+        $charts = $this->jsonRequest('GET', $uri, headers: $this->memberAuth('alice', '+1 month'));
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString('no-store', (string) $this->client->getResponse()->headers->get('Cache-Control'));
+        self::assertCount(3, $charts);
+        foreach ($charts as $chart) {
+            self::assertNotEmpty($chart['title']);
+            self::assertNotEmpty($chart['actions']);
+            self::assertNotEmpty($chart['actions'][0]['hands'], $chart['id']);
         }
     }
 }

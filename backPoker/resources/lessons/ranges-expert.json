@@ -1,0 +1,35 @@
+[
+  {
+    "id": "expert-btn-vs-co",
+    "title": "Bouton face à une ouverture du cut-off",
+    "situation": "Table à six, tapis de 40 BB ou plus. Le cut-off ouvre à 2,5 BB, vous êtes au bouton. Sur-relance (3-bet) à environ 7,5 BB.",
+    "actions": [
+      { "key": "threebet", "label": "Sur-relancer (3-bet)", "hands": "QQ+, AK, AQs, A5s-A4s, K9s, 76s" },
+      { "key": "call", "label": "Payer", "hands": "22-JJ, AJs-A9s, KTs+, QTs+, JTs, T9s, 98s, 87s, AQo, AJo, KQo" }
+    ],
+    "note": "Les quelques mains assorties sur-relancées en bluff (A5s, A4s, K9s, 76s) bloquent des mains fortes ou gardent du jeu si elles sont payées. Avec la position, payer reste très souvent possible."
+  },
+  {
+    "id": "expert-bb-vs-btn",
+    "title": "Grosse blinde face à une ouverture du bouton",
+    "situation": "Table à six, tapis de 40 BB ou plus. Le bouton ouvre à 2,5 BB, la petite blinde se couche. Il vous reste 1,5 BB à mettre pour voir le flop.",
+    "actions": [
+      { "key": "threebet", "label": "Sur-relancer (3-bet)", "hands": "TT+, AJs+, AQo+, A5s-A4s, K9s, Q9s, J9s, 65s" },
+      {
+        "key": "call",
+        "label": "Payer",
+        "hands": "22-99, ATs-A6s, A3s-A2s, KTs+, K8s-K2s, QTs+, Q8s-Q4s, JTs, J8s-J6s, T6s+, 96s+, 85s+, 74s+, 64s, 53s+, 43s, A2o-AJo, K8o+, Q9o+, J9o+, T8o+, 98o, 87o"
+      }
+    ],
+    "note": "La grosse blinde reçoit le meilleur prix de la table : elle défend beaucoup de mains, mais sera hors de position. Les mains dépareillées les plus faibles se couchent."
+  },
+  {
+    "id": "expert-sb-vs-btn",
+    "title": "Petite blinde face à une ouverture du bouton",
+    "situation": "Table à six, tapis de 40 BB ou plus. Le bouton ouvre à 2,5 BB. Vous êtes en petite blinde, la grosse blinde parle encore derrière vous.",
+    "actions": [
+      { "key": "threebet", "label": "Sur-relancer (3-bet)", "hands": "88+, A8s+, A5s-A3s, KTs+, QTs+, JTs, T9s, ATo+, KJo+" }
+    ],
+    "note": "Payer depuis la petite blinde invite la grosse blinde à entrer à bon prix et vous laisse hors de position : on simplifie en sur-relançant (environ 10 à 11 BB) ou en se couchant."
+  }
+]

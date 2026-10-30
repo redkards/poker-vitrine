@@ -11,6 +11,15 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+### Ajouté
+- Apprendre : page « Tableaux de ranges » (`/lecons/ranges`, lien depuis la liste des leçons), grille 13 × 13 des
+  169 mains par situation, légende en pourcentage des 1 326 combinaisons. Débutant (3 repères d'ouverture) et
+  Intermédiaire (ouvertures à six joueurs, UTG à SB) inclus dans le site ; Expert (3-bet, payer ou se coucher face à
+  une ouverture, 3 tableaux) réservé aux membres Premium et servi par `GET /api/lessons/ranges/expert`
+  (401 anonyme, 403 `premium_required`, `no-store`) depuis `backPoker/resources/lessons/ranges-expert.json`.
+- Tests : notation des ranges, cohérence avec la leçon « ranges par position » (UTG 15-18 %, CO 25-30 %,
+  BTN 40-50 %), aucune main dans deux actions, verrouillage Premium sans appel à l'API.
+
 ## [0.7.1] — 2026-10-30 — Exploitation : tâches planifiées et tests front
 
 ### Ajouté
