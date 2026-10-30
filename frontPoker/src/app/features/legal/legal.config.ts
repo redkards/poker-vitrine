@@ -12,9 +12,9 @@ export const LEGAL = {
     /** Ex. : particulier, auto-entrepreneur, SAS au capital de…, association loi 1901 */
     status: 'Particulier',
     address: 'Non publiée (éditeur non professionnel) : coordonnées communiquées à l\'hébergeur, art. 6 III-2 de la LCEN',
-    email: 'contact@redkards-dev.fr',
+    email: 'contact.redcard@redkards-dev.fr',
     /** Adresse dédiée aux demandes relatives aux données personnelles */
-    privacyEmail: '[À COMPLÉTER : email du contact RGPD]',
+    privacyEmail: 'contact.redcard@redkards-dev.fr',
     phone: '[À COMPLÉTER : numéro de téléphone]',
     /** Uniquement si l'éditeur est un professionnel ; sinon indiquer « Non applicable » */
     siret: 'Non applicable',
