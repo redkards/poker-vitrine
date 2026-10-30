@@ -8,16 +8,16 @@
 export const LEGAL = {
   editor: {
     /** Nom et prénom (particulier) ou raison sociale (société, association) */
-    name: '[À COMPLÉTER : nom et prénom ou raison sociale de l\'éditeur]',
+    name: 'Jérémy Duhem',
     /** Ex. : particulier, auto-entrepreneur, SAS au capital de…, association loi 1901 */
-    status: '[À COMPLÉTER : statut juridique de l\'éditeur]',
+    status: 'Particulier',
     address: '[À COMPLÉTER : adresse postale de l\'éditeur]',
     email: '[À COMPLÉTER : email de contact]',
     /** Adresse dédiée aux demandes relatives aux données personnelles */
     privacyEmail: '[À COMPLÉTER : email du contact RGPD]',
     phone: '[À COMPLÉTER : numéro de téléphone]',
     /** Uniquement si l'éditeur est un professionnel ; sinon indiquer « Non applicable » */
-    siret: '[À COMPLÉTER : numéro SIRET (si professionnel) ou « Non applicable »]',
+    siret: 'Non applicable',
   },
   publicationDirector: '[À COMPLÉTER : nom du directeur ou de la directrice de la publication]',
   host: {
