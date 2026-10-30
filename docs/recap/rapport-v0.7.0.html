@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Poker Winners — Rapport d'avancement v0.7.0</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+body { font: 10pt/1.5 "Segoe UI", Arial, sans-serif; color: #141414; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.label { display: flex; justify-content: space-between; align-items: center; border: 2px solid #b3121b; border-radius: 8px; padding: 10pt 14pt; margin-bottom: 14pt; }
+.label h1 { font: 700 20pt Georgia, serif; color: #b3121b; margin: 0; }
+.label .meta { text-align: right; font-size: 9pt; }
+.tag { display: inline-block; background: #b3121b; color: #fff; border-radius: 4px; padding: 1pt 7pt; font-weight: 700; font-size: 9pt; }
+h2 { font: 700 13pt Georgia, serif; border-bottom: 1px solid #dcdfe4; padding-bottom: 3pt; margin: 14pt 0 6pt; break-after: avoid; }
+table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 9.3pt; break-inside: avoid; }
+th, td { text-align: left; padding: 4pt 6pt; border-bottom: 1px solid #e4e6ea; vertical-align: top; }
+th { background: #f4f5f7; }
+ul, ol { margin: 0 0 6pt; padding-left: 16pt; } li { margin-bottom: 2pt; }
+.box { background: #fdf1f1; border-left: 4px solid #b3121b; padding: 6pt 10pt; margin: 8pt 0; break-inside: avoid; }
+.ok { color: #1d7a3a; font-weight: 700; } .todo { color: #b3121b; font-weight: 700; }
+code { font: 9pt Consolas, monospace; background: #f4f5f7; padding: 0 3pt; border-radius: 3px; }
+pre { font: 9pt Consolas, monospace; background: #f4f5f7; padding: 6pt 8pt; border-radius: 4px; margin: 4pt 0 8pt; white-space: pre-wrap; }
+footer { margin-top: 14pt; font-size: 8.5pt; color: #5c6370; border-top: 1px solid #dcdfe4; padding-top: 5pt; }
+</style></head><body>
+
+<div class="label">
+  <div><h1>♠ Poker Winners</h1><div>Rapport d'avancement — suite de la v0.6.0</div></div>
+  <div class="meta"><span class="tag">v0.7.0 — BÊTA PRIVÉE</span><br>30/10/2026<br>Document interne — confidentiel</div>
+</div>
+
+<div class="box"><b>En une phrase :</b> la v0.7.0 (Premium, leçons Expert réservées aux abonnés, boutique de démonstration) est prête et envoyée sur GitHub. Elle sera en ligne sur la bêta dès que le propriétaire aura lancé la mise à jour depuis le Terminal cPanel. Le site public redkards-dev.fr n'est pas touché.</div>
+
+<h2>1. Ce qui a été réalisé depuis la v0.6.0</h2>
+<table>
+<tr><th>Domaine</th><th>Détail</th><th>État</th></tr>
+<tr><td>Abonnement Premium</td><td>Rôle Premium tant que la date d'abonnement est dans le futur ; page <code>/premium</code> (formules mensuelle et annuelle) ; statut dans « Mon espace » ; activation manuelle par commande pour la bêta ; liste des abonnements dans l'admin. <b>Paiement en ligne fermé</b> (Stripe préparé, non branché).</td><td class="ok">Fait</td></tr>
+<tr><td>Vidéos avancées</td><td>8 nouvelles vidéos de niveau avancé (licence CC BY vérifiée, Poker Fluency) ; vidéos avancées verrouillées pour les non-abonnés ; sous-titres français activés par défaut</td><td class="ok">Fait</td></tr>
+<tr><td>Leçons Expert</td><td>Les 15 leçons Expert sont réservées aux membres Premium. Leur contenu n'est plus dans le site téléchargé par le visiteur : il est envoyé par le serveur aux seuls abonnés. Cadenas et panneau « Débloquer avec Premium » pour les autres.</td><td class="ok">Fait</td></tr>
+<tr><td>Boutique de démonstration</td><td>Boutique v2 fusionnée dans le projet, activée <b>sur la bêta seulement</b>, avec bandeau « aucune vente réelle » et produits fictifs</td><td class="ok">Fait</td></tr>
+<tr><td>Calendrier</td><td>Zone « En ligne » (séries Winamax) ; statut « Connecté » dans l'en-tête</td><td class="ok">Fait</td></tr>
+<tr><td>Déploiement</td><td>Mise à jour sans SSH : le front compilé est publié sur la branche GitHub <code>front-beta</code>, le serveur le récupère avec une seule commande (<code>update.sh</code>), l'ancienne version est gardée pour un retour arrière</td><td class="ok">Fait</td></tr>
+<tr><td>Qualité</td><td>67 tests back verts (392 vérifications) ; build de production du front OK</td><td class="ok">Vert</td></tr>
+<tr><td>Documents</td><td>Modèle de projet réutilisable (PDF) pour dupliquer ce type de site</td><td class="ok">Fait</td></tr>
+<tr><td>Version</td><td>CHANGELOG, version 0.7.0, tag <code>v0.7.0</code>, tout est poussé sur GitHub (commit <code>58d0d58</code>)</td><td class="ok">Fait</td></tr>
+</table>
+
+<h2>2. Mise en ligne de la v0.7.0 sur la bêta — à faire par le propriétaire</h2>
+<p>Dans le <b>Terminal cPanel</b> d'o2switch, lancer dans l'ordre :</p>
+<pre>bash ~/poker-winners/deploy/update.sh
+cd ~/poker-winners/backPoker
+php bin/console app:content:seed --shop-demo --env=prod
+php bin/console app:user:premium redkardss@gmail.com --months=1 --env=prod</pre>
+<ol>
+<li>Met à jour l'API (avec les migrations de base) et le site bêta.</li>
+<li>Ajoute les produits fictifs de la boutique et passe en Premium les vidéos avancées déjà en base (peut être relancée sans risque).</li>
+<li>Rend le compte administrateur Premium pendant 1 mois pour tester (<code>--revoke</code> pour le retirer).</li>
+</ol>
+
+<h2>3. Points de vigilance</h2>
+<div class="box">
+<b>Paiement :</b> aucun paiement réel n'est possible (Premium et boutique). Ne pas ouvrir le paiement avant les CGV, le médiateur de la consommation et la configuration Stripe.<br>
+<b>Boutique :</b> visible uniquement sur la bêta ; elle est désactivée dans la version publique.<br>
+<b>Dossier <code>pdfPoker/</code> :</b> documents personnels, volontairement exclus de Git.<br>
+<b>Mots de passe :</b> ne jamais les coller dans le chat.
+</div>
+
+<h2>4. Reste à faire</h2>
+<table>
+<tr><th>Avant la version publique v1.0</th><th>Qui</th></tr>
+<tr><td>Lancer la mise à jour v0.7.0 sur le serveur (section 2)</td><td class="todo">Propriétaire</td></tr>
+<tr><td>Tester la bêta : sans Premium, cadenas sur les leçons Expert et vidéos avancées ; avec Premium, elles s'ouvrent ; bandeau de la boutique de démo ; zone « En ligne » du calendrier ; plus inscription, forum, RGPD et admin</td><td>Propriétaire</td></tr>
+<tr><td>Remplir les 13 champs [À COMPLÉTER] des mentions légales / confidentialité, et la section « Abonnement Premium » des CGU</td><td>Propriétaire</td></tr>
+<tr><td>Crons serveur : nettoyage RGPD quotidien et sauvegarde de la base</td><td>Claude (via Terminal)</td></tr>
+<tr><td>Optionnel : faire autoriser le SSH (port 22) pour automatiser les mises à jour</td><td>Propriétaire / o2switch</td></tr>
+<tr><td><b>Confirmation explicite</b> avant de publier sur redkards-dev.fr</td><td class="todo">Propriétaire</td></tr>
+</table>
+<table>
+<tr><th>Versions suivantes</th></tr>
+<tr><td><b>Premium payant</b> : brancher Stripe, prix définitifs, CGU complètes · <b>v1.1</b> notifications · <b>v1.2</b> progression des leçons sur le compte, vidéos maison · <b>v2.0</b> boutique réelle (CGV, médiateur, frais de port, Stripe), quiz/classements, newsletter, double authentification</td></tr>
+</table>
+
+<footer>Poker Winners — rapport v0.7.0 du 30/10/2026 · généré à partir du dépôt (commit 58d0d58, tag v0.7.0) · aucun mot de passe ni secret dans ce document.</footer>
+</body></html>
