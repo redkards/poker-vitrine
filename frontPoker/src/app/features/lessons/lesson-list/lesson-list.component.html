@@ -18,7 +18,7 @@
       <ol class="grid">
         @for (lesson of section.lessons; track lesson.slug) {
           <li>
-            <a class="lesson-card" [routerLink]="['/lecons', lesson.slug]">
+            <a class="lesson-card" [class.lesson-card--locked]="isLocked(lesson)" [routerLink]="['/lecons', lesson.slug]">
               <span class="lesson-card__cover" aria-hidden="true">
                 <span class="lesson-card__num">{{ lesson.order }}</span>
                 <span class="lesson-card__cards">
@@ -29,7 +29,18 @@
               <span class="lesson-card__body">
                 <span class="lesson-card__tags">
                   <span class="badge" [attr.data-level]="lesson.level">{{ lesson.levelLabel }}</span>
-                  <span class="lesson-card__meta">{{ lesson.duration }} min · {{ lesson.steps.length }} étapes + quiz</span>
+                  @if (lesson.premium) {
+                    <span class="premium-badge">
+                      @if (isLocked(lesson)) {
+                        <span aria-hidden="true">🔒</span>
+                      }
+                      Premium
+                      @if (isLocked(lesson)) {
+                        <span class="pv-sr-only">(réservée aux membres Premium)</span>
+                      }
+                    </span>
+                  }
+                  <span class="lesson-card__meta">{{ lesson.duration }} min · {{ lesson.stepCount }} étapes + quiz</span>
                 </span>
                 <span class="lesson-card__title">{{ lesson.title }}</span>
                 <span class="lesson-card__desc">{{ lesson.summary }}</span>

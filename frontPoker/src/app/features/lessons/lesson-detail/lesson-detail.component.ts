@@ -1,13 +1,17 @@
 import { Component, ElementRef, computed, effect, inject, input, linkedSignal, untracked, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { SeoService } from '../../../core/seo/seo.service';
 import { RouterLink } from '@angular/router';
-import { findLesson } from '../lessons.data';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { Lesson, findLesson, findLessonSummary } from '../lessons.data';
+import { ApiService } from '../../../core/api/api.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { LessonProgressService } from '../lesson-progress.service';
 import { StepVisualComponent } from '../components/step-visual.component';
 import { LessonQuizComponent } from '../components/lesson-quiz.component';
 
 /**
  * Détail d'une leçon : /lecons/:slug — étapes interactives puis quiz.
+ * Leçons Premium (Expert) : contenu chargé depuis l'API pour les membres Premium, panneau de déverrouillage sinon.
  */
 @Component({
   selector: 'app-lesson-detail',
@@ -19,12 +23,27 @@ import { LessonQuizComponent } from '../components/lesson-quiz.component';
 export class LessonDetailComponent {
   private readonly progress = inject(LessonProgressService);
   private readonly seo = inject(SeoService);
+  private readonly api = inject(ApiService);
+  protected readonly auth = inject(AuthService);
 
   readonly slug = input.required<string>();
 
   private readonly heading = viewChild<ElementRef<HTMLElement>>('heading');
 
-  protected readonly lesson = computed(() => findLesson(this.slug()));
+  protected readonly summary = computed(() => findLessonSummary(this.slug()));
+  /** Leçon Premium inaccessible au visiteur courant (anonyme ou membre non abonné) */
+  protected readonly locked = computed(() => !!this.summary()?.premium && !this.auth.user()?.premium);
+  /** Contenu d'une leçon Premium, demandé à l'API uniquement pour un membre Premium */
+  protected readonly premiumContent = rxResource({
+    params: () => (this.summary()?.premium && this.auth.user()?.premium ? this.slug() : undefined),
+    stream: ({ params }) => this.api.get<Lesson>(`lessons/expert/${encodeURIComponent(params)}`),
+  });
+  protected readonly lesson = computed(() => {
+    if (!this.summary()?.premium) {
+      return findLesson(this.slug());
+    }
+    return this.premiumContent.hasValue() ? this.premiumContent.value() : undefined;
+  });
   /** Nombre total d'écrans : les étapes + le quiz */
   protected readonly total = computed(() => (this.lesson()?.steps.length ?? 0) + 1);
 
@@ -58,7 +77,7 @@ export class LessonDetailComponent {
 
   constructor() {
     effect(() => {
-      const lesson = this.lesson();
+      const lesson = this.summary();
       this.seo.update(
         lesson
           ? { title: `${lesson.title} — Leçons Poker Winners`, description: lesson.summary, type: 'article' }

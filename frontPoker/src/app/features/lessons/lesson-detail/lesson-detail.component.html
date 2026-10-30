@@ -73,6 +73,29 @@
         </p>
       </footer>
     </article>
+  } @else if (summary(); as m) {
+    @if (locked()) {
+      <article class="lesson">
+        <div class="locked" role="note">
+          <span class="locked__icon" aria-hidden="true">🔒</span>
+          <span class="premium-badge">Premium</span>
+          <h1>{{ m.title }}</h1>
+          <h2>Leçon réservée aux membres Premium</h2>
+          <p>{{ m.summary }}</p>
+          <p>Les leçons {{ m.levelLabel }} ({{ m.duration }} min · {{ m.stepCount }} étapes + quiz) font partie des contenus Premium, avec les vidéos expert et les analyses de mains avancées.</p>
+          <a routerLink="/premium" class="pv-btn pv-btn--primary">Débloquer avec Premium <span class="pv-arrow" aria-hidden="true">→</span></a>
+          @if (!auth.isLoggedIn()) {
+            <p class="locked__login">Déjà abonné ? <a routerLink="/connexion">Connectez-vous</a></p>
+          }
+        </div>
+      </article>
+    } @else if (premiumContent.error()) {
+      <div class="pv-alert pv-alert--error notfound" role="alert">
+        Impossible de charger la leçon pour le moment. <button type="button" class="pv-btn pv-btn--ghost" (click)="premiumContent.reload()">Réessayer</button>
+      </div>
+    } @else {
+      <p class="loading" aria-live="polite">Chargement de la leçon…</p>
+    }
   } @else {
     <div class="pv-alert pv-alert--info notfound">
       Cette leçon n'existe pas ou a été déplacée. <a routerLink="/lecons">Voir toutes les leçons</a>

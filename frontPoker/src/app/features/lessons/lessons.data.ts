@@ -104,6 +104,16 @@ export interface Lesson {
   quiz: QuizQuestion[];
 }
 
+/**
+ * Fiche d'une leçon telle qu'affichée dans la liste. Les leçons Premium (niveau Expert) n'embarquent que ces
+ * métadonnées : leur contenu est servi par l'API (GET /api/lessons/expert/{slug}) aux seuls membres Premium.
+ */
+export interface LessonSummary extends Omit<Lesson, 'steps' | 'quiz'> {
+  stepCount: number;
+  quizCount: number;
+  premium: boolean;
+}
+
 // Contenu ------------------------------------------------------------------------
 // Les fichiers de niveau n'importent que des types depuis ce fichier : pas de dépendance circulaire à l'exécution
 import { DEBUTANT_LESSONS } from './data/debutant.lessons';
@@ -112,7 +122,7 @@ import { EXPERT_LESSONS } from './data/expert.lessons';
 
 const L1_BOARD: CardCode[] = ['Ts', '7h', '2s', '9d', 'Kc'];
 
-/** 5 leçons fondatrices ; les autres sont dans data/*.lessons.ts (15 par niveau au total) */
+/** 4 leçons fondatrices ; les autres sont dans data/*.lessons.ts (15 par niveau ; contenu Expert servi par l'API) */
 const CORE_LESSONS: Lesson[] = [
   // 1 ----------------------------------------------------------------------------
   {
@@ -702,185 +712,28 @@ const CORE_LESSONS: Lesson[] = [
       },
     ],
   },
-
-  // 5 ----------------------------------------------------------------------------
-  {
-    slug: 'progresser-en-tournoi',
-    title: 'Progresser en tournoi : méthode et équilibre',
-    summary: 'Une routine de travail, des notes utiles, la variance, des repères de bankroll prudents et le jeu responsable.',
-    level: 'avance',
-    levelLabel: 'Expert',
-    order: 1,
-    duration: 13,
-    cover: ['Jh', 'Td'],
-    steps: [
-      {
-        title: 'Revoir ses mains marquantes',
-        paragraphs: [
-          "Après une session, notez trois à cinq mains où vous avez hésité ou perdu un pot important. Rejouez-les à froid, tour par tour : quelles informations aviez-vous, quelles options s'offraient à vous ?",
-          "L'objectif n'est pas de vous juger, mais d'identifier une ou deux situations récurrentes à travailler. Voici une grille de relecture.",
-        ],
-        visual: {
-          kind: 'checklist',
-          title: 'Grille de relecture d’une main',
-          items: [
-            'Position, tapis effectifs (le plus petit des deux tapis) et niveau notés',
-            'Action reconstituée à chaque tour : préflop, flop, turn, river',
-            'Les mains que je prêtais à mon adversaire à chaque étape',
-            'Une option alternative envisagée et ce qu’elle aurait changé',
-            'Une conclusion en une phrase, à relire avant la prochaine session',
-          ],
-        },
-      },
-      {
-        title: 'Prendre des notes utiles',
-        paragraphs: [
-          "Une bonne note est courte, factuelle et observable. Elle décrit un comportement que vous avez vu, pas une impression.",
-          "Prenez aussi des notes sur vous-même : les situations où vous doutez sont votre meilleur programme de travail. Comparez une note vague et une note exploitable.",
-        ],
-        visual: {
-          kind: 'reveal',
-          items: [
-            { term: 'Note vague', text: "« Joueur bizarre, joue mal. » Impossible de s'en servir à la prochaine main." },
-            { term: 'Note utile', text: "« Relance très souvent au bouton ; se couche face à une relance derrière. » Vous savez quoi tenter contre lui." },
-            { term: 'Note sur soi', text: "« Hésitation sur la river avec une paire moyenne face à une grosse mise. » Un thème à étudier cette semaine." },
-          ],
-        },
-      },
-      {
-        title: 'Séparer décision et résultat',
-        paragraphs: [
-          "Au poker, une bonne décision peut perdre et une mauvaise peut gagner. Sur une seule main, le résultat ne dit presque rien de la qualité du jeu.",
-          "Ce qui compte, c'est de prendre des décisions qui gagnent en moyenne, sur des milliers de mains. Testez votre lecture.",
-        ],
-        visual: {
-          kind: 'decision',
-          situation: "Préflop, 30 BB chacun. Vous partez à tapis avec deux Rois, votre adversaire paie avec As-7. Un As tombe à la river et vous perdez.",
-          hero: ['Kh', 'Ks'],
-          options: [
-            { label: 'Ma décision était mauvaise', correct: false, feedback: "Non : avant le tableau, deux Rois gagnent environ 7 fois sur 10 contre As-7. Vous avez fait le bon choix et le hasard a tranché contre vous cette fois-ci." },
-            { label: 'Ma décision était bonne, le résultat non', correct: true, feedback: "Exactement : vous étiez largement favori (environ 70 %). Rejouée mille fois, cette situation vous rapporte des jetons." },
-            { label: "On ne peut pas savoir sans connaître la river", correct: false, feedback: "Au contraire : la décision se prend avant que la river tombe. On l'évalue avec les informations disponibles à ce moment-là." },
-          ],
-        },
-      },
-      {
-        title: 'La variance, compagne de route',
-        paragraphs: [
-          "La variance, ce sont les écarts entre vos résultats à court terme et ce que vaut réellement votre jeu. En tournoi, elle est particulièrement forte : peu de joueurs sont payés et l'essentiel des prix va aux toutes premières places.",
-          "Même un joueur solide peut enchaîner de longues séries sans résultat. Les courbes ci-dessous sont fictives et illustrent des parcours très différents pour un même niveau de jeu.",
-        ],
-        visual: { kind: 'variance' },
-      },
-      {
-        title: 'Bankroll : des repères prudents',
-        paragraphs: [
-          "Si vous jouez de l'argent, ne le faites qu'avec une somme dont vous pouvez vous passer, séparée de votre budget courant. Les tournois gratuits ou entre amis permettent aussi très bien de progresser.",
-          "Un repère prudent souvent cité en tournoi : ne pas engager plus de 1 % de cette réserve sur un seul tournoi, soit au moins 100 droits d'entrée. Ce sont des garde-fous, jamais des garanties : même ainsi, une réserve peut fondre.",
-        ],
-        visual: { kind: 'bankroll', reserve: 500 },
-      },
-      {
-        title: 'Gérer le temps et la fatigue',
-        paragraphs: [
-          "La qualité des décisions baisse avec la fatigue, la faim ou l'agacement. Les longues sessions sans pause sont l'un des pièges les plus courants.",
-          "Fixez une durée avant de commencer, faites une courte pause chaque heure et arrêtez-vous dès que vous jouez par frustration (le « tilt »).",
-        ],
-        visual: {
-          kind: 'checklist',
-          title: 'Avant, pendant, après',
-          items: [
-            'Avant : je fixe une heure de fin et un budget, et je m’y tiens',
-            'Pendant : je fais une pause de quelques minutes chaque heure',
-            'Pendant : je m’arrête si je joue énervé ou pour « me refaire »',
-            'Après : je note mes mains marquantes, puis je déconnecte',
-          ],
-        },
-      },
-      {
-        title: 'Jouer de façon responsable',
-        paragraphs: [
-          "Le poker doit rester un loisir. Certains signes doivent alerter : jouer pour récupérer ses pertes, dépasser son budget, cacher son activité, emprunter pour jouer, ou ne plus penser qu'au jeu.",
-          "Si vous vous reconnaissez dans l'un de ces signes, faites une pause et parlez-en. Joueurs Info Service répond au 09 74 75 13 13 (appel non surtaxé), 7 jours sur 7.",
-        ],
-        visual: {
-          kind: 'checklist',
-          title: 'Ces derniers temps, il m’arrive de…',
-          items: [
-            'Rejouer tout de suite pour récupérer une perte',
-            'Dépasser le budget ou la durée que je m’étais fixés',
-            'Cacher à mes proches le temps ou l’argent consacré au jeu',
-            'Emprunter ou utiliser l’argent du quotidien pour jouer',
-          ],
-          alert: {
-            threshold: 1,
-            message: "Un seul de ces signes mérite déjà qu'on y prête attention. Joueurs Info Service vous écoute, gratuitement et anonymement : 09 74 75 13 13 (appel non surtaxé).",
-          },
-        },
-      },
-    ],
-    quiz: [
-      {
-        question: 'Quand vous revoyez une main, que faut-il évaluer en priorité ?',
-        options: [
-          "Le résultat : avez-vous gagné le pot ?",
-          'La qualité de la décision avec les informations disponibles à ce moment-là',
-          'La chance de votre adversaire',
-        ],
-        answer: 1,
-        explanation: "Le résultat d'une main isolée dépend beaucoup du hasard. Seule la qualité de la décision, prise avec ce que vous saviez, permet de progresser.",
-      },
-      {
-        question: 'Avec une réserve de 300 € dédiée aux tournois, quel est le droit d’entrée maximal selon le repère prudent de 1 % ?',
-        options: ['3 €', '30 €', '1 €'],
-        answer: 0,
-        explanation: "1 % de 300 € donne 3 €, soit 100 droits d'entrée dans la réserve. C'est un garde-fou contre la variance, pas une garantie de gain.",
-      },
-      {
-        question: 'Vous enchaînez les sessions pour récupérer vos pertes et dépassez votre budget. Quel est le bon réflexe ?',
-        options: [
-          'Augmenter les mises pour se refaire plus vite',
-          'Faire une pause et en parler, par exemple à Joueurs Info Service (09 74 75 13 13)',
-          'Changer de type de tournoi',
-        ],
-        answer: 1,
-        explanation: "Chercher à se refaire est un signal d'alerte classique. S'arrêter et en parler est la bonne réponse ; Joueurs Info Service est joignable au 09 74 75 13 13 (appel non surtaxé).",
-      },
-      {
-        question: 'Vous êtes positif sur vos 50 derniers tournois. Que pouvez-vous en conclure ?',
-        options: [
-          'Que vous êtes un joueur gagnant à long terme',
-          'Pas grand-chose : 50 tournois sont un échantillon trop petit face à la variance',
-          'Qu’il faut monter de limite immédiatement',
-          'Que votre stratégie n’a plus besoin d’être revue',
-        ],
-        answer: 1,
-        explanation:
-          "En tournoi, quelques grosses places peuvent faire tout le résultat. Il faut des centaines, voire des milliers de tournois pour mesurer un niveau réel : jugez-vous d'abord sur la qualité de vos décisions.",
-      },
-      {
-        question: 'Quelle habitude de travail fait le plus progresser entre les sessions ?',
-        options: [
-          'Rejouer de mémoire uniquement les coups gagnés',
-          'Revoir régulièrement ses mains marquantes avec des notes, puis en discuter',
-          'Augmenter le nombre de tables jouées',
-          'Changer de stratégie après chaque session perdante',
-        ],
-        answer: 1,
-        explanation:
-          "La revue structurée des mains difficiles (gagnées ou perdues), notée et partagée, permet de repérer ses erreurs récurrentes. Le forum de Poker Winners est fait pour ça.",
-      },
-    ],
-  },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...DEBUTANT_LESSONS, ...INTERMEDIAIRE_LESSONS, ...EXPERT_LESSONS];
+/** Leçons gratuites (Débutant, Intermédiaire) dont le contenu complet est embarqué */
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...DEBUTANT_LESSONS, ...INTERMEDIAIRE_LESSONS];
 
+function toSummary({ steps, quiz, ...meta }: Lesson): LessonSummary {
+  return { ...meta, stepCount: steps.length, quizCount: quiz.length, premium: false };
+}
+
+/** Toutes les leçons du parcours (métadonnées), y compris les leçons Premium */
+export const LESSON_SUMMARIES: LessonSummary[] = [...LESSONS.map(toSummary), ...EXPERT_LESSONS];
+
+/** Contenu complet d'une leçon gratuite (undefined pour une leçon Premium ou inconnue). */
 export function findLesson(slug: string): Lesson | undefined {
   return LESSONS.find((l) => l.slug === slug);
 }
 
+export function findLessonSummary(slug: string): LessonSummary | undefined {
+  return LESSON_SUMMARIES.find((l) => l.slug === slug);
+}
+
 /** Leçons d'un niveau, triées par `order`. */
-export function lessonsByLevel(level: LessonLevel): Lesson[] {
-  return LESSONS.filter((l) => l.level === level).sort((a, b) => a.order - b.order);
+export function lessonsByLevel(level: LessonLevel): LessonSummary[] {
+  return LESSON_SUMMARIES.filter((l) => l.level === level).sort((a, b) => a.order - b.order);
 }

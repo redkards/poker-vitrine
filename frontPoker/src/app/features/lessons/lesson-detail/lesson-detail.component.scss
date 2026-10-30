@@ -161,3 +161,58 @@
     transition: none;
   }
 }
+
+// Leçon Premium verrouillée (même rendu que les vidéos Premium)
+.locked {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+  border-radius: inherit;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(circle at 80% 20%, rgb(179 18 27 / 0.45), transparent 45%),
+    radial-gradient(90% 120% at 30% 0%, #3d0a0e 0%, var(--pv-dark-2) 75%);
+}
+
+.locked h1,
+.locked h2 {
+  margin: 0;
+  color: #fff;
+}
+
+.locked h2 {
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+}
+
+.locked p {
+  max-width: 36rem;
+  margin: 0;
+  color: rgb(255 255 255 / 0.8);
+}
+
+.locked__icon {
+  font-size: 2.4rem;
+}
+
+.locked__login a {
+  color: #fff;
+  font-weight: 600;
+}
+
+.premium-badge {
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f5c451, #d99a1e);
+  color: #3a2500;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.loading {
+  margin-top: 2rem;
+  color: var(--pv-muted);
+}

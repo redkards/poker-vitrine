@@ -11,7 +11,13 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+## [0.7.0] — 2026-10-30 — Bêta : Premium, leçons Expert, boutique de démonstration
+
 ### Ajouté
+- Leçons Expert (15) réservées aux membres Premium : le contenu n'est plus embarqué dans le front, il est servi par
+  `GET /api/lessons/expert/{slug}` (401 anonyme, 403 `premium_required`, `Cache-Control: private, no-store`) depuis
+  `backPoker/resources/lessons/expert.json`. Front : badge Premium et cadenas dans la liste, panneau de déverrouillage.
+- Boutique de démonstration (activée sur la bêta seulement, aucune vente réelle) et zone « En ligne » du calendrier.
 - Abonnement Premium (préparation, paiement en ligne fermé) : vidéos marquées « Premium » (niveau avancé),
   verrouillées pour les visiteurs et membres non abonnés (`premium`, `locked` ; identifiant YouTube masqué),
   favoris toujours possibles. Rôle dynamique `ROLE_PREMIUM` tant que `premiumUntil` est dans le futur.

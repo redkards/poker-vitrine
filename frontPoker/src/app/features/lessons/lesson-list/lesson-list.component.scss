@@ -147,3 +147,20 @@
     transition: none;
   }
 }
+
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f5c451, #d99a1e);
+  color: #3a2500;
+  font: 700 0.72rem var(--pv-font-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lesson-card--locked .lesson-card__cover {
+  filter: saturate(0.6);
+}
