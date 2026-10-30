@@ -17,7 +17,8 @@ echo "♠ Compilation de production (${MODE}, commit ${REV})"
 cd "${ROOT}/frontPoker"
 rm -rf dist
 # OneDrive verrouille parfois un fichier copié (EBUSY) : une seconde tentative suffit
-npx ng build || { sleep 3; rm -rf dist; npx ng build; }
+CONF="$([ "${MODE}" = "beta" ] && echo beta || echo production)"
+npx ng build --configuration="${CONF}" || { sleep 3; rm -rf dist; npx ng build --configuration="${CONF}"; }
 OUT="dist/front-poker/browser"
 [ -f "${OUT}/index.html" ] && [ -f "${OUT}/.htaccess" ] || { echo "Build incomplet (index.html ou .htaccess manquant)"; exit 1; }
 

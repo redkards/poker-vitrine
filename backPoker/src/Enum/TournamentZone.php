@@ -3,13 +3,14 @@
 namespace App\Enum;
 
 /**
- * Zones du calendrier des tournois live.
+ * Zones du calendrier des tournois (live et grandes séries en ligne).
  */
 enum TournamentZone: string
 {
     case France = 'france';
     case Belgique = 'belgique';
     case International = 'international';
+    case EnLigne = 'en-ligne';
 
     public function label(): string
     {
@@ -17,6 +18,7 @@ enum TournamentZone: string
             self::France => 'France',
             self::Belgique => 'Belgique',
             self::International => 'International',
+            self::EnLigne => 'En ligne',
         };
     }
 

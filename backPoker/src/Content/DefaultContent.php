@@ -2,6 +2,7 @@
 
 namespace App\Content;
 
+use App\Enum\ProductCategory;
 use App\Enum\VideoLevel;
 
 /**
@@ -55,5 +56,25 @@ final class DefaultContent
         ['L’overbet : quand, comment et pourquoi', 'https://www.youtube.com/watch?v=x86MabWGo8M', 'Stratégie', VideoLevel::Avance, "Ranges polarisées, avantage de nuts et choix des tailles de mise surdimensionnées (en anglais, 50 min). Vidéo de Poker Fluency, licence Creative Commons Attribution (CC BY)."],
         ['Penser en ranges : bâtir une stratégie globale', 'https://www.youtube.com/watch?v=8pG5WnJzBIw', 'Stratégie', VideoLevel::Avance, "Raisonner sur toute sa range plutôt que sur sa main, blockers et combinatoire à l'appui (en anglais, 58 min). Vidéo de Poker Fluency, licence Creative Commons Attribution (CC BY)."],
         ['GTO ou exploitation : choisir selon l’adversaire', 'https://www.youtube.com/watch?v=5phIrvkb08Q', 'Stratégie', VideoLevel::Avance, "Quand s'écarter de l'équilibre pour exploiter un adversaire, et quand y revenir (en anglais, 59 min). Vidéo de Poker Fluency, licence Creative Commons Attribution (CC BY)."],
+    ];
+
+    /**
+     * Produits fictifs de la boutique de démonstration (bêta) : nom, catégorie, prix TTC en centimes, stock, description.
+     *
+     * @var list<array{string, ProductCategory, int, int, string}>
+     */
+    public const SHOP_DEMO_PRODUCTS = [
+        ['Les fondamentaux du Texas Hold\'em', ProductCategory::Livre, 2490, 25,
+            'Guide de 240 pages pour débuter : valeur des mains, positions, cotes du pot et premières lignes de jeu, avec exercices corrigés.'],
+        ['Tournois MTT : de la bulle à la table finale', ProductCategory::Livre, 2990, 15,
+            'Gestion du tapis selon les blindes, jeu à la bulle, ICM expliqué simplement et plans de jeu en table finale.'],
+        ['Mental et bankroll : jouer dans la durée', ProductCategory::Livre, 1990, 0,
+            'Variance, tilt, routines de session et règles de gestion de bankroll pour progresser sereinement.'],
+        ['Mallette de 500 jetons céramique 10 g', ProductCategory::Accessoire, 8900, 8,
+            'Mallette aluminium verrouillable, 500 jetons en céramique de 10 g en 6 couleurs, 2 jeux de cartes et un bouton dealer.'],
+        ['Tapis de jeu néoprène 8 joueurs', ProductCategory::Accessoire, 4990, 12,
+            'Tapis 180 × 90 cm en néoprène antidérapant, surface feutrée et emplacements de cartes imprimés. Se roule pour le rangement.'],
+        ['Lot de 2 jeux de cartes 100 % plastique', ProductCategory::Accessoire, 1490, 40,
+            'Cartes lavables et indéformables, index jumbo lisibles de loin, une couleur de dos rouge et une noire.'],
     ];
 }

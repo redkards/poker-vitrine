@@ -7,6 +7,8 @@ use App\Entity\ForumPost;
 use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
 use App\Entity\PremiumSubscription;
+use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Entity\RefreshToken;
 use App\Entity\User;
 use App\Entity\VideoFavorite;
@@ -73,6 +75,7 @@ class GdprService
         $subscriptions = $this->em->getRepository(ForumSubscription::class)->findBy(['user' => $user]);
         $favorites = $this->em->getRepository(VideoFavorite::class)->findBy(['user' => $user], ['createdAt' => 'ASC']);
         $premiumSubscriptions = $this->em->getRepository(PremiumSubscription::class)->findBy(['user' => $user], ['createdAt' => 'ASC']);
+        $orders = $this->em->getRepository(Order::class)->findBy(['user' => $user], ['createdAt' => 'ASC']);
 
         return [
             'exportedAt' => $date(new \DateTimeImmutable()),
@@ -123,6 +126,23 @@ class GdprService
                 'youtubeUrl' => $f->getVideo()?->getYoutubeUrl(),
                 'addedAt' => $date($f->getCreatedAt()),
             ], $favorites),
+            // Boutique (v2.0)
+            'orders' => array_map(static fn (Order $o) => [
+                'reference' => $o->getReference(),
+                'status' => $o->getStatus()->label(),
+                'createdAt' => $date($o->getCreatedAt()),
+                'paidAt' => $date($o->getPaidAt()),
+                'shippedAt' => $date($o->getShippedAt()),
+                'shippingAddress' => $o->getShippingAddress(),
+                'shippingPhone' => $o->getShippingPhone(),
+                'totalInclTaxCents' => $o->getTotalInclTaxCents(),
+                'items' => array_map(static fn (OrderItem $i) => [
+                    'product' => $i->getProductName(),
+                    'quantity' => $i->getQuantity(),
+                    'unitPriceInclTaxCents' => $i->getUnitPriceInclTaxCents(),
+                    'vatRate' => $i->getVatRate()->value,
+                ], $o->getItems()->toArray()),
+            ], $orders),
         ];
     }
 
@@ -194,6 +214,15 @@ class GdprService
         // seule la référence du prestataire de paiement permet, si besoin, de retrouver la facture.
         // L'accès Premium restant est en revanche supprimé.
         $user->setPremiumUntil(null);
+        // Boutique : les commandes sont des pièces comptables, conservées 10 ans (Code de commerce,
+        // art. L123-22 ; 6 ans au titre du CGI, art. L102 B). Elles ne sont donc pas supprimées :
+        // le lien vers le compte est rompu et le téléphone (inutile à la facture) effacé. Seuls le nom
+        // et l'adresse de livraison/facturation restent, car une facture doit les mentionner (CGI art. 242 nonies A).
+        $this->em->createQueryBuilder()->update(Order::class, 'o')
+            ->set('o.user', ':none')->set('o.shippingPhone', ':none')
+            ->where('o.user = :user')
+            ->setParameter('none', null)->setParameter('user', $user)
+            ->getQuery()->execute();
 
         // La preuve de consentement est conservée, sans l'adresse IP
         foreach ($user->getConsentLogs() as $log) {

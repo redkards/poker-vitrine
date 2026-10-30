@@ -147,6 +147,10 @@
   &[data-zone='international'] {
     background: var(--pv-red);
   }
+
+  &[data-zone='en-ligne'] {
+    background: #2e7d4f;
+  }
 }
 
 .flag {

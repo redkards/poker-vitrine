@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Winamax Pokus 2026",
+    "circuit": "Winamax (série en ligne)",
+    "zone": "en-ligne",
+    "country": "En ligne",
+    "city": "Winamax",
+    "venue": null,
+    "startDate": "2026-10-25",
+    "endDate": "2026-11-12",
+    "mainEventBuyIn": "50 €",
+    "guarantee": "20 000 000 €",
+    "url": "https://www.winamax.fr/winamax-pokus",
+    "status": "confirme",
+    "note": "Série en ligne d'un opérateur agréé ANJ, réservée aux majeurs. Programme principal du 1er au 12 novembre 2026 (site officiel) ; Day 1 des 5 flights, dont le 2 Million Wizard à 50 €, dès le 25 octobre. Garantie totale de 20 M€ selon Rue des Joueurs.",
+    "sources": [
+      { "name": "Winamax (officiel)", "url": "https://www.winamax.fr/winamax-pokus" },
+      { "name": "Rue des Joueurs", "url": "https://www.ruedesjoueurs.com/poker/poker-news/news-winamax/74812-winamax-pokus-2026-partie-1-2-000-000eur-garantis-en-jouant-aux-5-flights.html" }
+    ]
+  }
+]

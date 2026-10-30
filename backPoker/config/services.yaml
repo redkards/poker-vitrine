@@ -25,3 +25,7 @@ services:
     # Paiement Premium : factice en dev/test (refusé en prod).
     # Quand Stripe sera branché : '@App\Service\Premium\StripePremiumPaymentProvider'
     App\Service\Premium\PremiumPaymentProvider: '@App\Service\Premium\FakePremiumPaymentProvider'
+    # Boutique (v2.0) : prestataire de paiement actif. Factice tant que la boutique est en attente
+    # (aucun appel réseau, la commande reste « en attente »). Pour ouvrir la boutique, pointer vers
+    # App\Service\Payment\StripeCheckoutPaymentProvider (voir docs/boutique/README.md).
+    App\Service\Payment\PaymentProviderInterface: '@App\Service\Payment\FakePaymentProvider'

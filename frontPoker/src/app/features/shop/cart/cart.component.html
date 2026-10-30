@@ -1,0 +1,130 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Boutique</span>
+  <h1>Mon panier</h1>
+</section>
+
+<section class="pv-container">
+  <p class="shop-demo" role="note"><strong>Boutique de démonstration</strong> — aucune vente réelle, aucun paiement : les commandes restent « en attente ».</p>
+</section>
+
+<section class="pv-container">
+  @if (cart.lines().length === 0) {
+    <div class="panel empty">
+      <p class="muted">Votre panier est vide.</p>
+      <a routerLink="/boutique" class="pv-btn pv-btn--primary">Découvrir la boutique <span class="pv-arrow" aria-hidden="true">→</span></a>
+    </div>
+  } @else {
+    <div class="layout">
+      <div class="panel">
+        <h2>Articles</h2>
+        <ul class="lines">
+          @for (line of cart.lines(); track line.slug) {
+            <li class="line">
+              <span class="visual line__visual" [attr.data-category]="line.category">
+                @if (line.imageUrl) {
+                  <img [src]="line.imageUrl" alt="" />
+                } @else {
+                  <span class="visual__glyph" aria-hidden="true">{{ line.category === 'livre' ? 'A♠' : '♦' }}</span>
+                }
+              </span>
+              <div class="line__info">
+                <a [routerLink]="['/boutique', line.slug]" class="line__name">{{ line.name }}</a>
+                <span class="muted">{{ line.priceCents | price }} l'unité</span>
+                <button type="button" class="link-btn" (click)="cart.remove(line.slug)">Retirer</button>
+              </div>
+              <div class="qty" role="group" [attr.aria-label]="'Quantité pour ' + line.name">
+                <button type="button" (click)="cart.setQuantity(line.slug, line.quantity - 1)" aria-label="Retirer un exemplaire">−</button>
+                <output>{{ line.quantity }}</output>
+                <button type="button" (click)="cart.setQuantity(line.slug, line.quantity + 1)" [disabled]="line.quantity >= line.available" aria-label="Ajouter un exemplaire">+</button>
+              </div>
+              <span class="price line__total">{{ line.priceCents * line.quantity | price }}</span>
+            </li>
+          }
+        </ul>
+        <p class="total">
+          <span>Total TTC</span>
+          <span class="price">{{ cart.totalCents() | price }}</span>
+        </p>
+        <p class="muted small">Livraison : [À COMPLÉTER : frais et délais de livraison]. Le montant définitif est confirmé à la validation.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Livraison et validation</h2>
+        @if (!auth.isLoggedIn()) {
+          <p class="muted">Connectez-vous pour passer commande : votre panier est conservé.</p>
+          <a routerLink="/connexion" [queryParams]="{ returnUrl: '/boutique/panier' }" class="pv-btn pv-btn--primary">Se connecter</a>
+          <p class="muted small">Pas encore membre ? <a routerLink="/inscription">Créer un compte</a></p>
+        } @else {
+          <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="pv-field">
+              <label for="fullName">Nom et prénom</label>
+              <input id="fullName" class="pv-input" formControlName="fullName" autocomplete="name" />
+              @if (errors()['fullName'] ?? (invalid('fullName') ? 'Le nom est obligatoire.' : null); as e) {
+                <p class="pv-error">{{ e }}</p>
+              }
+            </div>
+            <div class="pv-field">
+              <label for="addressLine1">Adresse</label>
+              <input id="addressLine1" class="pv-input" formControlName="addressLine1" autocomplete="address-line1" />
+              @if (errors()['addressLine1'] ?? (invalid('addressLine1') ? "L'adresse est obligatoire." : null); as e) {
+                <p class="pv-error">{{ e }}</p>
+              }
+            </div>
+            <div class="pv-field">
+              <label for="addressLine2">Complément d'adresse <span class="muted">(facultatif)</span></label>
+              <input id="addressLine2" class="pv-input" formControlName="addressLine2" autocomplete="address-line2" />
+            </div>
+            <div class="row">
+              <div class="pv-field">
+                <label for="postalCode">Code postal</label>
+                <input id="postalCode" class="pv-input" formControlName="postalCode" autocomplete="postal-code" inputmode="numeric" />
+                @if (errors()['postalCode'] ?? (invalid('postalCode') ? 'Code postal invalide.' : null); as e) {
+                  <p class="pv-error">{{ e }}</p>
+                }
+              </div>
+              <div class="pv-field">
+                <label for="city">Ville</label>
+                <input id="city" class="pv-input" formControlName="city" autocomplete="address-level2" />
+                @if (errors()['city'] ?? (invalid('city') ? 'La ville est obligatoire.' : null); as e) {
+                  <p class="pv-error">{{ e }}</p>
+                }
+              </div>
+            </div>
+            <div class="row">
+              <div class="pv-field">
+                <label for="country">Pays</label>
+                <select id="country" class="pv-input" formControlName="country" autocomplete="country">
+                  @for (c of countries; track c.code) {
+                    <option [value]="c.code">{{ c.label }}</option>
+                  }
+                </select>
+              </div>
+              <div class="pv-field">
+                <label for="phone">Téléphone <span class="muted">(facultatif)</span></label>
+                <input id="phone" class="pv-input" type="tel" formControlName="phone" autocomplete="tel" />
+                @if (errors()['phone'] ?? (invalid('phone') ? 'Numéro invalide.' : null); as e) {
+                  <p class="pv-error">{{ e }}</p>
+                } @else {
+                  <p class="pv-hint">Transmis au transporteur uniquement.</p>
+                }
+              </div>
+            </div>
+            <label class="check">
+              <input type="checkbox" formControlName="acceptCgv" />
+              <span>J'ai lu et j'accepte les <a routerLink="/cgv" target="_blank">conditions générales de vente</a>, dont le droit de rétractation de 14 jours.</span>
+            </label>
+            @if (errors()['acceptCgv'] ?? (invalid('acceptCgv') ? 'Vous devez accepter les conditions générales de vente.' : null); as e) {
+              <p class="pv-error">{{ e }}</p>
+            }
+            @if (error(); as message) {
+              <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+            }
+            <button type="submit" class="pv-btn pv-btn--primary submit" [disabled]="submitting()">
+              {{ submitting() ? 'Validation…' : 'Commander avec obligation de paiement' }}
+            </button>
+          </form>
+        }
+      </div>
+    </div>
+  }
+</section>

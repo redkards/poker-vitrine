@@ -21,7 +21,7 @@ class TournamentController extends AbstractController
     {
         $zoneEnum = $zone ? TournamentZone::tryFrom($zone) : null;
         if ($zone && !$zoneEnum) {
-            return $this->json(['message' => 'Zone inconnue (france, belgique ou international).'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['message' => 'Zone inconnue (france, belgique, international ou en-ligne).'], Response::HTTP_BAD_REQUEST);
         }
 
         $all = $tournaments->findUpcoming();

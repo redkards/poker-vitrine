@@ -8,8 +8,11 @@ use App\Entity\ForumCategory;
 use App\Entity\ForumPost;
 use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
+use App\Entity\Product;
 use App\Entity\User;
 use App\Entity\PremiumSubscription;
+use App\Enum\ProductCategory;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Entity\Video;
 use App\Enum\PremiumPlan;
 use App\Enum\PremiumSubscriptionStatus;
@@ -34,6 +37,7 @@ class AppFixtures extends Fixture
         private readonly GdprService $gdpr,
         private readonly ArticleImporter $importer,
         private readonly TournamentImporter $tournamentImporter,
+        private readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
     ) {
@@ -90,6 +94,8 @@ class AppFixtures extends Fixture
                 ->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 1 + $i * 3))));
         }
 
+        $this->loadShop($manager);
+
         $manager->flush();
 
         // Vraies actualités sourcées (docs/actualites/*.json), absentes d'un déploiement sans le dossier docs
@@ -99,6 +105,23 @@ class AppFixtures extends Fixture
         // Calendrier des tournois vérifié (docs/calendrier/*.json)
         foreach (glob($this->projectDir.'/../docs/calendrier/*.json') ?: [] as $file) {
             $this->tournamentImporter->importFile($file);
+        }
+    }
+
+    /**
+     * Boutique v2.0 : produits de démonstration génériques (aucune marque ni titre réel).
+     */
+    private function loadShop(ObjectManager $manager): void
+    {
+        foreach (DefaultContent::SHOP_DEMO_PRODUCTS as [$name, $category, $price, $stock, $description]) {
+            $manager->persist((new Product())
+                ->setName($name)
+                ->setSlug($this->slugger->slug($name)->lower()->toString())
+                ->setCategory($category)
+                ->setPriceCents($price)
+                ->setStock($stock)
+                ->setDescription($description)
+                ->setIsPublished(true));
         }
     }
 

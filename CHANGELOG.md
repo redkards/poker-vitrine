@@ -48,6 +48,22 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
   les complètent avec leur contenu. `meta robots noindex` conservé pour la bêta.
 - Front : tests Jasmine des services recherche, membres, signalement et SEO (`npm run test:ci`, Chrome headless).
 
+## v2.0 (en préparation, branche feature/boutique-v2)
+
+Non publiée : la boutique est **désactivée par défaut** (`SHOP_ENABLED=0` côté API, `shopEnabled: false` côté
+front). Activation et obligations légales : [docs/boutique/README.md](docs/boutique/README.md).
+
+### Ajouté
+- Boutique : catalogue de livres (TVA 5,5 %) et d'accessoires (TVA 20 %) avec filtre par catégorie, fiche
+  produit, panier conservé dans le navigateur, récapitulatif avec adresse de livraison et acceptation des CGV.
+- Commandes réservées aux membres vérifiés : prix, TVA et stock recalculés par le serveur, réservation atomique
+  du stock, limite de 5 commandes / 10 minutes, page « Mes commandes » dans l'espace membre.
+- Paiement : interface prestataire, prestataire factice (commande « en attente »), Stripe Checkout préparé mais
+  non branché (aucune clé, aucun appel réseau).
+- Back-office : produits et commandes (expédition, annulation avec remise en stock).
+- Page CGV (modèle à compléter : rétractation 14 jours, TVA, livraison, médiateur).
+- RGPD : commandes dans l'export ; conservées sans lien vers le compte après suppression (obligation comptable).
+
 ## [0.5.0] — 2026-10-29
 
 ### Ajouté

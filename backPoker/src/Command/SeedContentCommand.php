@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Content\DefaultContent;
 use App\Entity\ForumCategory;
+use App\Entity\Product;
 use App\Entity\Video;
 use App\Enum\VideoLevel;
 use App\Service\ArticleImporter;
@@ -12,9 +13,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * Charge le contenu de base, sans aucun compte (utilisable en production, rejouable) :
@@ -28,15 +31,34 @@ class SeedContentCommand extends Command
         private readonly EntityManagerInterface $em,
         private readonly ArticleImporter $articles,
         private readonly TournamentImporter $tournaments,
+        private readonly SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
     ) {
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this->addOption('shop-demo', null, InputOption::VALUE_NONE, 'Ajoute aussi les produits fictifs de la boutique de démonstration (bêta)');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
+        if ($input->getOption('shop-demo')) {
+            $products = 0;
+            foreach (DefaultContent::SHOP_DEMO_PRODUCTS as [$name, $category, $price, $stock, $description]) {
+                $slug = $this->slugger->slug($name)->lower()->toString();
+                if (null === $this->em->getRepository(Product::class)->findOneBy(['slug' => $slug])) {
+                    $this->em->persist((new Product())->setName($name)->setSlug($slug)->setCategory($category)
+                        ->setPriceCents($price)->setStock($stock)->setDescription($description)->setIsPublished(true));
+                    ++$products;
+                }
+            }
+            $io->writeln(sprintf('Boutique de démonstration : %d produit(s) ajouté(s).', $products));
+        }
 
         $categories = 0;
         foreach (DefaultContent::FORUM_CATEGORIES as $position => [$slug, $name, $description]) {

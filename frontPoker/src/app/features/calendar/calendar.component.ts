@@ -6,7 +6,7 @@ import { apiErrorMessage } from '../../core/api/api.service';
 import { Tournament, TournamentList, TournamentZone } from '../../core/api/content.models';
 import { ContentService } from '../../core/api/content.service';
 
-const ZONES: TournamentZone[] = ['france', 'belgique', 'international'];
+const ZONES: TournamentZone[] = ['france', 'belgique', 'international', 'en-ligne'];
 const MONTH = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const DAY_MONTH = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', timeZone: 'UTC' });
 const DAY_MONTH_YEAR = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
@@ -16,7 +16,7 @@ const SHORT_MONTH = new Intl.DateTimeFormat('fr-FR', { month: 'short', timeZone:
 const parse = (d: string) => new Date(`${d}T00:00:00Z`);
 
 /**
- * Calendrier des tournois live : France, Belgique, international (?zone=).
+ * Calendrier des tournois live : France, Belgique, international, en ligne (?zone=).
  */
 @Component({
   selector: 'app-calendar',

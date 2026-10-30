@@ -28,16 +28,22 @@ class TournamentApiTest extends ApiTestCase
         $this->tournament('Plus tard', TournamentZone::France, '+30 days', '+35 days');
         $this->tournament('Bientôt', TournamentZone::International, '+5 days', '+9 days');
         $this->tournament('Masqué', TournamentZone::France, '+5 days', '+6 days', false);
+        $this->tournament('Série en ligne', TournamentZone::EnLigne, '+40 days', '+50 days');
         $this->em->flush();
 
         $all = $this->jsonRequest('GET', '/api/tournaments');
         self::assertResponseIsSuccessful();
-        self::assertSame(['En cours', 'Bientôt', 'Plus tard'], array_column($all['items'], 'name'));
-        self::assertSame(['france' => 1, 'belgique' => 1, 'international' => 1], array_column($all['zones'], 'count', 'value'));
+        self::assertSame(['En cours', 'Bientôt', 'Plus tard', 'Série en ligne'], array_column($all['items'], 'name'));
+        self::assertSame(['france' => 1, 'belgique' => 1, 'international' => 1, 'en-ligne' => 1], array_column($all['zones'], 'count', 'value'));
 
         $france = $this->jsonRequest('GET', '/api/tournaments?zone=france');
         self::assertSame(['Plus tard'], array_column($france['items'], 'name'));
         self::assertSame('France', $france['items'][0]['zoneLabel']);
+
+        $online = $this->jsonRequest('GET', '/api/tournaments?zone=en-ligne');
+        self::assertResponseIsSuccessful((string) $this->client->getResponse()->getContent());
+        self::assertSame(['Série en ligne'], array_column($online['items'], 'name'));
+        self::assertSame('En ligne', $online['items'][0]['zoneLabel']);
 
         $this->jsonRequest('GET', '/api/tournaments?zone=mars');
         self::assertResponseStatusCodeSame(400);

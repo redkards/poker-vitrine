@@ -98,6 +98,15 @@
         }
       </section>
 
+      <!-- Boutique v2.0 -->
+      @if (shopEnabled) {
+        <section class="panel panel--wide" aria-labelledby="orders-title">
+          <h2 id="orders-title">Mes commandes</h2>
+          <p class="muted">Suivez vos commandes de la boutique et retrouvez leur détail.</p>
+          <a routerLink="/mon-espace/commandes" class="pv-btn pv-btn--outline">Voir mes commandes</a>
+        </section>
+      }
+
       <!-- RGPD -->
       <section class="panel panel--wide" aria-labelledby="data-title">
         <h2 id="data-title">Mes données personnelles</h2>

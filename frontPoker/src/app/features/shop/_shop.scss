@@ -1,0 +1,97 @@
+// Styles partagés de la boutique (v2.0)
+
+.muted {
+  color: var(--pv-muted);
+}
+
+.empty {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+// Visuel produit : photo ou pavé de couleur selon la catégorie
+.visual {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--pv-radius-sm);
+  background:
+    radial-gradient(circle at 80% 20%, rgb(179 18 27 / 0.4), transparent 50%),
+    radial-gradient(90% 120% at 30% 0%, #3d0a0e 0%, var(--pv-dark-2) 75%);
+  color: #fff;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &[data-category='livre'] {
+    background:
+      radial-gradient(circle at 20% 80%, rgb(255 255 255 / 0.12), transparent 50%),
+      linear-gradient(135deg, var(--pv-red) 0%, var(--pv-red-hover) 100%);
+  }
+}
+
+.visual__glyph {
+  font-family: var(--pv-font-title);
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  line-height: 1;
+}
+
+.price {
+  font-family: var(--pv-font-title);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--pv-ink);
+}
+
+.stock {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pv-success);
+
+  &--out {
+    color: var(--pv-red);
+  }
+}
+
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--pv-line);
+  border-radius: 999px;
+  background: var(--pv-card);
+
+  button {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: none;
+    color: var(--pv-ink);
+    font-size: 1.1rem;
+    cursor: pointer;
+
+    &:disabled {
+      color: var(--pv-line);
+      cursor: default;
+    }
+  }
+
+  output {
+    min-width: 2ch;
+    font-weight: 700;
+    text-align: center;
+  }
+}
+
+// Bandeau « boutique de démonstration » (bêta : aucune vente réelle)
+.shop-demo {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--pv-red);
+  border-radius: 6px;
+  background: #fdf1f1;
+  font-size: 0.9rem;
+}

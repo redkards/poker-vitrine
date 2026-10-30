@@ -35,6 +35,9 @@ Objectif : ouvrir le site au public sur **redkards-dev.fr**, après confirmation
 - Double authentification (TOTP).
 - Boutique : livres de formation et accessoires (Stripe, factures, CGV, TVA 5,5 % / 20 %) —
   version majeure car elle ajoute des obligations légales et de nouvelles données personnelles.
+  **Statut : développée sur la branche `feature/boutique-v2`, en attente** (drapeaux désactivés, Stripe non
+  branché). Reste à faire avant ouverture : branchement Stripe + webhook, factures, frais de port, CGV
+  complétées et relues, médiateur de la consommation (voir [docs/boutique/README.md](boutique/README.md)).
 
 ## Règles pour faire évoluer le produit sans casser l'existant
 - **Base de données** : toute évolution passe par une nouvelle migration Doctrine ; on ne modifie

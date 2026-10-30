@@ -1,0 +1,65 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Boutique</span>
+  <h1>Livres et accessoires</h1>
+  <p>Des livres pour progresser et le matériel pour vos parties entre amis, sélectionnés par l'équipe Poker Winners.</p>
+</section>
+
+<section class="pv-container">
+  <p class="shop-demo" role="note"><strong>Boutique de démonstration</strong> — aucune vente réelle, aucun paiement : les commandes restent « en attente ».</p>
+</section>
+
+<section class="pv-container">
+  <div class="toolbar">
+    <div class="chips" role="group" aria-label="Filtrer par catégorie">
+      <button type="button" class="chip" [class.is-active]="category() === null" [attr.aria-pressed]="category() === null" (click)="setCategory(null)">
+        Tout voir
+      </button>
+      @for (c of categories(); track c.value) {
+        <button type="button" class="chip" [class.is-active]="category() === c.value" [attr.aria-pressed]="category() === c.value" (click)="setCategory(c.value)">
+          {{ c.label }} <span class="chip__count">{{ c.count }}</span>
+        </button>
+      }
+    </div>
+
+    <a routerLink="/boutique/panier" class="pv-btn pv-btn--outline">
+      Panier ({{ cart.count() }}) <span class="pv-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (loading()) {
+    <p class="muted" role="status">Chargement de la boutique…</p>
+  } @else if (products().length === 0) {
+    <p class="muted empty">Aucun produit dans cette catégorie pour le moment.</p>
+  } @else {
+    <div class="grid">
+      @for (product of products(); track product.id) {
+        <article class="card">
+          <a class="card__link" [routerLink]="['/boutique', product.slug]">
+            <span class="visual" [attr.data-category]="product.category">
+              @if (product.imageUrl) {
+                <img [src]="product.imageUrl" [alt]="product.name" loading="lazy" />
+              } @else {
+                <span class="visual__glyph" aria-hidden="true">{{ product.category === 'livre' ? 'A♠' : '♦' }}</span>
+              }
+            </span>
+            <span class="card__cat">{{ product.categoryLabel }}</span>
+            <h2 class="card__title">{{ product.name }}</h2>
+            <span class="card__excerpt">{{ product.excerpt }}</span>
+          </a>
+          <div class="card__foot">
+            <span class="price">{{ product.priceCents | price }}</span>
+            @if (product.available > 0) {
+              <button type="button" class="pv-btn pv-btn--primary" (click)="addToCart(product)">
+                {{ added() === product.slug ? 'Ajouté ✓' : 'Ajouter' }}
+              </button>
+            } @else {
+              <span class="stock stock--out">Rupture de stock</span>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

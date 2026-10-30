@@ -64,7 +64,7 @@ export interface SiteStats {
 }
 
 // Calendrier des tournois live ------------------------------------------------
-export type TournamentZone = 'france' | 'belgique' | 'international';
+export type TournamentZone = 'france' | 'belgique' | 'international' | 'en-ligne';
 
 export interface Tournament {
   id: number;

@@ -1,0 +1,56 @@
+<section class="pv-container page-head">
+  <a routerLink="/mon-espace" class="back">← Mon espace</a>
+  <span class="pv-eyebrow">Boutique</span>
+  <h1>Mes commandes</h1>
+</section>
+
+<section class="pv-container">
+  @if (commande(); as reference) {
+    <div class="pv-alert pv-alert--success" role="status">
+      Merci ! Votre commande {{ reference }} est enregistrée. Elle reste « en attente de paiement » tant que le
+      paiement n'est pas confirmé.
+    </div>
+  }
+
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (loading()) {
+    <p class="muted" role="status">Chargement…</p>
+  } @else if (orders().length === 0) {
+    <p class="muted empty">Vous n'avez pas encore passé de commande. <a routerLink="/boutique">Voir la boutique</a></p>
+  } @else {
+    <div class="orders">
+      @for (order of orders(); track order.reference) {
+        <article class="order" [class.order--new]="order.reference === commande()">
+          <header class="order__head">
+            <div>
+              <h2>{{ order.reference }}</h2>
+              <span class="muted">Passée le {{ order.createdAt | date: "d MMMM y 'à' HH:mm" }}</span>
+            </div>
+            <span class="status" [attr.data-status]="order.status">{{ order.statusLabel }}</span>
+          </header>
+          <ul class="order__items">
+            @for (item of order.items; track $index) {
+              <li>
+                <span>{{ item.quantity }} × {{ item.productName }}</span>
+                <span>{{ item.lineInclTaxCents | price }}</span>
+              </li>
+            }
+          </ul>
+          <dl class="order__totals">
+            <div><dt>Total HT</dt><dd>{{ order.totalExclTaxCents | price }}</dd></div>
+            <div><dt>TVA</dt><dd>{{ order.totalVatCents | price }}</dd></div>
+            <div class="order__ttc"><dt>Total TTC</dt><dd>{{ order.totalInclTaxCents | price }}</dd></div>
+          </dl>
+          <p class="muted order__address">
+            Livraison : {{ order.shippingAddress.fullName }}, {{ order.shippingAddress.addressLine1 }}
+            @if (order.shippingAddress.addressLine2) {
+              , {{ order.shippingAddress.addressLine2 }}
+            }
+            , {{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }} ({{ order.shippingAddress.country }})
+          </p>
+        </article>
+      }
+    </div>
+  }
+</section>

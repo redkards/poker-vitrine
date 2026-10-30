@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { shopEnabled } from '../shop/shop.guard';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -43,6 +44,9 @@ export class ProfileComponent implements OnInit {
   protected readonly deletionFeedback = signal<Feedback>(null);
   protected readonly busy = signal<'pseudo' | 'password' | 'export' | 'deletion' | null>(null);
   protected readonly showDeletion = signal(false);
+
+  /** Boutique v2.0 : lien « Mes commandes » affiché seulement si la boutique est ouverte */
+  protected readonly shopEnabled = shopEnabled();
 
   protected readonly favorites = signal<Video[]>([]);
   protected readonly favoritesLoaded = signal(false);

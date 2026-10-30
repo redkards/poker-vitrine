@@ -45,6 +45,9 @@
       <a routerLink="/premium" routerLinkActive="is-active" class="header__premium" title="Abonnement Premium">
         <span aria-hidden="true">★</span> Premium
       </a>
+      @if (shopEnabled && cart.count() > 0) {
+        <a routerLink="/boutique/panier" class="pv-btn pv-btn--ghost">Panier ({{ cart.count() }})</a>
+      }
       @if (auth.user(); as user) {
         <a routerLink="/mon-espace" class="pv-btn pv-btn--ghost header__user" title="Mon espace">
           <span class="header__avatar" aria-hidden="true">{{ user.pseudo.charAt(0).toUpperCase() }}</span>
