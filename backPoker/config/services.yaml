@@ -21,3 +21,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Paiement Premium : factice en dev/test (refusé en prod).
+    # Quand Stripe sera branché : '@App\Service\Premium\StripePremiumPaymentProvider'
+    App\Service\Premium\PremiumPaymentProvider: '@App\Service\Premium\FakePremiumPaymentProvider'

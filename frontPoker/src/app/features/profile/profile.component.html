@@ -21,6 +21,19 @@
         <dl class="facts">
           <div><dt>Email</dt><dd>{{ user.email }}</dd></div>
           <div><dt>CGU acceptées</dt><dd>Version {{ user.consentVersion }}</dd></div>
+          <div>
+            <dt>Premium</dt>
+            <dd>
+              @if (user.premium) {
+                <span class="premium-on">★ Actif</span>
+                @if (user.premiumUntil) {
+                  jusqu'au {{ user.premiumUntil | date: 'd MMMM y' }}
+                }
+              } @else {
+                Non abonné · <a routerLink="/premium">Découvrir Premium</a>
+              }
+            </dd>
+          </div>
         </dl>
         <form [formGroup]="pseudoForm" (ngSubmit)="savePseudo()" novalidate>
           <div class="pv-field">

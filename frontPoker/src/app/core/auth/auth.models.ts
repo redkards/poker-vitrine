@@ -12,6 +12,8 @@ export interface CurrentUser {
   createdAt: string;
   lastLoginAt: string | null;
   consentVersion: string;
+  premium: boolean;
+  premiumUntil: string | null;
 }
 
 export interface RegisterPayload {

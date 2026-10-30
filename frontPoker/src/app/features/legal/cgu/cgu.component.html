@@ -157,7 +157,19 @@
       membre qui enfreint gravement ou de manière répétée les présentes CGU.
     </p>
 
-    <h2 id="evolution" tabindex="-1">11. Évolution des CGU</h2>
+    <h2 id="premium" tabindex="-1">11. Abonnement Premium</h2>
+    <p>
+      Certaines vidéos sont réservées aux membres disposant d'un abonnement Premium actif. Le reste du site reste
+      accessible gratuitement.
+    </p>
+    <ul>
+      <li><strong>Prix :</strong> <span [class.todo]="pending(legal.premium.prices)">{{ legal.premium.prices }}</span></li>
+      <li><strong>Durée et renouvellement :</strong> <span [class.todo]="pending(legal.premium.renewal)">{{ legal.premium.renewal }}</span></li>
+      <li><strong>Résiliation :</strong> <span [class.todo]="pending(legal.premium.cancellation)">{{ legal.premium.cancellation }}</span></li>
+      <li><strong>Droit de rétractation :</strong> <span [class.todo]="pending(legal.premium.withdrawal)">{{ legal.premium.withdrawal }}</span></li>
+    </ul>
+
+    <h2 id="evolution" tabindex="-1">12. Évolution des CGU</h2>
     <p>
       Les présentes CGU (version {{ legal.cguVersion }}) peuvent être modifiées pour tenir compte de l'évolution du
       site ou de la réglementation. Toute nouvelle version porte un nouveau numéro et une nouvelle date, et votre
@@ -165,14 +177,14 @@
       pouvez supprimer votre compte à tout moment.
     </p>
 
-    <h2 id="droit" tabindex="-1">12. Droit applicable</h2>
+    <h2 id="droit" tabindex="-1">13. Droit applicable</h2>
     <p>
       Les présentes CGU sont régies par le droit français. En cas de litige, une solution amiable sera recherchée en
       priorité avant toute action judiciaire. À défaut, les tribunaux français seront compétents, dans les
       conditions prévues par la loi.
     </p>
 
-    <h2 id="contact" tabindex="-1">13. Contact</h2>
+    <h2 id="contact" tabindex="-1">14. Contact</h2>
     <p>
       Pour toute question relative aux présentes CGU ou pour signaler un contenu :
       <span [class.todo]="pending(legal.editor.email)">{{ legal.editor.email }}</span>.

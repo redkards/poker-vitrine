@@ -67,6 +67,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Communauté')->setPermission('ROLE_ADMIN');
         yield MenuItem::linkTo(UserCrudController::class, 'Utilisateurs', 'fa fa-users')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkTo(PremiumSubscriptionCrudController::class, 'Abonnements Premium', 'fa fa-crown')->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section();
         yield MenuItem::linkToUrl('Voir le site', 'fa fa-arrow-up-right-from-square', $this->frontendUrl);

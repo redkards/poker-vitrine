@@ -28,6 +28,7 @@ export class CguComponent {
     { id: 'jeu-responsable', label: 'Jeu responsable' },
     { id: 'donnees', label: 'Données personnelles' },
     { id: 'suppression', label: 'Suppression du compte' },
+    { id: 'premium', label: 'Abonnement Premium' },
     { id: 'evolution', label: 'Évolution des CGU' },
     { id: 'droit', label: 'Droit applicable' },
     { id: 'contact', label: 'Contact' },

@@ -94,6 +94,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $anonymizedAt = null;
 
     /**
+     * Fin de l'accès Premium (null = jamais abonné ou accès retiré)
+     */
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $premiumUntil = null;
+
+    /**
      * @var Collection<int, ConsentLog>
      */
     #[ORM\OneToMany(targetEntity: ConsentLog::class, mappedBy: 'user', orphanRemoval: true)]
@@ -140,6 +146,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+        // Rôle dynamique : jamais stocké, déduit de la date de fin d'abonnement
+        if ($this->isPremium()) {
+            $roles[] = 'ROLE_PREMIUM';
+        }
 
         return array_values(array_unique($roles));
     }
@@ -149,7 +159,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        $this->roles = array_values(array_diff($roles, ['ROLE_PREMIUM']));
 
         return $this;
     }
@@ -322,6 +332,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->consentLogs->removeElement($consentLog);
 
         return $this;
+    }
+
+    public function getPremiumUntil(): ?\DateTimeImmutable
+    {
+        return $this->premiumUntil;
+    }
+
+    public function setPremiumUntil(?\DateTimeImmutable $premiumUntil): static
+    {
+        $this->premiumUntil = $premiumUntil;
+
+        return $this;
+    }
+
+    public function isPremium(): bool
+    {
+        return null !== $this->premiumUntil && $this->premiumUntil > new \DateTimeImmutable();
     }
 
     #[\Deprecated]

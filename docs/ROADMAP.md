@@ -21,6 +21,13 @@ Objectif : ouvrir le site au public sur **redkards-dev.fr**, après confirmation
 - Suivi de progression enregistré sur le compte (et non plus seulement dans le navigateur).
 - Vidéos produites par PokerVitrine à partir des scripts (`docs/videos`).
 
+## Premium — Abonnement (en préparation)
+- Fait : vidéos Premium verrouillées, page `/premium`, activation manuelle (commande, back-office), RGPD.
+- À valider par le propriétaire : prix (4,99 € / mois, 49 € / an proposés), CGV de l'abonnement
+  (renouvellement, résiliation, rétractation 14 jours), statut fiscal (TVA).
+- À faire avant ouverture : brancher Stripe (Checkout + webhooks), emails de confirmation et de fin
+  d'abonnement, expiration automatique des abonnements (statut `expiree`), puis `PREMIUM_PAYMENT_ENABLED=1`.
+
 ## v2.0 — Nouvelles rubriques (hors MVP du dossier de conception)
 - Quiz interactifs et classements.
 - Agenda des tournois.

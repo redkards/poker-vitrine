@@ -235,7 +235,13 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function favorites(#[CurrentUser] User $user, VideoFavoriteRepository $favorites): JsonResponse
     {
-        return $this->json($favorites->findPublishedVideosOf($user), context: ['groups' => ['video:list']]);
+        $videos = $favorites->findPublishedVideosOf($user);
+        $viewerIsPremium = $this->isGranted('ROLE_PREMIUM');
+        foreach ($videos as $video) {
+            $video->applyAccess($viewerIsPremium);
+        }
+
+        return $this->json($videos, context: ['groups' => ['video:list']]);
     }
 
     /**
@@ -252,6 +258,8 @@ class UserController extends AbstractController
             'createdAt' => $user->getCreatedAt()?->format(\DATE_ATOM),
             'lastLoginAt' => $user->getLastLoginAt()?->format(\DATE_ATOM),
             'consentVersion' => $user->getConsentVersion(),
+            'premium' => $user->isPremium(),
+            'premiumUntil' => $user->getPremiumUntil()?->format(\DATE_ATOM),
         ];
     }
 

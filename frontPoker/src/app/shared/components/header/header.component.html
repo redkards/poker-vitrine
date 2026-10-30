@@ -42,9 +42,13 @@
     </form>
 
     <div class="header__actions">
+      <a routerLink="/premium" routerLinkActive="is-active" class="header__premium" title="Abonnement Premium">
+        <span aria-hidden="true">★</span> Premium
+      </a>
       @if (auth.user(); as user) {
-        <a routerLink="/mon-espace" class="pv-btn pv-btn--ghost header__user">
+        <a routerLink="/mon-espace" class="pv-btn pv-btn--ghost header__user" title="Mon espace">
           <span class="header__avatar" aria-hidden="true">{{ user.pseudo.charAt(0).toUpperCase() }}</span>
+          <span class="header__status"><span class="header__dot" aria-hidden="true"></span>Connecté</span>
           {{ user.pseudo }}
         </a>
         <button type="button" class="pv-btn pv-btn--outline" (click)="auth.logout()">Déconnexion</button>

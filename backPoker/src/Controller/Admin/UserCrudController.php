@@ -58,6 +58,8 @@ class UserCrudController extends AbstractCrudController
             ->renderExpanded()
             ->renderAsBadges();
         yield BooleanField::new('isVerified', 'Email vérifié')->renderAsSwitch(false);
+        yield DateTimeField::new('premiumUntil', 'Premium jusqu\'au')
+            ->setHelp('Activation manuelle (bêta). Vide = pas d\'accès Premium.');
         yield TextField::new('consentVersion', 'CGU acceptées')->hideOnForm();
         yield DateTimeField::new('createdAt', 'Inscription')->hideOnForm();
         yield DateTimeField::new('lastLoginAt', 'Dernière connexion')->hideOnForm();

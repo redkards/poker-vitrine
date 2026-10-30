@@ -26,6 +26,14 @@ export const LEGAL = {
     phone: '[À COMPLÉTER : téléphone d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
     siren: '[À COMPLÉTER : SIREN d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
   },
+  /** Abonnement Premium (CGV) : à rédiger avant l'ouverture du paiement en ligne */
+  premium: {
+    prices: '[À COMPLÉTER : prix TTC des formules mensuelle et annuelle, et modalités de paiement]',
+    renewal: '[À COMPLÉTER : durée et renouvellement (tacite ou non) de l\'abonnement, information préalable du membre]',
+    cancellation: '[À COMPLÉTER : modalités et délai de résiliation, sort de la période en cours]',
+    withdrawal:
+      '[À COMPLÉTER : droit de rétractation de 14 jours (contenu numérique : conditions de renonciation expresse si accès immédiat) et formulaire de rétractation]',
+  },
   lastUpdate: '29 octobre 2026',
   cguVersion: '1.0',
 } as const;

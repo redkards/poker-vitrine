@@ -6,6 +6,7 @@ use App\Entity\ConsentLog;
 use App\Entity\ForumPost;
 use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
+use App\Entity\PremiumSubscription;
 use App\Entity\RefreshToken;
 use App\Entity\User;
 use App\Entity\VideoFavorite;
@@ -71,6 +72,7 @@ class GdprService
         $posts = $this->em->getRepository(ForumPost::class)->findBy(['author' => $user], ['createdAt' => 'ASC']);
         $subscriptions = $this->em->getRepository(ForumSubscription::class)->findBy(['user' => $user]);
         $favorites = $this->em->getRepository(VideoFavorite::class)->findBy(['user' => $user], ['createdAt' => 'ASC']);
+        $premiumSubscriptions = $this->em->getRepository(PremiumSubscription::class)->findBy(['user' => $user], ['createdAt' => 'ASC']);
 
         return [
             'exportedAt' => $date(new \DateTimeImmutable()),
@@ -82,7 +84,17 @@ class GdprService
                 'isVerified' => $user->isVerified(),
                 'createdAt' => $date($user->getCreatedAt()),
                 'lastLoginAt' => $date($user->getLastLoginAt()),
+                'premiumUntil' => $date($user->getPremiumUntil()),
             ],
+            'premiumSubscriptions' => array_map(static fn (PremiumSubscription $s) => [
+                'plan' => $s->getPlan()->value,
+                'status' => $s->getStatus()->value,
+                'priceCents' => $s->getPriceCents(),
+                'startedAt' => $date($s->getStartedAt()),
+                'endsAt' => $date($s->getEndsAt()),
+                'providerReference' => $s->getProviderReference(),
+                'createdAt' => $date($s->getCreatedAt()),
+            ], $premiumSubscriptions),
             'consents' => array_map(static fn (ConsentLog $c) => [
                 'cguVersion' => $c->getCguVersion(),
                 'acceptedAt' => $date($c->getCreatedAt()),
@@ -176,6 +188,12 @@ class GdprService
             ->setParameter('user', $user)->getQuery()->execute();
         $this->em->createQueryBuilder()->delete(VideoFavorite::class, 'f')->where('f.user = :user')
             ->setParameter('user', $user)->getQuery()->execute();
+
+        // Abonnements Premium : conservés (obligation comptable : pièces justificatives 10 ans).
+        // Ils restent rattachés à ce compte désormais anonyme (plus d'email ni de pseudo) :
+        // seule la référence du prestataire de paiement permet, si besoin, de retrouver la facture.
+        // L'accès Premium restant est en revanche supprimé.
+        $user->setPremiumUntil(null);
 
         // La preuve de consentement est conservée, sans l'adresse IP
         foreach ($user->getConsentLogs() as $log) {

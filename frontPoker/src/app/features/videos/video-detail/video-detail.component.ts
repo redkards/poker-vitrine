@@ -22,10 +22,22 @@ import { YoutubePlayerComponent } from '../../../shared/components/youtube-playe
 
       @if (video(); as v) {
         <article class="video">
-          <app-youtube-player [videoId]="v.youtubeId" [title]="v.title" />
+          @if (v.locked) {
+            <div class="locked" role="note">
+              <span class="locked__icon" aria-hidden="true">🔒</span>
+              <h2>Vidéo réservée aux membres Premium</h2>
+              <p>Cette vidéo de niveau {{ v.levelLabel.toLowerCase() }} fait partie des contenus Premium : vidéos expert, analyses de mains avancées et nouveautés en avant-première.</p>
+              <a routerLink="/premium" class="pv-btn pv-btn--primary">Débloquer avec Premium <span class="pv-arrow" aria-hidden="true">→</span></a>
+            </div>
+          } @else {
+            <app-youtube-player [videoId]="v.youtubeId" [title]="v.title" />
+          }
           <div class="video__info">
             <div class="video__tags">
               <a class="badge" [attr.data-level]="v.levelValue" routerLink="/videos" [queryParams]="{ niveau: v.levelValue }">{{ v.levelLabel }}</a>
+              @if (v.premium) {
+                <span class="premium-badge">Premium</span>
+              }
               <span class="video__cat">{{ v.category }}</span>
               <time [attr.datetime]="v.publishedAt">{{ v.publishedAt | date: 'd MMMM y' }}</time>
             </div>
@@ -97,6 +109,40 @@ import { YoutubePlayerComponent } from '../../../shared/components/youtube-playe
     .video__cat {
       font-weight: 600;
       color: var(--pv-ink-soft);
+    }
+    .locked {
+      display: grid;
+      justify-items: center;
+      gap: 0.8rem;
+      padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+      text-align: center;
+      color: #fff;
+      background:
+        radial-gradient(circle at 80% 20%, rgb(179 18 27 / 0.45), transparent 45%),
+        radial-gradient(90% 120% at 30% 0%, #3d0a0e 0%, var(--pv-dark-2) 75%);
+    }
+    .locked h2 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+    }
+    .locked p {
+      max-width: 36rem;
+      margin: 0;
+      color: rgb(255 255 255 / 0.8);
+    }
+    .locked__icon {
+      font-size: 2.4rem;
+    }
+    .premium-badge {
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f5c451, #d99a1e);
+      color: #3a2500;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
     .loading {
       margin-top: 2rem;

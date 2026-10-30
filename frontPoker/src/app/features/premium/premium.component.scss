@@ -1,0 +1,149 @@
+.gold {
+  color: #c98a12;
+}
+
+.status {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid #e9c46a;
+  border-radius: var(--pv-radius);
+  background: #fff8e6;
+  color: var(--pv-ink-soft);
+
+  a {
+    display: inline-block;
+    margin-left: 0.3rem;
+    color: var(--pv-red);
+    font-weight: 600;
+  }
+}
+
+.status__icon {
+  color: #d99a1e;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.benefit {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  border-radius: var(--pv-radius);
+  background: var(--pv-card);
+  box-shadow: var(--pv-shadow-sm);
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--pv-muted);
+    font-size: 0.92rem;
+  }
+}
+
+.benefit__icon {
+  color: var(--pv-red);
+  font-size: 1.5rem;
+}
+
+.offers-title {
+  margin-bottom: 1rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.soon {
+  margin: 0 0 1rem;
+  color: var(--pv-muted);
+}
+
+.offers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  max-width: 760px;
+  margin-top: 1rem;
+}
+
+.offer {
+  position: relative;
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  padding: 1.75rem 1.5rem;
+  border: 1.5px solid var(--pv-line);
+  border-radius: var(--pv-radius-lg);
+  background: var(--pv-card);
+
+  h3 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+
+  .pv-btn {
+    justify-self: stretch;
+    margin-top: 0.75rem;
+  }
+}
+
+.offer--best {
+  border-color: var(--pv-red);
+  box-shadow: var(--pv-shadow);
+}
+
+.offer__ribbon {
+  position: absolute;
+  top: -0.8rem;
+  right: 1.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--pv-red);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.offer__price {
+  margin: 0;
+  font: 900 2.2rem var(--pv-font-title);
+
+  span {
+    font: 500 0.9rem var(--pv-font-body);
+    color: var(--pv-muted);
+  }
+}
+
+.offer__equiv {
+  margin: 0;
+  color: var(--pv-muted);
+  font-size: 0.9rem;
+}
+
+.legal-note {
+  margin-top: 1.5rem;
+  color: var(--pv-muted);
+  font-size: 0.88rem;
+
+  a {
+    color: var(--pv-red);
+    font-weight: 600;
+  }
+}
+
+.muted {
+  color: var(--pv-muted);
+}

@@ -43,6 +43,10 @@ export interface Video {
   levelValue: VideoLevel;
   levelLabel: string;
   publishedAt: string;
+  /** Réservée aux membres Premium */
+  premium: boolean;
+  /** Premium sans abonnement : youtubeId vaut alors null */
+  locked: boolean;
 }
 
 export interface VideoPage extends Paginated<Video> {

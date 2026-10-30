@@ -45,9 +45,13 @@ class VideoController extends AbstractController
             return $this->json(['message' => 'Niveau inconnu.'], Response::HTTP_BAD_REQUEST);
         }
 
-        $result = $this->videos->findPublishedPage($page, $limit, $category, $levelEnum);
+        $result = Paginated::from($this->videos->findPublishedPage($page, $limit, $category, $levelEnum), $page, $limit);
+        $viewerIsPremium = $this->isGranted('ROLE_PREMIUM');
+        foreach ($result['items'] as $video) {
+            $video->applyAccess($viewerIsPremium);
+        }
 
-        return $this->json(Paginated::from($result, $page, $limit) + [
+        return $this->json($result + [
             'filters' => [
                 'categories' => $this->videos->findPublishedCategories(),
                 'levels' => array_map(static fn (VideoLevel $l) => ['value' => $l->value, 'label' => $l->label()], VideoLevel::cases()),
@@ -63,7 +67,8 @@ class VideoController extends AbstractController
             return $this->json(['message' => 'Vidéo introuvable.'], Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json($video, context: ['groups' => ['video:read']]);
+        // Vidéo premium sans abonnement : fiche visible, lien YouTube masqué (youtubeId = null)
+        return $this->json($video->applyAccess($this->isGranted('ROLE_PREMIUM')), context: ['groups' => ['video:read']]);
     }
 
     /**

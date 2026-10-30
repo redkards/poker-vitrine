@@ -15,7 +15,8 @@ security:
     # Acteurs du dossier de conception : Membre < Moderateur < Administrateur
     role_hierarchy:
         ROLE_MODERATOR: ROLE_USER
-        ROLE_ADMIN: ROLE_MODERATOR
+        # L'admin voit aussi les vidéos Premium (contrôle du contenu)
+        ROLE_ADMIN: [ROLE_MODERATOR, ROLE_PREMIUM]
 
     firewalls:
         dev:

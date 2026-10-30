@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Content\DefaultContent;
 use App\Entity\ForumCategory;
 use App\Entity\Video;
+use App\Enum\VideoLevel;
 use App\Service\ArticleImporter;
 use App\Service\TournamentImporter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,12 +50,19 @@ class SeedContentCommand extends Command
         foreach (DefaultContent::VIDEOS as $i => [$title, $url, $category, $level, $description]) {
             if (null === $this->em->getRepository(Video::class)->findOneBy(['youtubeUrl' => $url])) {
                 $this->em->persist((new Video())->setTitle($title)->setYoutubeUrl($url)->setCategory($category)->setLevel($level)
+                    ->setPremium(VideoLevel::Avance === $level)
                     ->setDescription($description)->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 1 + $i * 3))));
                 ++$videos;
             }
         }
+        // Vidéos de niveau avancé déjà en base : réservées aux membres Premium
+        $premium = 0;
+        foreach ($this->em->getRepository(Video::class)->findBy(['level' => VideoLevel::Avance, 'premium' => false]) as $video) {
+            $video->setPremium(true);
+            ++$premium;
+        }
         $this->em->flush();
-        $io->writeln(sprintf('Forum : %d catégorie(s) ajoutée(s) ; vidéos : %d ajoutée(s).', $categories, $videos));
+        $io->writeln(sprintf('Forum : %d catégorie(s) ajoutée(s) ; vidéos : %d ajoutée(s), %d passée(s) en Premium.', $categories, $videos, $premium));
 
         try {
             foreach (glob($this->projectDir.'/../docs/actualites/*.json') ?: [] as $file) {

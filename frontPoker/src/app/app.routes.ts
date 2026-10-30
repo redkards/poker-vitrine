@@ -84,6 +84,12 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'premium',
+    loadComponent: () => import('./features/premium/premium.component').then((m) => m.PremiumComponent),
+    title: 'Premium — Poker Winners',
+    data: { description: 'Abonnement Premium Poker Winners : vidéos expert, contenus avancés et nouveautés en avant-première.' },
+  },
+  {
     path: 'videos/:id',
     loadComponent: () => import('./features/videos/video-detail/video-detail.component').then((m) => m.VideoDetailComponent),
     title: 'Vidéo — Poker Winners',

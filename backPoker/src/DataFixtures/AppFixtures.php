@@ -9,7 +9,10 @@ use App\Entity\ForumPost;
 use App\Entity\ForumSubscription;
 use App\Entity\ForumTopic;
 use App\Entity\User;
+use App\Entity\PremiumSubscription;
 use App\Entity\Video;
+use App\Enum\PremiumPlan;
+use App\Enum\PremiumSubscriptionStatus;
 use App\Enum\VideoLevel;
 use App\Service\ArticleImporter;
 use App\Service\GdprService;
@@ -41,6 +44,7 @@ class AppFixtures extends Fixture
         $accounts = [
             ['demo@pokervitrine.local', 'demo', []],
             ['admin@pokervitrine.local', 'admin', ['ROLE_ADMIN']],
+            ['premium@pokervitrine.local', 'premium', []],
         ];
 
         $users = [];
@@ -52,6 +56,14 @@ class AppFixtures extends Fixture
                 ->setIsVerified(true);
             $user->setPassword($this->hasher->hashPassword($user, self::DEMO_PASSWORD));
             $this->gdpr->recordConsent($user, '127.0.0.1');
+            if ('premium' === $pseudo) {
+                // Compte de démo Premium (1 an) ; « demo » reste non premium
+                $user->setPremiumUntil(new \DateTimeImmutable('+1 year'));
+                $manager->persist((new PremiumSubscription($user, PremiumPlan::Annuel))
+                    ->setStatus(PremiumSubscriptionStatus::Active)
+                    ->setStartedAt(new \DateTimeImmutable())
+                    ->setEndsAt($user->getPremiumUntil()));
+            }
 
             $manager->persist($user);
             $users[$pseudo] = $user;
@@ -73,6 +85,7 @@ class AppFixtures extends Fixture
                 ->setYoutubeUrl($url)
                 ->setCategory($category)
                 ->setLevel($level)
+                ->setPremium(VideoLevel::Avance === $level)
                 ->setDescription($description)
                 ->setPublishedAt(new \DateTimeImmutable(sprintf('-%d days', 1 + $i * 3))));
         }

@@ -53,6 +53,19 @@ class Video
     #[Groups(['video:list', 'video:read'])]
     private ?\DateTimeImmutable $publishedAt = null;
 
+    /**
+     * Réservée aux membres Premium
+     */
+    #[ORM\Column(options: ['default' => false])]
+    #[Groups(['video:list', 'video:read'])]
+    private bool $premium = false;
+
+    /**
+     * Non persisté : calculé pour le visiteur courant (applyAccess).
+     * Tant qu'il n'est pas calculé, une vidéo premium est considérée verrouillée (sécurité par défaut).
+     */
+    private ?bool $locked = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -100,6 +113,10 @@ class Video
     #[Groups(['video:list', 'video:read'])]
     public function getYoutubeId(): ?string
     {
+        if ($this->isLocked()) {
+            return null;
+        }
+
         return preg_match(self::YOUTUBE_PATTERN, (string) $this->youtubeUrl, $m) ? $m[1] : null;
     }
 
@@ -147,6 +164,34 @@ class Video
     public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function isPremium(): bool
+    {
+        return $this->premium;
+    }
+
+    public function setPremium(bool $premium): static
+    {
+        $this->premium = $premium;
+
+        return $this;
+    }
+
+    #[Groups(['video:list', 'video:read'])]
+    public function isLocked(): bool
+    {
+        return $this->locked ?? $this->premium;
+    }
+
+    /**
+     * Calcule le verrouillage pour le visiteur : une vidéo premium reste verrouillée sans abonnement actif.
+     */
+    public function applyAccess(bool $viewerIsPremium): static
+    {
+        $this->locked = $this->premium && !$viewerIsPremium;
 
         return $this;
     }

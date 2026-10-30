@@ -1,0 +1,92 @@
+<section class="pv-container page-head">
+  <span class="pv-eyebrow">Abonnement</span>
+  <h1>Poker Winners <span class="gold">Premium</span></h1>
+  <p>Débloquez les vidéos expert et les contenus avancés pour progresser plus vite, en cash game comme en tournoi.</p>
+</section>
+
+<section class="pv-container">
+  @if (auth.user(); as user) {
+    @if (user.premium) {
+      <div class="status" role="status">
+        <span class="status__icon" aria-hidden="true">★</span>
+        <div>
+          <strong>Vous êtes membre Premium.</strong>
+          @if (user.premiumUntil) {
+            Votre accès est actif jusqu'au {{ user.premiumUntil | date: 'd MMMM y' }}.
+          }
+          <a routerLink="/videos" [queryParams]="{ niveau: 'avance' }">Voir les vidéos avancées →</a>
+        </div>
+      </div>
+    }
+  }
+
+  <ul class="benefits" aria-label="Avantages Premium">
+    @for (b of benefits; track b.title) {
+      <li class="benefit">
+        <span class="benefit__icon" aria-hidden="true">{{ b.icon }}</span>
+        <h2>{{ b.title }}</h2>
+        <p>{{ b.text }}</p>
+      </li>
+    }
+  </ul>
+
+  <h2 class="offers-title">Choisissez votre formule</h2>
+
+  @if (feedback(); as f) {
+    <div
+      class="pv-alert"
+      [class.pv-alert--info]="f.type === 'info'"
+      [class.pv-alert--success]="f.type === 'success'"
+      [class.pv-alert--error]="f.type === 'error'"
+      role="status"
+    >
+      {{ f.text }}
+    </div>
+  }
+
+  @if (error(); as message) {
+    <div class="pv-alert pv-alert--error" role="alert">{{ message }}</div>
+  } @else if (plans(); as p) {
+    @if (!p.paymentEnabled) {
+      <p class="soon">Le paiement en ligne ouvre bientôt : les offres ci-dessous sont indicatives.</p>
+    }
+    <div class="offers">
+      @for (plan of p.plans; track plan.code) {
+        <article class="offer" [class.offer--best]="plan.savingPercent > 0">
+          @if (plan.savingPercent > 0) {
+            <span class="offer__ribbon">Économisez {{ plan.savingPercent }} %</span>
+          }
+          <h3>{{ plan.label }}</h3>
+          <p class="offer__price">
+            {{ formatPrice(plan.priceCents) }}
+            <span>TTC / {{ plan.months === 1 ? 'mois' : plan.months + ' mois' }}</span>
+          </p>
+          @if (plan.months > 1) {
+            <p class="offer__equiv">soit {{ formatPrice(plan.monthlyEquivalentCents) }} par mois</p>
+          } @else {
+            <p class="offer__equiv">Sans engagement de durée</p>
+          }
+          <button
+            type="button"
+            class="pv-btn"
+            [class.pv-btn--primary]="plan.savingPercent > 0"
+            [class.pv-btn--outline]="plan.savingPercent === 0"
+            [disabled]="busy() !== null"
+            (click)="subscribe(plan)"
+          >
+            {{ busy() === plan.code ? 'Un instant…' : "S'abonner" }}
+          </button>
+        </article>
+      }
+    </div>
+    <p class="legal-note">
+      Conditions de l'abonnement (prix, renouvellement, résiliation, droit de rétractation) :
+      <a routerLink="/cgu" fragment="premium">voir les CGU</a>.
+      @if (!auth.isLoggedIn()) {
+        Vous devez être <a routerLink="/connexion" [queryParams]="{ returnUrl: '/premium' }">connecté</a> pour vous abonner.
+      }
+    </p>
+  } @else {
+    <p class="muted" role="status">Chargement des offres…</p>
+  }
+</section>

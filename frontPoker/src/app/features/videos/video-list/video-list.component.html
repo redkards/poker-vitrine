@@ -46,13 +46,24 @@
   } @else {
     <div class="grid">
       @for (video of videos(); track video.id) {
-        <a class="video-card" [routerLink]="['/videos', video.id]">
+        <a class="video-card" [class.video-card--locked]="video.locked" [routerLink]="['/videos', video.id]">
           <span class="video-card__screen" aria-hidden="true">
-            <span class="video-card__play">▶</span>
+            <span class="video-card__play">{{ video.locked ? '🔒' : '▶' }}</span>
           </span>
           <span class="video-card__body">
             <span class="video-card__tags">
               <span class="badge" [attr.data-level]="video.levelValue">{{ video.levelLabel }}</span>
+              @if (video.premium) {
+                <span class="premium-badge">
+                  @if (video.locked) {
+                    <span aria-hidden="true">🔒</span>
+                  }
+                  Premium
+                  @if (video.locked) {
+                    <span class="pv-sr-only">(réservée aux membres Premium)</span>
+                  }
+                </span>
+              }
               <span class="video-card__cat">{{ video.category }}</span>
             </span>
             <span class="video-card__title">{{ video.title }}</span>

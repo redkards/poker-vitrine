@@ -8,6 +8,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -51,6 +52,7 @@ class VideoCrudController extends AbstractCrudController
         yield UrlField::new('youtubeUrl', 'URL YouTube')->setHelp('youtube.com/watch?v=… ou youtu.be/…');
         yield TextField::new('category', 'Catégorie')->setHelp('Ex. Cash game, Tournoi, Mental…');
         yield ChoiceField::new('level', 'Niveau')->setChoices(self::levelChoices())->renderAsBadges();
+        yield BooleanField::new('premium', 'Premium')->renderAsSwitch(false)->setHelp('Réservée aux membres Premium.');
         yield TextareaField::new('description', 'Description')->hideOnIndex();
         yield DateTimeField::new('publishedAt', 'Publication')->setHelp('Vide = brouillon.');
     }

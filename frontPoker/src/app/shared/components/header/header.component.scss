@@ -62,6 +62,26 @@
   font-weight: 700;
 }
 
+// Statut « Connecté » à côté du pseudo
+.header__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: #e8f5ec;
+  color: #1d7a3a;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.header__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1d7a3a;
+}
+
 .header__burger {
   display: none;
   margin-left: auto;
@@ -248,5 +268,28 @@
   .header__search-input,
   .header__search-input:focus {
     width: 100%;
+  }
+}
+
+/* Lien Premium (discret) ------------------------------------------------ */
+.header__premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  color: var(--pv-ink-soft);
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+  white-space: nowrap;
+
+  span {
+    color: #d99a1e;
+  }
+
+  &:hover,
+  &.is-active {
+    color: var(--pv-red);
   }
 }

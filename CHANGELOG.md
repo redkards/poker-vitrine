@@ -11,6 +11,20 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+### Ajouté
+- Abonnement Premium (préparation, paiement en ligne fermé) : vidéos marquées « Premium » (niveau avancé),
+  verrouillées pour les visiteurs et membres non abonnés (`premium`, `locked` ; identifiant YouTube masqué),
+  favoris toujours possibles. Rôle dynamique `ROLE_PREMIUM` tant que `premiumUntil` est dans le futur.
+- API : `GET /api/premium/plans` (prix TTC en centimes, `.env` `PREMIUM_PRICE_*`), `POST /api/premium/subscribe`
+  (503 tant que `PREMIUM_PAYMENT_ENABLED=0` ; prestataire `PremiumPaymentProvider`, factice en dev/test, Stripe préparé
+  mais non branché) ; `GET /api/me` expose `premium` et `premiumUntil`.
+- Activation manuelle pour la bêta : `php bin/console app:user:premium email --months=N` (`--revoke`), champ
+  « Premium jusqu'au » dans la fiche utilisateur et liste « Abonnements Premium » (lecture seule) dans le back-office.
+- Front : badge Premium et cadenas sur les vidéos, panneau « Débloquer avec Premium », page `/premium` (avantages,
+  formules mensuelle et annuelle), statut dans « Mon espace », section « Abonnement Premium » des CGU à compléter.
+- RGPD : abonnements inclus dans l'export ; conservés à l'anonymisation (comptabilité) sans donnée nominative.
+- Compte de démo `premium@pokervitrine.local` (fixtures).
+
 ## [0.6.0] — 2026-10-30 — Bêta privée
 
 ### Ajouté
