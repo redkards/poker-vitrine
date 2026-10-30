@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Poker Winners — Rapport d'avancement v0.8.0</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+body { font: 10pt/1.5 "Segoe UI", Arial, sans-serif; color: #141414; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.label { display: flex; justify-content: space-between; align-items: center; border: 2px solid #b3121b; border-radius: 8px; padding: 10pt 14pt; margin-bottom: 14pt; }
+.label h1 { font: 700 20pt Georgia, serif; color: #b3121b; margin: 0; }
+.label .meta { text-align: right; font-size: 9pt; }
+.tag { display: inline-block; background: #b3121b; color: #fff; border-radius: 4px; padding: 1pt 7pt; font-weight: 700; font-size: 9pt; }
+h2 { font: 700 13pt Georgia, serif; border-bottom: 1px solid #dcdfe4; padding-bottom: 3pt; margin: 14pt 0 6pt; break-after: avoid; }
+table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; font-size: 9.3pt; break-inside: avoid; }
+th, td { text-align: left; padding: 4pt 6pt; border-bottom: 1px solid #e4e6ea; vertical-align: top; }
+th { background: #f4f5f7; }
+ul, ol { margin: 0 0 6pt; padding-left: 16pt; } li { margin-bottom: 2pt; }
+.box { background: #fdf1f1; border-left: 4px solid #b3121b; padding: 6pt 10pt; margin: 8pt 0; break-inside: avoid; }
+.ok { color: #1d7a3a; font-weight: 700; } .todo { color: #b3121b; font-weight: 700; }
+code { font: 9pt Consolas, monospace; background: #f4f5f7; padding: 0 3pt; border-radius: 3px; }
+pre { font: 9pt Consolas, monospace; background: #f4f5f7; padding: 6pt 8pt; border-radius: 4px; margin: 4pt 0 8pt; white-space: pre-wrap; }
+footer { margin-top: 14pt; font-size: 8.5pt; color: #5c6370; border-top: 1px solid #dcdfe4; padding-top: 5pt; }
+</style></head><body>
+
+<div class="label">
+  <div><h1>♠ Poker Winners</h1><div>Rapport d'avancement — suite de la v0.7.0</div></div>
+  <div class="meta"><span class="tag">v0.8.0 — BÊTA PRIVÉE</span><br>30/10/2026<br>Document interne — confidentiel</div>
+</div>
+
+<div class="box"><b>En une phrase :</b> les versions 0.7.1 (exploitation : sauvegardes, purge RGPD, tests front) et 0.8.0 (tableaux de ranges, mentions légales complétées) sont sur GitHub ; la bêta se met à jour par une seule commande dans le Terminal cPanel. Le site public redkards-dev.fr n'est pas touché.</div>
+
+<h2>1. Ce qui a été réalisé depuis la v0.7.0</h2>
+<table>
+<tr><th>Domaine</th><th>Détail</th><th>État</th></tr>
+<tr><td>Sauvegardes et RGPD (v0.7.1)</td><td><code>deploy/install-crons.sh</code> programme la purge RGPD (3 h 15) et la sauvegarde de la base (3 h 45, <code>~/sauvegardes-poker</code>, 14 jours conservés) ; installé sur le serveur par le propriétaire</td><td class="ok">Fait</td></tr>
+<tr><td>Tests front (v0.7.1)</td><td>Connexion, renouvellement du jeton, intercepteur, gardes de routes, cohérence des leçons ; <code>npm run test:ci</code> fonctionne sans écran</td><td class="ok">Fait</td></tr>
+<tr><td>Mentions légales</td><td>Éditeur : Jérémy Duhem, particulier, SIRET non applicable ; adresse et téléphone non publiés (art. 6 III-2 LCEN) ; contact et RGPD : <code>contact.redcard@redkards-dev.fr</code> ; hébergeur o2switch complet (adresse, téléphone, SIREN)</td><td class="ok">Fait</td></tr>
+<tr><td>Tableaux de ranges (v0.8.0)</td><td>Page <code>/lecons/ranges</code> : grille 13 × 13 des 169 mains. Débutant (3 repères) et Intermédiaire (ouvertures à 6, UTG à SB) libres ; Expert (3-bet, payer ou se coucher face à une ouverture, 3 tableaux) <b>réservé aux membres Premium</b> et servi par l'API, absent du site téléchargé</td><td class="ok">Fait</td></tr>
+<tr><td>Calibrage des ranges</td><td>Recoupé avec les repères publics (PokerSkill, Preflop Wizard, forum Kill Tilt) : UTG 16,1 %, HJ 20,4 %, CO 27,0 %, BTN 42,1 %, SB 33,9 % ; défense de la grosse blinde face au bouton 52 %. Synthèse complète : <code>docs/ranges/synthese-ranges.md</code></td><td class="ok">Fait</td></tr>
+<tr><td>Vidéo n° 5</td><td>Diaporama Canva « Progresser en tournoi » généré dans la direction artistique des 4 premiers ; corrections de texte <b>non enregistrées</b> (connecteur Canva coupé)</td><td class="todo">À reprendre</td></tr>
+<tr><td>Qualité</td><td>56 tests front et 68 tests back verts ; build de production OK</td><td class="ok">Vert</td></tr>
+<tr><td>Version</td><td>CHANGELOG, version 0.8.0, commit <code>d863c3a</code> sur <code>main</code> ; front bêta publié sur <code>front-beta</code>. Étiquettes <code>v0.7.1</code> et <code>v0.8.0</code> à pousser depuis le PC</td><td class="ok">Fait</td></tr>
+</table>
+
+<h2>2. Commandes utiles</h2>
+<p><b>Mettre la bêta à jour</b> (Terminal cPanel) :</p>
+<pre>bash ~/poker-winners/deploy/update.sh</pre>
+<p><b>Sauvegarde immédiate / vérification des tâches planifiées</b> :</p>
+<pre>bash ~/poker-winners/deploy/backup-db.sh
+crontab -l | grep -A3 poker-winners
+tail ~/logs/poker-winners-cron.log</pre>
+<p><b>Étiquettes de version</b> (Git Bash sur le PC) :</p>
+<pre>git fetch origin
+git tag -a v0.7.1 5995cd3 -m "v0.7.1 — tâches planifiées et tests front"
+git tag -a v0.8.0 d863c3a -m "v0.8.0 — Apprendre : tableaux de ranges"
+git push origin v0.7.1 v0.8.0</pre>
+
+<h2>3. Points de vigilance</h2>
+<div class="box">
+<b>Micro-entreprise :</b> à l'arrivée du SIRET, remplacer dans <code>legal.config.ts</code> le nom (« Jérémy Duhem EI »), le statut et le SIRET, et afficher une adresse (domiciliation possible) et un téléphone. Obligatoire dès que le paiement Premium ou la boutique ouvre.<br>
+<b>Ranges :</b> repères originaux recoupés avec des sources publiques, pas des sorties de solveur vérifiées ; aucun tableau tiers (Kill Tilt, YoViral) n'est reproduit.<br>
+<b>Paiement :</b> toujours fermé (Premium et boutique).<br>
+<b>En-tête :</b> léger débordement horizontal sur écran de 1366 px, sur toutes les pages (existant, non corrigé).
+</div>
+
+<h2>4. Reste à faire</h2>
+<table>
+<tr><th>Avant la version publique v1.0</th><th>Qui</th></tr>
+<tr><td>Vérifier la bêta : <code>/lecons/ranges</code> (cadenas Expert sans Premium, tableaux avec Premium), mentions légales sans champ surligné</td><td>Propriétaire</td></tr>
+<tr><td>Pousser les étiquettes <code>v0.7.1</code> et <code>v0.8.0</code> (section 2)</td><td>Propriétaire</td></tr>
+<tr><td>Corriger le débordement de l'en-tête à 1366 px</td><td>Claude</td></tr>
+<tr><td>Refaire et enregistrer les corrections du diaporama Canva « Progresser en tournoi »</td><td>Claude (connecteur Canva requis)</td></tr>
+<tr><td><b>Confirmation explicite</b> avant de publier sur redkards-dev.fr</td><td class="todo">Propriétaire</td></tr>
+</table>
+<table>
+<tr><th>Pistes proposées</th></tr>
+<tr><td><b>Ranges</b> : élargir le 3-bet de la grosse blinde face au bouton (6,8 % → ≈ 12 %) ; tableaux tournoi par tapis (40 BB, 20 BB, push/fold 10 BB) pour le Premium ; afficher les hypothèses de chaque tableau · <b>Premium payant</b> : section CGU, Stripe, micro-entreprise · <b>v1.1</b> notifications · <b>v1.2</b> progression des leçons sur le compte · <b>v2.0</b> boutique réelle</td></tr>
+</table>
+
+<footer>Poker Winners — rapport v0.8.0 du 30/10/2026 · généré à partir du dépôt (commit d863c3a) · aucun mot de passe ni secret dans ce document.</footer>
+</body></html>

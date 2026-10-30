@@ -7,8 +7,11 @@ documentée dans le [journal des versions](../CHANGELOG.md).
 Objectif : ouvrir le site au public sur **redkards-dev.fr**, après confirmation du propriétaire.
 - Finitions : tests front (Jasmine), balises SEO.
 - [x] Documentation de l'API (`/api/doc`, en développement uniquement).
-- Déploiement o2switch : sous-domaine `api.`, HTTPS, MariaDB, emails, crons RGPD, sauvegardes.
-- Mentions légales et politique de confidentialité complétées et relues.
+- [x] Tests front (Jasmine) : authentification, intercepteur, gardes, leçons, ranges (v0.7.1 / v0.8.0).
+- [x] Déploiement o2switch : sous-domaine `api.`, HTTPS, MariaDB, emails ; crons RGPD et sauvegardes (v0.7.1).
+- [x] Mentions légales et politique de confidentialité complétées (v0.8.0, éditeur particulier) — à relire,
+  et à passer en micro-entreprise (EI, SIRET, adresse, téléphone) avant toute vente.
+- Corriger le léger débordement de l'en-tête sur écran de 1366 px.
 
 ## v1.1 — Communauté
 - [x] Signalement d'un message du forum par les membres (file de modération) — API et back-office prêts, écran front à faire.
@@ -17,6 +20,11 @@ Objectif : ouvrir le site au public sur **redkards-dev.fr**, après confirmation
 - Notifications dans le site (en plus des emails).
 
 ## v1.2 — Apprentissage
+- [x] Tableaux de ranges (v0.8.0) : Débutant et Intermédiaire libres, Expert Premium (servi par l'API).
+  Synthèse des sources : [docs/ranges/synthese-ranges.md](ranges/synthese-ranges.md).
+- Ranges : élargir le 3-bet de la grosse blinde face au bouton (≈ 12 %), tableaux tournoi par tapis
+  (40 BB, 20 BB, push/fold 10 BB) pour le Premium, hypothèses affichées sur chaque tableau.
+- Vidéo n° 5 « Progresser en tournoi » : diaporama Canva généré, corrections de texte à refaire et enregistrer.
 - Nouvelles leçons interactives et parcours par niveau (débutant → avancé).
 - Suivi de progression enregistré sur le compte (et non plus seulement dans le navigateur).
 - Vidéos produites par PokerVitrine à partir des scripts (`docs/videos`).
