@@ -3,6 +3,9 @@
 Site communautaire poker francophone (actualités, forum, vidéos, leçons, calendrier des tournois).
 Projet indépendant : il ne partage ni code, ni base, ni configuration avec un autre projet.
 
+**Mémoire commune PC / téléphone :** faire `git pull` puis lire [MEMOIRE.md](MEMOIRE.md) au démarrage ; le mettre à jour,
+commit et push avant de s'arrêter ou de changer d'appareil.
+
 ## Structure
 - `backPoker/` : API Symfony 7.4 (PHP 8.2), Doctrine/MariaDB 10.6, JWT + refresh tokens, EasyAdmin.
 - `frontPoker/` : Angular 22 (standalone, signals), Node ≥ 22.22.3 (ou 24).
