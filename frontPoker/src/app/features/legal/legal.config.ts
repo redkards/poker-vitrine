@@ -19,7 +19,7 @@ export const LEGAL = {
     /** Uniquement si l'éditeur est un professionnel ; sinon indiquer « Non applicable » */
     siret: 'Non applicable',
   },
-  publicationDirector: '[À COMPLÉTER : nom du directeur ou de la directrice de la publication]',
+  publicationDirector: 'Jérémy Duhem',
   host: {
     name: 'o2switch',
     address: '[À COMPLÉTER : adresse d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
