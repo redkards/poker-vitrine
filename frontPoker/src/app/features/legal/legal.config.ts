@@ -15,7 +15,7 @@ export const LEGAL = {
     email: 'contact.redcard@redkards-dev.fr',
     /** Adresse dédiée aux demandes relatives aux données personnelles */
     privacyEmail: 'contact.redcard@redkards-dev.fr',
-    phone: '[À COMPLÉTER : numéro de téléphone]',
+    phone: 'Non publié : contact par email',
     /** Uniquement si l'éditeur est un professionnel ; sinon indiquer « Non applicable » */
     siret: 'Non applicable',
   },
