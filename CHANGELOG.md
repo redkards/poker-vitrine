@@ -11,6 +11,12 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+## [0.8.1] — 2026-10-30 — Vocabulaire : UTG
+
+### Modifié
+- « Sous le pistolet » remplacé par « UTG » / « Under the Gun » dans tout le site (leçons Débutant, Intermédiaire et
+  Expert, plan de table, tableaux de ranges) ; traduction conservée une fois dans la définition des positions.
+
 ## [0.8.0] — 2026-10-30 — Apprendre : tableaux de ranges
 
 ### Ajouté
