@@ -1,0 +1,3 @@
+# Version beta privee : aucune indexation (a remplacer a la mise en ligne publique v1.0)
+User-agent: *
+Disallow: /

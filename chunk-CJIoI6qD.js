@@ -1,0 +1,1 @@
+var e=[{value:`france`,label:`Actu France`,short:`FR`},{value:`international`,label:`Actu internationale`,short:`🌍`},{value:`live`,label:`Tournois live`,short:`LIVE`},{value:`online`,label:`Tournois en ligne`,short:`WEB`}];export{e as t};

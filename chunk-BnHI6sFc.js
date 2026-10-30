@@ -1,0 +1,1 @@
+var e=`Utilisateur supprimé`;function r(t){return!!t&&t!==e&&/^[\w\-.]{3,50}$/.test(t)}export{r as t};

@@ -1,0 +1,1 @@
+var e={titleMin:5,titleMax:150,contentMin:2,contentMax:1e4};var t=[{value:`spam`,label:`Spam / publicité`},{value:`insulte`,label:`Insulte / propos irrespectueux`},{value:`hors_sujet`,label:`Hors sujet`},{value:`autre`,label:`Autre`}];export{t as n,e as t};
