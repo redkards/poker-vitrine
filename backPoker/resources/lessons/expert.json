@@ -715,7 +715,7 @@
         "title": "De la main unique à la range",
         "paragraphs": [
           "Un joueur avancé ne cherche pas à deviner « la » main de son adversaire. Il raisonne sur sa range, c'est-à-dire l'ensemble des mains qu'il peut avoir compte tenu de sa position et de ses actions, chacune avec un certain poids.",
-          "La range de départ dépend d'abord de la position : un joueur qui ouvre sous le pistolet a une range bien plus serrée qu'un joueur qui ouvre au bouton. Chaque action ensuite (payer, relancer, checker) retire ou garde certaines mains. Comparez les deux places mises en évidence."
+          "La range de départ dépend d'abord de la position : un joueur qui ouvre en UTG a une range bien plus serrée qu'un joueur qui ouvre au bouton. Chaque action ensuite (payer, relancer, checker) retire ou garde certaines mains. Comparez les deux places mises en évidence."
         ],
         "visual": {
           "kind": "positions",
@@ -796,7 +796,7 @@
         "title": "Avantage de range et avantage des nuts",
         "paragraphs": [
           "Sur un flop donné, on compare les deux ranges dans leur ensemble. L'« avantage de range » appartient au joueur dont la range a, en moyenne, le plus d'équité. L'« avantage des nuts » (les nuts sont la meilleure main possible) appartient à celui qui détient le plus de combinaisons très fortes.",
-          "Exemple : un joueur qui ouvre sous le pistolet a beaucoup de As-Roi, de grosses paires et d'As forts ; la grosse blinde qui défend a davantage de petites cartes connectées. Comparez trois familles de flops, à titre indicatif."
+          "Exemple : un joueur qui ouvre en UTG a beaucoup de As-Roi, de grosses paires et d'As forts ; la grosse blinde qui défend a davantage de petites cartes connectées. Comparez trois familles de flops, à titre indicatif."
         ],
         "visual": {
           "kind": "handGroups",
@@ -2514,7 +2514,7 @@
         ],
         "visual": {
           "kind": "decision",
-          "situation": "Vous avez relancé sous le pistolet ; le bouton et la grosse blinde ont payé. Le flop est 10♥ 7♠ 6♠. La grosse blinde checke et c'est à vous.",
+          "situation": "Vous avez relancé en UTG ; le bouton et la grosse blinde ont payé. Le flop est 10♥ 7♠ 6♠. La grosse blinde checke et c'est à vous.",
           "hero": [
             "Ac",
             "Kd"

@@ -44,7 +44,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
       {
         title: 'Pourquoi ouvrir plus large en fin de parole',
         paragraphs: [
-          "Sous le pistolet (UTG), cinq joueurs parlent encore derrière vous à une table de six. Plus il reste de joueurs, plus il est probable que l'un d'eux ait une très bonne main, et vous serez souvent hors de position après le flop.",
+          "En UTG, cinq joueurs parlent encore derrière vous à une table de six. Plus il reste de joueurs, plus il est probable que l'un d'eux ait une très bonne main, et vous serez souvent hors de position après le flop.",
           "Au cut-off (CO) et au bouton (BTN), il ne reste que deux ou trois adversaires, et le bouton est assuré de parler en dernier après le flop. Vous pouvez donc ouvrir beaucoup plus de mains : elles affrontent moins de joueurs et se jouent avec l'avantage de la position.",
           "Touchez les places mises en valeur pour revoir leur rôle.",
         ],
@@ -60,7 +60,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
           kind: 'handGroups',
           groups: [
             {
-              title: 'Sous le pistolet (≈ 15 à 18 %)',
+              title: 'Under the Gun, UTG (≈ 15 à 18 %)',
               description: "Paires moyennes et hautes, As assortis forts, As-Valet et mieux dépareillés, figures assorties et quelques connecteurs assortis hauts.",
               hands: [['7s', '7d'], ['Ah', 'Th'], ['Kd', 'Qd'], ['Ac', 'Jd'], ['Ks', 'Js'], ['Tc', '9c']],
             },
@@ -85,12 +85,12 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: "Table à 6, tapis de 100 BB. Vous êtes sous le pistolet, premier à parler avant le flop.",
+          situation: "Table à 6, tapis de 100 BB. Vous êtes en UTG, premier à parler avant le flop.",
           hero: ['Ac', '4d'],
           options: [
             { label: 'Relancer à 2,5 BB', correct: false, feedback: "Trop large pour cette place : cinq joueurs parlent derrière vous, et ceux qui continueront auront souvent un As plus fort ou une paire." },
             { label: 'Suivre la grosse blinde', correct: false, feedback: "Le limp cumule les défauts : main faible, pas d'initiative, et de nombreux joueurs encore à parler." },
-            { label: 'Se coucher', correct: true, feedback: "Exactement : As-4 dépareillé ne fait pas partie d'une range d'ouverture solide sous le pistolet à 6 joueurs." },
+            { label: 'Se coucher', correct: true, feedback: "Exactement : As-4 dépareillé ne fait pas partie d'une range d'ouverture solide en UTG à 6 joueurs." },
           ],
         },
       },
@@ -153,12 +153,12 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
         explanation: "Le « + » augmente la seconde carte jusqu'à la plus haute possible, ici le Roi ; le « s » limite aux mains assorties.",
       },
       {
-        question: 'Pourquoi peut-on ouvrir beaucoup plus de mains au bouton que sous le pistolet ?',
+        question: 'Pourquoi peut-on ouvrir beaucoup plus de mains au bouton qu’en UTG ?',
         options: [
           "Parce que les cartes sont meilleures au bouton",
           "Parce qu'il reste moins d'adversaires à parler et que vous aurez la position après le flop",
           "Parce que le bouton paie moins de blindes",
-          "Parce que la règle interdit de relancer sous le pistolet",
+          "Parce que la règle interdit de relancer en UTG",
         ],
         answer: 1,
         explanation: "Moins de joueurs derrière vous signifie moins de risques de tomber sur une main forte, et la position vous avantage sur tous les tours suivants.",
@@ -554,12 +554,12 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
       {
         title: 'Savoir renoncer',
         paragraphs: [
-          "Changez maintenant le décor : vous ouvrez sous le pistolet, le bouton et la grosse blinde paient. Le flop 9♥ 8♥ 7♠ est très coordonné et correspond parfaitement aux mains qui paient : connecteurs, paires moyennes, tirages à cœur.",
+          "Changez maintenant le décor : vous ouvrez en UTG, le bouton et la grosse blinde paient. Le flop 9♥ 8♥ 7♠ est très coordonné et correspond parfaitement aux mains qui paient : connecteurs, paires moyennes, tirages à cœur.",
           "Face à deux adversaires, la probabilité que l'un d'eux ait touché quelque chose est très élevée. Avec As-Roi sans paire ni tirage, que faites-vous ?",
         ],
         visual: {
           kind: 'decision',
-          situation: "Pot à trois joueurs. Vous avez ouvert sous le pistolet ; la grosse blinde checke, le bouton parle après vous.",
+          situation: "Pot à trois joueurs. Vous avez ouvert en UTG ; la grosse blinde checke, le bouton parle après vous.",
           hero: ['Ac', 'Kd'],
           board: ['9h', '8h', '7s'],
           options: [
@@ -619,7 +619,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
         explanation: "Vous risquez 2 pour gagner 6 : il faut réussir 2 ÷ (2 + 6) = 25 % du temps pour être à l'équilibre.",
       },
       {
-        question: 'Vous avez ouvert sous le pistolet, deux joueurs ont payé. Flop 9♥ 8♥ 7♠, vous avez As-Roi dépareillé. Quelle option est la plus raisonnable ?',
+        question: 'Vous avez ouvert en UTG, deux joueurs ont payé. Flop 9♥ 8♥ 7♠, vous avez As-Roi dépareillé. Quelle option est la plus raisonnable ?',
         options: ['Miser gros', 'Checker', 'Partir à tapis', 'Miser au minimum'],
         answer: 1,
         explanation: "Plusieurs adversaires et un tableau qui correspond à leurs ranges : un c-bet réussirait trop rarement. Checker est plus sain.",
@@ -1443,7 +1443,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
       {
         title: "Selon la position de l'ouvreur",
         paragraphs: [
-          "Une ouverture au bouton couvre souvent 40 % des mains ou plus : vous pouvez défendre très large. Une ouverture sous le pistolet est bien plus forte : votre défense doit se resserrer nettement.",
+          "Une ouverture au bouton couvre souvent 40 % des mains ou plus : vous pouvez défendre très large. Une ouverture en UTG est bien plus forte : votre défense doit se resserrer nettement.",
           "Parcourez ces exemples, donnés à titre indicatif pour une ouverture à 2,5 BB à 6 joueurs.",
         ],
         visual: {
@@ -1460,7 +1460,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
               hands: [['8c', '2d'], ['7h', '3s'], ['Tc', '2h'], ['6h', '2c']],
             },
             {
-              title: 'Contre une ouverture sous le pistolet',
+              title: 'Contre une ouverture en UTG',
               description: "Ces mains, défendables contre le bouton, sont le plus souvent à jeter face à une range d'ouverture précoce, bien plus forte.",
               hands: [['Kh', '9c'], ['Qd', 'Th'], ['As', '5d'], ['8s', '6d']],
             },
@@ -1517,7 +1517,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
         explanation: "Vous payez 1,5 BB pour un pot final de 0,5 + 1 + 2,5 + 1,5 = 5,5 BB : 1,5 ÷ 5,5 ≈ 27 %.",
       },
       {
-        question: 'Pourquoi défendre plus large contre une ouverture au bouton que contre une ouverture sous le pistolet ?',
+        question: 'Pourquoi défendre plus large contre une ouverture au bouton que contre une ouverture en UTG ?',
         options: [
           'Parce que le bouton ouvre une range bien plus large, donc plus faible en moyenne',
           'Parce que le bouton mise toujours moins',
@@ -1643,11 +1643,11 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
         title: 'Payer un tapis : plus exigeant',
         paragraphs: [
           "Quand vous payez un tapis, vous perdez l'équité de fold : il faut gagner l'abattage. La main nécessaire pour payer est donc nettement plus forte que celle qui suffit pour pousser.",
-          "Un joueur serré pousse 10 BB sous le pistolet. Vous êtes au bouton avec 30 BB. Pour payer 10 BB dans un pot de 11,5 BB, il vous faut 10 ÷ 21,5 ≈ 46,5 % d'équité, et les blindes parlent encore après vous.",
+          "Un joueur serré pousse 10 BB en UTG. Vous êtes au bouton avec 30 BB. Pour payer 10 BB dans un pot de 11,5 BB, il vous faut 10 ÷ 21,5 ≈ 46,5 % d'équité, et les blindes parlent encore après vous.",
         ],
         visual: {
           kind: 'decision',
-          situation: "Un joueur serré pousse 10 BB sous le pistolet. Vous êtes au bouton avec 30 BB.",
+          situation: "Un joueur serré pousse 10 BB en UTG. Vous êtes au bouton avec 30 BB.",
           hero: ['Kc', 'Jd'],
           options: [
             { label: 'Payer', correct: false, feedback: "Contre une range de poussée serrée (paires moyennes et hautes, As forts, Roi-Dame), Roi-Valet dépareillé est souvent dominé et n'atteint pas les 46,5 % nécessaires." },
@@ -1696,7 +1696,7 @@ export const INTERMEDIAIRE_LESSONS: Lesson[] = [
       },
       {
         question: 'Tout le monde s’est couché. Depuis quelle place peut-on pousser le plus de mains ?',
-        options: ['Sous le pistolet', 'Milieu de parole', 'Cut-off', 'Petite blinde'],
+        options: ['Under the Gun (UTG)', 'Milieu de parole', 'Cut-off', 'Petite blinde'],
         answer: 3,
         explanation: "En petite blinde, seule la grosse blinde peut encore payer : c'est la place où l'on pousse le plus large.",
       },

@@ -186,14 +186,14 @@ export const DEBUTANT_LESSONS: Lesson[] = [
       {
         title: "L'ordre de parole, tour par tour",
         paragraphs: [
-          "Avant le flop, la parole commence au joueur situé à gauche de la grosse blinde, la place « sous le pistolet » (« under the gun », UTG). Elle tourne ensuite dans le sens des aiguilles d'une montre et la grosse blinde parle en dernier.",
+          "Avant le flop, la parole commence au joueur situé à gauche de la grosse blinde, la place « Under the Gun » (UTG, littéralement « sous le pistolet »). Elle tourne ensuite dans le sens des aiguilles d'une montre et la grosse blinde parle en dernier.",
           'Au flop, à la turn et à la river, la parole commence au premier joueur encore en jeu à gauche du bouton. Le bouton, s’il est toujours dans le coup, parle donc en dernier. Dévoilez les deux ordres.',
         ],
         visual: {
           kind: 'reveal',
           items: [
-            { term: 'Avant le flop', text: 'Sous le pistolet → milieu de parole (HJ) → cut-off (CO) → bouton → petite blinde → grosse blinde.' },
-            { term: 'Flop, turn et river', text: 'Petite blinde → grosse blinde → sous le pistolet → milieu de parole → cut-off → bouton.' },
+            { term: 'Avant le flop', text: 'UTG → milieu de parole (HJ) → cut-off (CO) → bouton → petite blinde → grosse blinde.' },
+            { term: 'Flop, turn et river', text: 'Petite blinde → grosse blinde → UTG → milieu de parole → cut-off → bouton.' },
             { term: "Si un joueur s'est couché", text: "On le saute simplement : la parole passe au joueur suivant encore en jeu, toujours dans le sens des aiguilles d'une montre." },
           ],
         },
@@ -206,11 +206,11 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: 'Table à 6. Les joueurs sous le pistolet et au milieu de parole se sont couchés. Vous êtes au cut-off. Qui doit encore parler après vous avant le flop ?',
+          situation: 'Table à 6. Les joueurs en UTG et au milieu de parole se sont couchés. Vous êtes au cut-off. Qui doit encore parler après vous avant le flop ?',
           options: [
             { label: 'Le bouton, la petite blinde et la grosse blinde', correct: true, feedback: "Exact : seuls trois joueurs restent à parler derrière vous. C'est pour cela que le cut-off est une bonne place pour ouvrir le coup." },
             { label: 'Personne, vous parlez en dernier', correct: false, feedback: "Non : avant le flop, c'est la grosse blinde qui parle en dernier. Le bouton et les deux blindes agissent encore après vous." },
-            { label: 'Sous le pistolet et le milieu de parole', correct: false, feedback: 'Ces deux joueurs ont déjà parlé en se couchant : ils ne sont plus dans le coup.' },
+            { label: 'L’UTG et le milieu de parole', correct: false, feedback: 'Ces deux joueurs ont déjà parlé en se couchant : ils ne sont plus dans le coup.' },
           ],
         },
       },
@@ -231,7 +231,7 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         visual: {
           kind: 'reveal',
           items: [
-            { term: 'Positions précoces', text: 'Sous le pistolet et les une ou deux places suivantes (UTG+1, UTG+2). Beaucoup de joueurs parlent derrière : sélection très serrée.' },
+            { term: 'Positions précoces', text: 'L’UTG et les une ou deux places suivantes (UTG+1, UTG+2). Beaucoup de joueurs parlent derrière : sélection très serrée.' },
             { term: 'Positions intermédiaires', text: 'Les places du milieu, souvent appelées « lojack » et « hijack » en anglais. On commence à élargir légèrement.' },
             { term: 'Positions tardives', text: "Le cut-off et le bouton : les meilleures places, où l'on joue le plus de mains." },
             { term: 'Les blindes', text: 'Petite et grosse blinde, comme à six joueurs : dernières à parler avant le flop, premières ensuite.' },
@@ -244,11 +244,11 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         question: 'Avant le flop, quel joueur parle en premier ?',
         options: ['La petite blinde', 'Le joueur à gauche de la grosse blinde', 'Le bouton', 'La grosse blinde'],
         answer: 1,
-        explanation: 'Avant le flop, les blindes ont déjà misé : la parole commence au joueur à leur gauche, sous le pistolet.',
+        explanation: 'Avant le flop, les blindes ont déjà misé : la parole commence au joueur à leur gauche, en UTG.',
       },
       {
         question: 'Après le flop, qui parle en premier si tout le monde est encore en jeu ?',
-        options: ['Sous le pistolet', 'Le bouton', 'La petite blinde', 'La grosse blinde'],
+        options: ['Under the Gun (UTG)', 'Le bouton', 'La petite blinde', 'La grosse blinde'],
         answer: 2,
         explanation: "Après le flop, la parole commence au premier joueur actif à gauche du bouton, c'est-à-dire la petite blinde si elle est encore dans le coup.",
       },
@@ -259,10 +259,10 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         explanation: "La grosse blinde ferme le tour d'enchères préflop. Si personne n'a relancé, elle peut même checker.",
       },
       {
-        question: 'Au flop, il reste trois joueurs : sous le pistolet, le cut-off et le bouton. Qui parle en premier ?',
-        options: ['Le bouton', 'Le cut-off', 'Sous le pistolet', 'Celui qui a relancé avant le flop'],
+        question: 'Au flop, il reste trois joueurs : l’UTG, le cut-off et le bouton. Qui parle en premier ?',
+        options: ['Le bouton', 'Le cut-off', 'Under the Gun (UTG)', 'Celui qui a relancé avant le flop'],
         answer: 2,
-        explanation: 'Les blindes se sont couchées : le premier joueur encore en jeu à gauche du bouton est celui sous le pistolet. Le bouton parlera en dernier.',
+        explanation: 'Les blindes se sont couchées : le premier joueur encore en jeu à gauche du bouton est celui en UTG. Le bouton parlera en dernier.',
       },
       {
         question: 'Pourquoi le bouton est-il considéré comme la meilleure place ?',
@@ -315,7 +315,7 @@ export const DEBUTANT_LESSONS: Lesson[] = [
           kind: 'handGroups',
           groups: [
             {
-              title: 'Sous le pistolet',
+              title: 'Under the Gun (UTG)',
               description: 'Paires à partir de 9-9, As-Roi à As-Valet, Roi-Dame, et quelques mains assorties fortes comme As-10 ou Roi-Valet de même enseigne.',
               hands: [['As', 'Ah'], ['Td', 'Tc'], ['9h', '9s'], ['Ad', 'Kc'], ['Ah', 'Jc'], ['Ks', 'Js']],
             },
@@ -341,14 +341,14 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         visual: { kind: 'positions', highlight: ['CO', 'BTN'], selected: 'BTN' },
       },
       {
-        title: 'Dame-9 sous le pistolet',
+        title: 'Dame-9 en UTG',
         paragraphs: [
           "Mettons ces repères à l'épreuve avec une main moyenne : Dame-9 dépareillé. Vous êtes le premier à parler, cinq joueurs agiront après vous.",
           'Que faites-vous ?',
         ],
         visual: {
           kind: 'decision',
-          situation: 'Table à 6, 100 grosses blindes. Vous êtes sous le pistolet, premier à parler avant le flop.',
+          situation: 'Table à 6, 100 grosses blindes. Vous êtes en UTG, premier à parler avant le flop.',
           hero: ['Qh', '9c'],
           options: [
             { label: 'Relancer', correct: false, feedback: "Trop large : Dame-9 dépareillé ne fait pas partie d'une sélection de début de parole. Les joueurs qui vous paieront ou relanceront auront souvent Dame-Valet, Roi-Dame ou As-Dame, qui vous dominent." },
@@ -382,7 +382,7 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: 'Un joueur relance sous le pistolet. Tout le monde se couche jusqu’à vous, au bouton.',
+          situation: 'Un joueur relance en UTG. Tout le monde se couche jusqu’à vous, au bouton.',
           hero: ['Ks', 'Jd'],
           options: [
             { label: 'Relancer à nouveau', correct: false, feedback: "Risqué : une relance d'un joueur en début de parole contient beaucoup d'As-Roi, de Roi-Dame et de grosses paires. Vous ne serez payé que par des mains qui vous battent." },
@@ -412,7 +412,7 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         explanation: 'Avec quatre Rois dans le paquet, on peut former 6 paires différentes (pique-cœur, pique-carreau, pique-trèfle, cœur-carreau, cœur-trèfle, carreau-trèfle).',
       },
       {
-        question: 'Pourquoi peut-on jouer plus de mains au bouton que sous le pistolet ?',
+        question: 'Pourquoi peut-on jouer plus de mains au bouton qu’en UTG ?',
         options: [
           'Parce que les cartes distribuées au bouton sont meilleures',
           "Parce qu'il reste moins de joueurs à parler et que l'on sera en position après le flop",
@@ -1291,11 +1291,11 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: 'Un joueur ouvre à 2,5 BB sous le pistolet. Vous êtes au cut-off avec deux Dames et 100 BB.',
+          situation: 'Un joueur ouvre à 2,5 BB en UTG. Vous êtes au cut-off avec deux Dames et 100 BB.',
           hero: ['Qh', 'Qc'],
           options: [
             { label: 'Payer', correct: false, feedback: 'Payer est jouable, mais vous laissez les joueurs suivants entrer à bon prix et le pot reste petit alors que vous êtes souvent devant.' },
-            { label: 'Relancer à environ 7 à 8 BB', correct: true, feedback: "Oui : deux Dames sont devant la grande majorité des mains qui ouvrent sous le pistolet. Relancer construit le pot et isole souvent un seul adversaire." },
+            { label: 'Relancer à environ 7 à 8 BB', correct: true, feedback: "Oui : deux Dames sont devant la grande majorité des mains qui ouvrent en UTG. Relancer construit le pot et isole souvent un seul adversaire." },
             { label: 'Se coucher', correct: false, feedback: 'Beaucoup trop prudent : deux Dames font partie des toutes meilleures mains de départ.' },
           ],
         },
@@ -1484,7 +1484,7 @@ export const DEBUTANT_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: 'Un joueur ouvre à 2,5 BB sous le pistolet. Tout le monde se couche jusqu’à vous, au bouton, avec 100 BB.',
+          situation: 'Un joueur ouvre à 2,5 BB en UTG. Tout le monde se couche jusqu’à vous, au bouton, avec 100 BB.',
           hero: ['Ac', 'Kh'],
           options: [
             { label: 'Relancer à environ 7 à 8 BB', correct: true, feedback: 'Oui : As-Roi domine une grande partie des mains qui ouvrent, et la relance construit le pot tout en faisant coucher les blindes.' },

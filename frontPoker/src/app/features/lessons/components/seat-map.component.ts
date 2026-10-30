@@ -14,7 +14,7 @@ const SEATS: Seat[] = [
   { id: 'BTN', short: 'BTN', name: 'Bouton', group: 'Position tardive', text: "Le donneur fictif. Après le flop, il parle en dernier sur chaque tour : c'est la meilleure place de la table." },
   { id: 'SB', short: 'PB', name: 'Petite blinde', group: 'Blindes', text: "Mise obligatoire d'une demi-grosse blinde en général. Après le flop, elle parle en premier : la place la plus inconfortable." },
   { id: 'BB', short: 'GB', name: 'Grosse blinde', group: 'Blindes', text: "Mise obligatoire d'une grosse blinde. Elle parle en dernier avant le flop, mais presque toujours en premier ensuite." },
-  { id: 'UTG', short: 'UTG', name: 'Sous le pistolet', group: 'Position précoce', text: "Premier à parler avant le flop (« under the gun » en anglais) : cinq joueurs agissent après lui. Sélection la plus serrée." },
+  { id: 'UTG', short: 'UTG', name: 'Under the Gun', group: 'Position précoce', text: "Premier à parler avant le flop (« under the gun » en anglais) : cinq joueurs agissent après lui. Sélection la plus serrée." },
   { id: 'HJ', short: 'HJ', name: 'Milieu de parole', group: 'Position intermédiaire', text: "Appelée « hijack » en anglais. Quatre joueurs parlent encore derrière : on élargit un peu sa sélection." },
   { id: 'CO', short: 'CO', name: 'Cut-off', group: 'Position tardive', text: "La place juste à droite du bouton. Seuls le bouton et les blindes restent à parler : une excellente place pour ouvrir." },
 ];

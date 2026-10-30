@@ -156,7 +156,7 @@ const CORE_LESSONS: Lesson[] = [
       {
         title: 'Le préflop : premier tour d’enchères',
         paragraphs: [
-          "Une fois les cartes privées distribuées, la parole revient au joueur assis à gauche de la grosse blinde, la place dite « sous le pistolet ». Le tour continue dans le sens des aiguilles d'une montre et la grosse blinde parle en dernier.",
+          "Une fois les cartes privées distribuées, la parole revient au joueur assis à gauche de la grosse blinde, la place dite « Under the Gun » (UTG). Le tour continue dans le sens des aiguilles d'une montre et la grosse blinde parle en dernier.",
           "Face à la grosse blinde, chacun peut se coucher, suivre (payer le montant de la grosse blinde) ou relancer. Si personne n'a relancé, la grosse blinde peut simplement « checker », c'est-à-dire parler sans ajouter de jetons.",
           "Dévoilez chaque action pour voir ce qu'elle signifie.",
         ],
@@ -251,7 +251,7 @@ const CORE_LESSONS: Lesson[] = [
         options: ['La petite blinde', 'Le joueur assis à gauche de la grosse blinde', 'Le bouton'],
         answer: 1,
         explanation:
-          "Avant le flop, les blindes ont déjà misé : la parole commence au joueur situé à gauche de la grosse blinde (« sous le pistolet »). Après le flop, c'est le premier joueur encore en jeu à gauche du bouton qui parle.",
+          "Avant le flop, les blindes ont déjà misé : la parole commence au joueur situé à gauche de la grosse blinde (« Under the Gun », UTG). Après le flop, c'est le premier joueur encore en jeu à gauche du bouton qui parle.",
       },
       {
         question: 'Combien de cartes compose la main retenue à l’abattage ?',
@@ -327,7 +327,7 @@ const CORE_LESSONS: Lesson[] = [
         title: 'Ouvrir plus large en fin de parole',
         paragraphs: [
           "Plus vous parlez tard, moins il reste de joueurs derrière vous susceptibles de détenir une très grosse main. Vous pouvez donc élargir un peu votre sélection au cut-off (la place à droite du bouton) et au bouton.",
-          "À l'inverse, sous le pistolet, cinq joueurs parlent encore après vous : restez sélectif. Mettez-vous en situation.",
+          "À l'inverse, en UTG, cinq joueurs parlent encore après vous : restez sélectif. Mettez-vous en situation.",
         ],
         visual: {
           kind: 'decision',
@@ -348,7 +348,7 @@ const CORE_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: 'Table à 6. Vous êtes sous le pistolet, premier à parler avant le flop.',
+          situation: 'Table à 6. Vous êtes en UTG, premier à parler avant le flop.',
           hero: ['Ks', '7d'],
           options: [
             { label: 'Relancer', correct: false, feedback: "Roi-7 dépareillé est trop faible pour ouvrir en première position : cinq joueurs parlent après vous et ceux qui paieront auront souvent mieux." },
@@ -393,7 +393,7 @@ const CORE_LESSONS: Lesson[] = [
         explanation: "Après le flop, la parole commence à gauche du bouton : le bouton parle donc en dernier sur chaque tour, ce qui en fait la meilleure position.",
       },
       {
-        question: "Vous vous couchez avec Roi-7 dépareillé sous le pistolet, et le flop aurait apporté deux Rois. Que retenir ?",
+        question: "Vous vous couchez avec Roi-7 dépareillé en UTG, et le flop aurait apporté deux Rois. Que retenir ?",
         options: [
           'Il fallait jouer la main : le résultat le prouve',
           'Rien de particulier : la décision était bonne avec les informations disponibles',
@@ -407,7 +407,7 @@ const CORE_LESSONS: Lesson[] = [
         options: ['Valet-4 assortis', 'Paire de Dames', 'Roi-8 dépareillés', '7-6 dépareillés'],
         answer: 1,
         explanation:
-          'Sous le pistolet, cinq joueurs parlent encore après vous : il faut une sélection serrée. Une paire de Dames fait partie des meilleures mains de départ ; les trois autres sont des mains à jeter dans cette position.',
+          'En UTG, cinq joueurs parlent encore après vous : il faut une sélection serrée. Une paire de Dames fait partie des meilleures mains de départ ; les trois autres sont des mains à jeter dans cette position.',
       },
       {
         question: 'Tout le monde se couche jusqu’à vous, au bouton, avec Roi-10 dépareillés. Quelle action est la plus logique ?',
@@ -480,7 +480,7 @@ const CORE_LESSONS: Lesson[] = [
         ],
         visual: {
           kind: 'decision',
-          situation: "Un joueur que vous avez vu très sélectif relance fort sous le pistolet. Un autre joueur relance encore derrière lui (un « 3-bet », la deuxième relance du tour). Vous êtes au bouton.",
+          situation: "Un joueur que vous avez vu très sélectif relance fort en UTG. Un autre joueur relance encore derrière lui (un « 3-bet », la deuxième relance du tour). Vous êtes au bouton.",
           hero: ['Ah', 'Jc'],
           options: [
             { label: 'Payer', correct: false, feedback: "Face à deux relances de joueurs sélectifs, As-Valet est très souvent dominé par As-Roi ou As-Dame, ou derrière une paire haute. Payer coûte cher." },
@@ -551,7 +551,7 @@ const CORE_LESSONS: Lesson[] = [
           "Limper, c'est payer juste la grosse blinde quand personne n'a relancé. Cela laisse les blindes voir le flop à bon prix et vous prive de la possibilité de gagner le coup tout de suite : la relance est en général préférable.",
       },
       {
-        question: 'Un joueur très serré relance sous le pistolet. Au cutoff, vous avez As-Valet dépareillés. Quel est le principal danger ?',
+        question: 'Un joueur très serré relance en UTG. Au cutoff, vous avez As-Valet dépareillés. Quel est le principal danger ?',
         options: [
           'Votre main est souvent dominée par As-Roi ou As-Dame',
           'As-Valet perd contre toutes les paires',
