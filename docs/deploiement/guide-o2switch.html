@@ -492,8 +492,14 @@ Le plus simple : un mot de passe de boîte mail <b>uniquement en lettres et chif
   <li>Saisis la commande, avec des chemins absolus.</li>
   <li>Termine par <code>&gt;/dev/null 2&gt;&amp;1</code> si tu ne veux pas recevoir un email à chaque exécution — ou laisse un email de notification au début pour vérifier que ça marche.</li>
 </ol>
-<p>Exemple (purge RGPD chaque nuit à 3 h 15) — <b>commande fournie au Sprint 4, le nom ci-dessous est un exemple générique</b> :</p>
-<pre><code>15 3 * * *  cd /home/moncompte/poker-vitrine/backPoker &amp;&amp; /opt/alt/php83/usr/bin/php bin/console app:rgpd:purge-ip --env=prod &gt;/dev/null 2&gt;&amp;1</code></pre>
+<p><b>Installation automatique</b> (dans le Terminal cPanel, une seule fois) :</p>
+<pre><code>bash ~/poker-winners/deploy/install-crons.sh</code></pre>
+<p>Le script teste la purge RGPD en simulation, puis ajoute deux tâches visibles ensuite dans <b>Tâches Cron</b> :</p>
+<ul>
+  <li><b>3 h 15</b> — purge RGPD (<code>app:gdpr:cleanup</code> : IP de plus de 90 jours, comptes inactifs depuis 3 ans) ;</li>
+  <li><b>3 h 45</b> — sauvegarde de la base (<code>deploy/backup-db.sh</code>) dans <code>~/sauvegardes-poker</code>, 14 jours conservés.</li>
+</ul>
+<p>Journal : <code>~/logs/poker-winners-cron.log</code>. Rejouable sans doublon ; <code>install-crons.sh --remove</code> retire les deux tâches.</p>
 <div class="box tip"><b>💡 Astuce.</b> Utilise le chemin complet du PHP correspondant à ta version (<code>/opt/alt/php82/…</code>, <code>/opt/alt/php83/…</code>) : un cron n'utilise pas forcément la même version que le site. Pour une tâche longue, o2switch conseille <code>flock -n /home/moncompte/.cron-purge.lock commande…</code> pour éviter deux exécutions simultanées.</div>
 
 <!-- ============================================================ -->
@@ -502,9 +508,11 @@ Le plus simple : un mot de passe de boîte mail <b>uniquement en lettres et chif
   <li><b>Sauvegardes automatiques o2switch</b> : quotidiennes, conservées 30 à 90 jours selon la formule (page offres, à vérifier pour ta formule). Restauration via l'outil <b>JetBackup</b> : <i>Home Directory</i> (fichiers), <i>Databases</i>, <i>Email Accounts</i>, <i>Cron Jobs</i>… Bouton <b>Restore</b> (remplace l'existant) ou <b>Download</b> (télécharge une archive).</li>
   <li><b>Tes propres sauvegardes</b> (indispensables : une sauvegarde chez le même hébergeur ne protège pas de tout) :</li>
 </ul>
-<pre><code><span class="c"># Export de la base en SSH (le mot de passe est demandé)</span>
-mysqldump -u moncompte_pokapp -p moncompte_poker | gzip &gt; ~/sauvegarde-$(date +%F).sql.gz</code></pre>
-<p>Ou dans <b>phpMyAdmin</b> → ta base → onglet <b>Exporter</b> → <b>Exécuter</b>. Télécharge ensuite le fichier sur ton PC (ou un cloud), au moins une fois par mois et avant chaque mise à jour importante.
+<pre><code><span class="c"># Sauvegarde immédiate (la même que celle du cron de 3 h 45)</span>
+bash ~/poker-winners/deploy/backup-db.sh
+<span class="c"># Restauration d'un fichier (remplace le contenu actuel de la base)</span>
+gunzip -c ~/sauvegardes-poker/poker-AAAA-MM-JJ_HHMM.sql.gz | mysql -u moncompte_poker -p moncompte_poker</code></pre>
+<p>Les fichiers sont dans <code>~/sauvegardes-poker</code> (hors du site, 14 jours conservés) : télécharge-les depuis le <b>Gestionnaire de fichiers</b>. Ou dans <b>phpMyAdmin</b> → ta base → onglet <b>Exporter</b> → <b>Exécuter</b>. Télécharge ensuite le fichier sur ton PC (ou un cloud), au moins une fois par mois et avant chaque mise à jour importante.
 Sauvegarde aussi, dans ton gestionnaire de mots de passe, le contenu de <code>.env.local</code> et la <code>JWT_PASSPHRASE</code>.</p>
 <div class="box"><b>⚠ Attention.</b> Dans JetBackup, ne clique jamais sur <b>Restore</b> dans <i>Home Directory</i> sans avoir d'abord sélectionné des fichiers précis : tout le compte serait restauré. Le code, lui, est déjà sauvegardé sur GitHub.</div>
 
