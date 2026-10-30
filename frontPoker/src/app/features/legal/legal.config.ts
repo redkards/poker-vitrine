@@ -24,7 +24,7 @@ export const LEGAL = {
     name: 'o2switch',
     address: '[À COMPLÉTER : adresse d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
     phone: '[À COMPLÉTER : téléphone d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
-    siren: '[À COMPLÉTER : SIREN d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
+    siren: '510 909 807 (RCS Clermont-Ferrand), SAS au capital de 100 000 €',
   },
   /** Abonnement Premium (CGV) : à rédiger avant l'ouverture du paiement en ligne */
   premium: {
