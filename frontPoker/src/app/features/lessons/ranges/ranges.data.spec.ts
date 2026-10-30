@@ -85,6 +85,12 @@ describe('Tableaux de ranges', () => {
       expect(percent(BEGINNER_CHARTS[2])).toBeLessThan(percent(INTERMEDIATE_CHARTS[3]));
     });
 
+    it('fait défendre la grosse blinde plus d’une main sur deux face au bouton (repère des solveurs : 52 à 58 %)', () => {
+      const bb = expert.find((c) => c.id === 'expert-bb-vs-btn')!;
+
+      expect(percent(bb, 0) + percent(bb, 1)).toBeGreaterThanOrEqual(50);
+    });
+
     it("annonce les tableaux Expert tels que l'API les sert, sans embarquer leurs mains", () => {
       expect(expert.map((c) => c.title)).toEqual(EXPERT_RANGE_TITLES);
       expect(expert.every((c) => c.id.startsWith('expert-'))).toBeTrue();

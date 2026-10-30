@@ -5,6 +5,10 @@ import type { LessonLevel, Rank } from '../lessons.data';
  * Débutant et Intermédiaire sont embarqués ; le contenu Expert est servi par l'API aux seuls membres Premium
  * (GET /api/lessons/ranges/expert, backPoker/resources/lessons/ranges-expert.json) : ici, uniquement ses titres.
  *
+ * Calibrage (octobre 2026) : ouvertures à six joueurs comparées aux repères publics (UTG ≈ 14-17 %, HJ ≈ 19-20 %,
+ * CO ≈ 25-27 %, BTN ≈ 43 %, SB ≈ 33-36 % ; PokerSkill, Preflop Wizard) et à la range de cut-off décrite sur le forum
+ * Kill Tilt (22+, A2s+, A8o+, K6s+, connecteurs assortis). Repères originaux, aucun tableau tiers n'est reproduit.
+ *
  * Notation des mains : paires « 99 », « 22+ », « 99-66 » ; mains assorties (s) ou dépareillées (o) « AKs », « ATo+ »
  * (kicker croissant jusqu'à la carte haute), « K9s-K6s » ; sans suffixe, les deux (« KQ » = KQs + KQo).
  */
@@ -82,7 +86,7 @@ export const INTERMEDIATE_CHARTS: RangeChart[] = [
     id: 'intermediaire-utg',
     title: 'Sous le pistolet (UTG)',
     situation: 'Table à six, premier à parler. Ouverture à 2,5 BB.',
-    actions: [{ key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, KTs+, QTs+, JTs, T9s, ATo+, KJo+' }],
+    actions: [{ key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, KTs+, QTs+, JTs, T9s, ATo+, KQo' }],
     note: COMMON_NOTE,
   },
   {
@@ -96,7 +100,7 @@ export const INTERMEDIATE_CHARTS: RangeChart[] = [
     id: 'intermediaire-co',
     title: 'Cut-off (CO)',
     situation: 'Trois joueurs derrière vous, personne n’est entré dans le coup. Ouverture à 2,5 BB.',
-    actions: [{ key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, K5s+, Q8s+, J8s+, T8s+, 97s+, 87s, 76s, 65s, A9o+, KTo+, QTo+, JTo' }],
+    actions: [{ key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, K6s+, Q8s+, J8s+, T8s+, 97s+, 87s, 76s, 65s, 54s, A8o+, KTo+, QTo+, JTo' }],
     note: COMMON_NOTE,
   },
   {
@@ -117,7 +121,7 @@ export const INTERMEDIATE_CHARTS: RangeChart[] = [
     title: 'Petite blinde (SB)',
     situation: 'Tout le monde s’est couché, il ne reste que la grosse blinde. Ouverture à 3 BB : vous serez hors de position.',
     actions: [
-      { key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, K4s+, Q7s+, J7s+, T7s+, 97s+, 86s+, 75s+, 65s, 54s, A7o+, K9o+, QTo+, JTo' },
+      { key: 'raise', label: 'Ouvrir', hands: '22+, A2s+, K2s+, Q5s+, J7s+, T7s+, 97s+, 86s+, 75s+, 65s, 54s, A5o+, K9o+, QTo+, JTo' },
     ],
     note: 'Plus serrée que le bouton : la grosse blinde parlera après vous à chaque tour. ' + COMMON_NOTE,
   },

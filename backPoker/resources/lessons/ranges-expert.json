@@ -12,16 +12,16 @@
   {
     "id": "expert-bb-vs-btn",
     "title": "Grosse blinde face à une ouverture du bouton",
-    "situation": "Table à six, tapis de 40 BB ou plus. Le bouton ouvre à 2,5 BB, la petite blinde se couche. Il vous reste 1,5 BB à mettre pour voir le flop.",
+    "situation": "Table à six, tapis de 40 BB ou plus. Le bouton ouvre à 2,5 BB, la petite blinde se couche. Il vous reste 1,5 BB à mettre pour voir le flop. Sur-relance (3-bet) à environ 10 BB.",
     "actions": [
       { "key": "threebet", "label": "Sur-relancer (3-bet)", "hands": "TT+, AJs+, AQo+, A5s-A4s, K9s, Q9s, J9s, 65s" },
       {
         "key": "call",
         "label": "Payer",
-        "hands": "22-99, ATs-A6s, A3s-A2s, KTs+, K8s-K2s, QTs+, Q8s-Q4s, JTs, J8s-J6s, T6s+, 96s+, 85s+, 74s+, 64s, 53s+, 43s, A2o-AJo, K8o+, Q9o+, J9o+, T8o+, 98o, 87o"
+        "hands": "22-99, ATs-A6s, A3s-A2s, KTs+, K8s-K2s, QTs+, Q8s-Q4s, JTs, J8s-J6s, T6s+, 96s+, 85s+, 74s+, 64s, 53s+, 43s, A2o-AJo, K5o+, Q8o+, J8o+, T8o+, 97o+, 87o, 76o"
       }
     ],
-    "note": "La grosse blinde reçoit le meilleur prix de la table : elle défend beaucoup de mains, mais sera hors de position. Les mains dépareillées les plus faibles se couchent."
+    "note": "La grosse blinde reçoit le meilleur prix de la table : elle défend beaucoup de mains, mais sera hors de position. Les solveurs la font défendre plus d’une main sur deux face à une ouverture à 2,5 BB ; les mains dépareillées les plus faibles se couchent."
   },
   {
     "id": "expert-sb-vs-btn",
