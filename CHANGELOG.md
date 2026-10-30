@@ -11,6 +11,8 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 
 ## [Non publié]
 
+## [0.7.1] — 2026-10-30 — Exploitation : tâches planifiées et tests front
+
 ### Ajouté
 - Tâches planifiées serveur : `deploy/install-crons.sh` (purge RGPD à 3 h 15, sauvegarde à 3 h 45, rejouable,
   `--remove`) et `deploy/backup-db.sh` (dump MariaDB compressé, droits 600, 14 jours conservés, mot de passe
