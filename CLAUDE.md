@@ -5,7 +5,7 @@ Projet indépendant : il ne partage ni code, ni base, ni configuration avec un a
 
 ## Structure
 - `backPoker/` : API Symfony 7.4 (PHP 8.2), Doctrine/MariaDB 10.6, JWT + refresh tokens, EasyAdmin.
-- `frontPoker/` : Angular (standalone, signals), Node 22.
+- `frontPoker/` : Angular 22 (standalone, signals), Node ≥ 22.22.3 (ou 24).
 - `docker-compose.yml` : MariaDB (port hôte 3307), Mailhog (1025/8025), Mercure.
 - `deploy/` : scripts o2switch (`server-setup.sh`, `deploy.sh`, `publish-front.sh`).
 - `docs/` : recap, guide de déploiement, contenus (actualités, calendrier, vidéos), design, ROADMAP.
@@ -19,7 +19,7 @@ Comptes de démo (fixtures) : `demo@pokervitrine.local` / `admin@pokervitrine.lo
 
 ## Vérifications
 - Back : `cd backPoker && php bin/phpunit` (SQLite, `.env.test`).
-- Front : `cd frontPoker && npx ng build`.
+- Front : `cd frontPoker && npm run test:ci && npx ng build`.
 
 ## Règles
 - Ne jamais mettre le site en ligne (redkards-dev.fr) sans confirmation explicite.

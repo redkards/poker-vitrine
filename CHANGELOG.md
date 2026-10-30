@@ -15,6 +15,10 @@ Chaque version publiée reçoit une étiquette Git (`git tag v0.5.0`). La feuill
 - Tâches planifiées serveur : `deploy/install-crons.sh` (purge RGPD à 3 h 15, sauvegarde à 3 h 45, rejouable,
   `--remove`) et `deploy/backup-db.sh` (dump MariaDB compressé, droits 600, 14 jours conservés, mot de passe
   hors ligne de commande).
+- Tests front (34, Jasmine/Karma) : connexion, renouvellement unique du jeton, déconnexion, intercepteur JWT
+  (jeton jamais envoyé hors de l'API, refresh puis rejeu sur 401, pas de refresh sur 403), gardes de routes, et
+  cohérence du parcours de leçons (15 par niveau, Expert = Premium, métadonnées identiques à `expert.json` de l'API).
+  `npm run test:ci` utilise un Chrome sans interface compatible conteneur (`karma.conf.js`).
 
 ## [0.7.0] — 2026-10-30 — Bêta : Premium, leçons Expert, boutique de démonstration
 
