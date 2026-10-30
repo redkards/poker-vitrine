@@ -22,8 +22,8 @@ export const LEGAL = {
   publicationDirector: 'Jérémy Duhem',
   host: {
     name: 'o2switch',
-    address: '[À COMPLÉTER : adresse d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
-    phone: '[À COMPLÉTER : téléphone d\'o2switch — à copier depuis les mentions légales de o2switch.fr]',
+    address: 'Chemin des Pardiaux, 63000 Clermont-Ferrand, France',
+    phone: '04 44 44 60 40',
     siren: '510 909 807 (RCS Clermont-Ferrand), SAS au capital de 100 000 €',
   },
   /** Abonnement Premium (CGV) : à rédiger avant l'ouverture du paiement en ligne */
