@@ -27,6 +27,7 @@ Aucun mot de passe, jeton ni secret ici : ce fichier est versionné.
 - [ ] Le propriétaire teste la bêta et remonte les anomalies.
 - [ ] Rédiger la section « Abonnement Premium » des CGU.
 - [ ] Premium payant : valider prix et CGV, brancher Stripe, emails, expiration automatique.
+- [ ] Solver GTO (`solver/`, mini-structure « PW Solver ») : lot L2 (arbre postflop, évaluateur, river) jusqu'au GO 1.
 - [ ] Publication publique v1.0 : uniquement après confirmation explicite du propriétaire.
 
 ## Façon de travailler
@@ -52,3 +53,4 @@ Aucun mot de passe, jeton ni secret ici : ce fichier est versionné.
 - 2026-10-30, PC : v0.7.0 (Premium, leçons Expert servies par l'API, boutique de démonstration).
 - 2026-10-30, téléphone : v0.7.1 (crons, tests front), v0.8.0 (tableaux de ranges, mentions légales), v0.8.1 (UTG).
 - 2026-10-30, PC : création de ce fichier.
+- 2026-10-31, cloud : solver v0.1.0, lots L0 (cartes, ranges) et L1 (DCFR validé sur Kuhn et Leduc, 12 tests verts), commit `dd529a3`. Projet rattaché à la mini-structure « PW Solver » (décision PARADOXX D-022).
